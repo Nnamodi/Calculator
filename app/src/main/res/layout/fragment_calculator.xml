@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <Button
+                android:id="@+id/button_4"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/button_5"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/button_6"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/add"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="8dp">
+
+            <Button
+                android:id="@+id/button_1"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/button_2"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/button_3"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+            <Button
+                android:id="@+id/equals"
+                android:layout_width="83dp"
+                android:layout_height="83dp"
+                android:layout_margin="7dp"
+                android:text="Button" />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
