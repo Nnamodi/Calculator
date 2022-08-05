@@ -65,9 +65,21 @@ class CalculatorFragment : Fragment() {
             multiply.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Multiply))
             }
+            // clear input
+            buttonAc.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Clear)
+            }
+            // delete single input
+            buttonDel.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Delete)
+            }
             // enter decimal
             decimal.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Decimal)
+            }
+            // calculate input
+            equals.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Calculate)
             }
         }
         lifecycleScope.launchWhenStarted {
