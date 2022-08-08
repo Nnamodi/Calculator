@@ -2,11 +2,11 @@
     <string name="app_name">Calculator</string>
     <string name="ac">AC</string>
     <string name="del">Del</string>
-    <string name="divide">/</string>
+    <string name="divide">÷</string>
     <string name="_7">7</string>
     <string name="_8">8</string>
     <string name="_9">9</string>
-    <string name="multiply">x</string>
+    <string name="multiply">×</string>
     <string name="_4">4</string>
     <string name="_5">5</string>
     <string name="_6">6</string>
@@ -20,4 +20,5 @@
     <string name="decimal">.</string>
     <string name="equals">=</string>
     <string name="digits">34x4</string>
+    <string name="result">136</string>
 </resources>

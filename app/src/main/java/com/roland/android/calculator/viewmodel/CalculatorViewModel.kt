@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class CalculatorViewModel : ViewModel() {
-    private val digits = Digits()
-    private val _stateFlow = MutableStateFlow(digits)
+    private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
 
     fun onAction(action: CalculatorActions) {
@@ -27,14 +26,22 @@ class CalculatorViewModel : ViewModel() {
         if (_stateFlow.value.digit_2.isNotBlank()) {
             val digit1 = _stateFlow.value.digit_1.toDouble()
             val digit2 = _stateFlow.value.digit_2.toDouble()
-            val result = when (_stateFlow.value.operator) {
+            val calcResult = when (_stateFlow.value.operator) {
                 CalculatorOperations.Add -> digit1 + digit2
                 CalculatorOperations.Divide -> digit1 / digit2
                 CalculatorOperations.Multiply -> digit1 * digit2
                 CalculatorOperations.Subtract -> digit1 - digit2
                 null -> return
+            }.toString().take(15)
+            let {
+                val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
+                _stateFlow.value = Digits(
+                    digit_1 = _stateFlow.value.digit_1,
+                    digit_2 = _stateFlow.value.digit_2,
+                    operator = _stateFlow.value.operator,
+                    result = result
+                )
             }
-            _stateFlow.value = Digits(digit_1 = result.toString())
         }
     }
 

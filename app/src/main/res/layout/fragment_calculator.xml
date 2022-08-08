@@ -8,29 +8,51 @@
         android:layout_height="match_parent"
         tools:ignore="ButtonStyle">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/digits_field"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:gravity="end"
             android:background="@drawable/corner_radius"
             app:layout_constraintBottom_toTopOf="@+id/row_5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/input_digits"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:backgroundTint="@android:color/transparent"
+                android:gravity="end"
+                android:inputType="number"
+                android:singleLine="true"
                 android:text="@string/digits"
                 android:textColor="?attr/colorOnSecondary"
-                android:textSize="60sp" />
-        </LinearLayout>
+                android:textSize="60sp"
+                app:layout_constraintBottom_toTopOf="@+id/result"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="Autofill,LabelFor" />
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="22dp"
+                android:gravity="end"
+                android:lines="1"
+                android:text="@string/result"
+                android:textColor="?attr/colorOnSecondary"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/row_5"

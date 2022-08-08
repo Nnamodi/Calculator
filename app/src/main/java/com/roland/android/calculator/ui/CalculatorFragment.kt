@@ -85,7 +85,8 @@ class CalculatorFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {
                 val input = it.digit_1 + (it.operator?.symbol ?: "") + it.digit_2
-                binding.inputDigits.text = input
+                binding.input.setText(input)
+                binding.result.text = it.result
             }
         }
         return binding.root
