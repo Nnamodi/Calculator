@@ -12,7 +12,9 @@
         <item name="colorOnSurface">@color/dark_grey</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="android:windowBackground">@color/dark_grey</item>
         <!-- Customize your theme here. -->
+        <item name="colorOnBackground">@color/dark_grey</item>
+        <item name="android:windowBackground">@color/dark_grey</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
     </style>
 </resources>

@@ -55,8 +55,10 @@ class CalculatorViewModel : ViewModel() {
                 _stateFlow.value = Digits(
                     digit_1 = _stateFlow.value.digit_1,
                     digit_2 = _stateFlow.value.digit_2 + digit,
-                    operator = _stateFlow.value.operator
+                    operator = _stateFlow.value.operator,
+                    result = _stateFlow.value.result
                 )
+                if (_stateFlow.value.result.isNotBlank()) { calculateInput() }
             }
         }
     }
@@ -70,9 +72,7 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private fun clearInput() {
-        _stateFlow.value = Digits(digit_1 = "", digit_2 = "", operator = null)
-    }
+    private fun clearInput() { _stateFlow.value = Digits() }
 
     private fun deleteInput() {
         when {
@@ -86,11 +86,13 @@ class CalculatorViewModel : ViewModel() {
                 )
             }
             _stateFlow.value.digit_2.isNotBlank() -> {
+                val result = _stateFlow.value.result
                 _stateFlow.value = Digits(
                     digit_1 = _stateFlow.value.digit_1,
                     digit_2 = _stateFlow.value.digit_2.dropLast(1),
-                    operator = _stateFlow.value.operator
+                    operator = _stateFlow.value.operator,
                 )
+                if (result.isNotBlank() && _stateFlow.value.digit_2.isNotBlank()) { calculateInput() }
             }
         }
     }
@@ -103,7 +105,8 @@ class CalculatorViewModel : ViewModel() {
             _stateFlow.value = Digits(
                 digit_1 = _stateFlow.value.digit_1,
                 digit_2 = _stateFlow.value.digit_2 + ".",
-                operator = _stateFlow.value.operator
+                operator = _stateFlow.value.operator,
+                result = _stateFlow.value.result
             )
         }
     }

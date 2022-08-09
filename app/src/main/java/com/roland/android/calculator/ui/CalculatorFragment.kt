@@ -21,6 +21,8 @@ class CalculatorFragment : Fragment() {
         activity?.actionBar?.hide()
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.apply {
+            // disable keyboard for editText
+            input.showSoftInputOnFocus = false
             // enter digits
             button1.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Numbers("1"))
