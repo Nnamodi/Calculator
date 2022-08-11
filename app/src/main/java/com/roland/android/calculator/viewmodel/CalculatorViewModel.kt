@@ -33,7 +33,7 @@ class CalculatorViewModel : ViewModel() {
                 CalculatorOperations.Subtract -> digit1 - digit2
                 null -> return
             }.toString().take(15)
-            let {
+            apply {
                 val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
                 _stateFlow.value = Digits(
                     digit_1 = _stateFlow.value.digit_1,

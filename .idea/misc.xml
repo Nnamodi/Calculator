@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable/corner_radius.xml" value="0.152" />
+        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout-land/fragment_calculator.xml" value="0.22" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/activity_main.xml" value="0.24909420289855072" />
-        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/fragment_calculator.xml" value="0.25052083333333336" />
+        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/fragment_calculator.xml" value="0.25" />
       </map>
     </option>
   </component>
