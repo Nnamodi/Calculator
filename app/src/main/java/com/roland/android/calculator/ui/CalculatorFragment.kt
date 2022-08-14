@@ -18,7 +18,6 @@ class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        activity?.actionBar?.hide()
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         binding.apply {
             // disable keyboard for editText
@@ -53,6 +52,9 @@ class CalculatorFragment : Fragment() {
             }
             button0.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Numbers("0"))
+            }
+            button00.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Numbers("00"))
             }
             // operators
             add.setOnClickListener {
@@ -91,6 +93,7 @@ class CalculatorFragment : Fragment() {
                     input.setText(digits)
                     input.setSelection(digits.length)
                     result.text = it.result
+                    input.text
                 }
             }
         }
