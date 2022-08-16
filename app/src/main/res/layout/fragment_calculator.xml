@@ -7,41 +7,39 @@
     android:layout_height="match_parent"
     tools:ignore="ButtonStyle">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/digits_field"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/corner_radius"
-        app:layout_constraintBottom_toTopOf="@+id/row_5"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/input"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
+            android:layout_marginTop="90dp"
             android:layout_marginEnd="18dp"
             android:backgroundTint="@android:color/transparent"
             android:gravity="end"
             android:inputType="number"
+            android:letterSpacing="0.1"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:singleLine="true"
             android:text="@string/digits"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="60sp"
-            app:layout_constraintBottom_toTopOf="@+id/result"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="70sp"
             tools:ignore="Autofill,LabelFor" />
 
         <TextView
             android:id="@+id/result"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="22dp"
@@ -49,238 +47,362 @@
             android:lines="1"
             android:text="@string/result"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="40sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textSize="40sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/row_5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toTopOf="@+id/row_4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/digits_field">
 
         <Button
             android:id="@+id/button_ac"
-            android:layout_width="162dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="2"
             android:backgroundTint="?attr/colorOnPrimary"
+            android:text="@string/ac"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="?attr/colorOnSecondary"
-            android:textSize="22sp"
-            android:text="@string/ac" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="26sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp" />
 
         <Button
             android:id="@+id/button_del"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:textColor="?attr/colorOnSecondary"
-            android:textSize="18sp"
+            android:text="@string/del"
             android:textAllCaps="false"
-            android:text="@string/del" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?attr/colorOnSecondary"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="22sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp" />
 
         <Button
             android:id="@+id/divide"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/yellow"
+            android:text="@string/divide"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:text="@string/divide" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/row_4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toTopOf="@+id/row_3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_5">
 
         <Button
             android:id="@+id/button_7"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_7"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_7" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_8"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_8"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_8" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_9"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_9"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_9" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/multiply"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/yellow"
+            android:text="@string/multiply"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:text="@string/multiply" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/row_3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toTopOf="@+id/row_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_4">
 
         <Button
             android:id="@+id/button_4"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_4" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_5"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_5"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_5" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_6"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_6"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_6" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/subtract"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/yellow"
+            android:text="@string/subtract"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:text="@string/subtract" />
+            app:autoSizeMaxTextSize="46sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/row_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toTopOf="@+id/row_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_3">
 
         <Button
             android:id="@+id/button_1"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_1" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_2"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_2" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_3"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_3" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/add"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/yellow"
+            android:text="@string/add"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:text="@string/add" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/row_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/row_2">
+
+        <Button
+            android:id="@+id/button_00"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_00"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
 
         <Button
             android:id="@+id/button_0"
-            android:layout_width="162dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/_0"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/_0" />
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform" />
+
         <Button
             android:id="@+id/decimal"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:backgroundTint="?attr/colorSecondaryVariant"
+            android:text="@string/decimal"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            android:text="@string/decimal" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="50sp"
+            app:autoSizeMinTextSize="30sp"
+            app:autoSizeStepGranularity="2sp" />
+
         <Button
             android:id="@+id/equals"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_margin="6dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/orange"
+            android:text="@string/equals"
             android:textColor="@color/black"
-            android:textSize="22sp"
-            android:text="@string/equals" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="28sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            tools:ignore="TextContrastCheck" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
