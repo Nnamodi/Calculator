@@ -21,4 +21,12 @@
     <string name="equals">=</string>
     <string name="digits">34×4</string>
     <string name="result">136</string>
+    <string name="change_theme">Change theme</string>
+    <string name="dialog_close">Close</string>
+    <string name="dialog_title">Theme</string>
+    <string-array name="dialog_options">
+        <item>Dark</item>
+        <item>Light</item>
+        <item>Follow system</item>
+    </string-array>
 </resources>

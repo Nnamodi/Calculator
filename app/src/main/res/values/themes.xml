@@ -6,10 +6,10 @@
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/dark_grey</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/grey</item>
         <item name="colorOnSecondary">@color/black</item>
-        <item name="colorOnSurface">@color/light_purple</item>
+        <item name="colorOnSurface">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -18,5 +18,20 @@
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="actionOverflowButtonStyle">@style/ActionOverflow</item>
+        <item name="materialAlertDialogTheme">@style/DialogTheme</item>
+    </style>
+
+    <!-- Overflow menu theme. -->
+    <style name="ActionOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">@color/dark_grey</item>
+    </style>
+
+    <!-- Dialog theme. -->
+    <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
+    </style>
+    <style name="DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/orange</item>
     </style>
 </resources>

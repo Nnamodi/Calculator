@@ -6,15 +6,24 @@
         <item name="colorPrimaryVariant">@color/grey</item>
         <item name="colorOnPrimary">@color/grey</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/light_orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="colorOnSurface">@color/dark_grey</item>
+        <item name="colorOnSurface">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/dark_grey</item>
         <item name="android:windowBackground">@color/dark_grey</item>
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
+        <item name="materialAlertDialogTheme">@style/DialogTheme</item>
+    </style>
+
+    <!-- Dialog theme. -->
+    <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
+    </style>
+    <style name="DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/orange</item>
     </style>
 </resources>
