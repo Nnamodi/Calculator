@@ -10,4 +10,6 @@
     <color name="fair_orange">#F2B8B5</color>
     <color name="yellow">#FFDE03</color>
     <color name="orange">#FF9100</color>
+    <color name="dark_error_color">#B00020</color>
+    <color name="lighter_error_color">#B3261E</color>
 </resources>

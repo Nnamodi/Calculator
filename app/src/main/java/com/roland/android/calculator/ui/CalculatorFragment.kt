@@ -99,6 +99,8 @@ class CalculatorFragment : Fragment() {
                     input.setText(digits)
                     input.setSelection(digits.length)
                     result.text = it.result
+                    // giving binding-layout variable a value
+                    error = it.error
                 }
             }
         }

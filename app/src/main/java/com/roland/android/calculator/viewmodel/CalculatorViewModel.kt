@@ -24,26 +24,37 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun calculateInput(equalled: Boolean = false) {
-        if (_stateFlow.value.digit_2.isNotBlank()) {
-            val digit1 = _stateFlow.value.digit_1.toDouble()
-            val digit2 = _stateFlow.value.digit_2.toDouble()
-            val calcResult = when (_stateFlow.value.operator) {
-                CalculatorOperations.Add -> digit1 + digit2
-                CalculatorOperations.Divide -> digit1 / digit2
-                CalculatorOperations.Multiply -> digit1 * digit2
-                CalculatorOperations.Subtract -> digit1 - digit2
-                null -> return
-            }.toString().take(15)
-            apply {
-                val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
-                _stateFlow.value = Digits(
-                    digit_1 = _stateFlow.value.digit_1,
-                    digit_2 = _stateFlow.value.digit_2,
-                    operator = _stateFlow.value.operator,
-                    result = result
-                )
+        try {
+            if (_stateFlow.value.digit_2.isNotBlank()) {
+                val digit1 = _stateFlow.value.digit_1.toDouble()
+                val digit2 = _stateFlow.value.digit_2.toDouble()
+                val calcResult = when (_stateFlow.value.operator) {
+                    CalculatorOperations.Add -> digit1 + digit2
+                    CalculatorOperations.Divide -> digit1 / digit2
+                    CalculatorOperations.Multiply -> digit1 * digit2
+                    CalculatorOperations.Subtract -> digit1 - digit2
+                    CalculatorOperations.Modulus -> TODO()
+                    null -> return
+                }.toString().take(15)
+                apply {
+                    val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
+                    _stateFlow.value = Digits(
+                        digit_1 = _stateFlow.value.digit_1,
+                        digit_2 = _stateFlow.value.digit_2,
+                        operator = _stateFlow.value.operator,
+                        result = result
+                    )
+                }
+                if (equalled) { _stateFlow.value = Digits(digit_1 = _stateFlow.value.result); inputIsAnswer = true }
             }
-            if (equalled) { _stateFlow.value = Digits(digit_1 = _stateFlow.value.result); inputIsAnswer = true }
+        } catch (e: Exception) {
+            _stateFlow.value = Digits(
+                digit_1 = _stateFlow.value.digit_1,
+                digit_2 = _stateFlow.value.digit_2,
+                operator = _stateFlow.value.operator,
+                error = true
+            )
+            Log.e("SyntaxError", "calculateInput: Format Error: $e", e)
         }
     }
 

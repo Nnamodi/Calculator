@@ -4,5 +4,6 @@ data class Digits(
     var digit_1: String = "",
     var digit_2: String = "",
     var result: String = "",
-    var operator: CalculatorOperations? = null
+    var operator: CalculatorOperations? = null,
+    var error: Boolean = false
 )
