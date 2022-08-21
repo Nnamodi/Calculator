@@ -75,6 +75,15 @@ class CalculatorFragment : Fragment() {
             multiply.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Multiply))
             }
+            modulus?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Modulus))
+            }
+            plusMinus?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.PlusMinus)
+            }
+            bracket?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Bracket)
+            }
             // clear input
             buttonAc.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Clear)

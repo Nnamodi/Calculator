@@ -6,5 +6,7 @@ sealed interface CalculatorActions {
     object Delete: CalculatorActions
     object Decimal: CalculatorActions
     object Calculate: CalculatorActions
+    object PlusMinus: CalculatorActions
+    object Bracket: CalculatorActions
     data class Operators(val operator: CalculatorOperations): CalculatorActions
 }

@@ -1,5 +1,6 @@
 package com.roland.android.calculator.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
@@ -20,8 +21,37 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Decimal -> { enterDecimal() }
             is CalculatorActions.Operators -> { enterOperation(action.operator) }
             is CalculatorActions.Calculate -> { calculateInput(true) }
+            is CalculatorActions.Bracket -> { addBracket() }
+            is CalculatorActions.PlusMinus -> { addPlusMinus() }
         }
     }
+
+    private fun addPlusMinus() {
+        if (_stateFlow.value.operator == null) {
+            if (!_stateFlow.value.digit_1.contains("-")) {
+                _stateFlow.value = Digits(digit_1 = "-" + _stateFlow.value.digit_1)
+            } else {
+                _stateFlow.value = Digits(digit_1 = _stateFlow.value.digit_1.drop(1))
+            }
+        } else {
+            if (!_stateFlow.value.digit_2.contains("-")) {
+                _stateFlow.value = Digits(
+                    digit_1 = _stateFlow.value.digit_1,
+                    operator = _stateFlow.value.operator,
+                    digit_2 = "-" + _stateFlow.value.digit_2
+                )
+            } else {
+                _stateFlow.value = Digits(
+                    digit_1 = _stateFlow.value.digit_1,
+                    operator = _stateFlow.value.operator,
+                    digit_2 = _stateFlow.value.digit_2.drop(1)
+                )
+            }
+        }
+        if (_stateFlow.value.digit_2.isNotBlank() && _stateFlow.value.digit_2 != "-") { calculateInput() }
+    }
+
+    private fun addBracket() {}
 
     private fun calculateInput(equalled: Boolean = false) {
         try {
