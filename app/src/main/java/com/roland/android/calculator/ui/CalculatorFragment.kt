@@ -103,10 +103,9 @@ class CalculatorFragment : Fragment() {
         }
         lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {
-                val digits = it.digit_1 + (it.operator?.symbol ?: "") + it.digit_2
                 binding.apply {
-                    input.setText(digits)
-                    input.setSelection(digits.length)
+                    input.setText(it.input)
+                    input.setSelection(it.input.length)
                     result.text = it.result
                     // giving binding-layout variable a value
                     error = it.error
