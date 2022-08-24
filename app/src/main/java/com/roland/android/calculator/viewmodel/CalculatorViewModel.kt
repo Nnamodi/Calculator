@@ -13,6 +13,7 @@ class CalculatorViewModel : ViewModel() {
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var inputIsAnswer = false
+    private var currentDigit = ""
 
     fun onAction(action: CalculatorActions) {
         when (action) {
@@ -59,9 +60,9 @@ class CalculatorViewModel : ViewModel() {
         when {
             input.endsWith(")") || openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
             input.endsWith("(") -> { _stateFlow.value = Digits(input = "$input(") }
-            openBrackets > closeBrackets && !input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input)") }
+            openBrackets > closeBrackets && input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input)") }
             input.isBlank() -> { _stateFlow.value = Digits(input = "(") }
-            input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input(") }
+            input.last().isDigit() && openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
         }
         apply {
             val openedBrackets: Int = _stateFlow.value.input.count { it == '(' }
@@ -101,57 +102,83 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun enterNumber(digit: String) {
-        val input = _stateFlow.value.input
+        if (_stateFlow.value.input.isNotBlank()) {
+            val lastDigit = _stateFlow.value.input.last()
+            if (!lastDigit.isDigit() && lastDigit != '.') { currentDigit = "" }
+        }
         _stateFlow.value = Digits(input = _stateFlow.value.input + digit)
+        // to get the numbers after the last operator
+        currentDigit += digit
+        val input = _stateFlow.value.input
+        val operator = input.filter { !it.isDigit() }.toList()
         // calculate input only if an operator has been entered.
-        if (!input.all { it.isDigit() } &&
-            (input.first().isDigit() || input.first() == '(')) { calculateInput() }
+        if (_stateFlow.value.input.isNotBlank()) {
+            if (input.all { !it.isDigit() } && !input.startsWith("-") || input.first() == '(') { calculateInput() }
+            if (!input.first().isDigit() && operator.size > 1) { calculateInput() }
+            if (input.first().isDigit() && (input.all { !it.isDigit() } || operator.isNotEmpty())) { calculateInput() }
+        }
+        Log.d("CurrentDigit", "enterNumber: $currentDigit")
     }
 
     private fun enterOperation(operator: CalculatorOperations) {
-        if (_stateFlow.value.input.isNotBlank()) {
-            val lastDigit = _stateFlow.value.input.last()
+        val input = _stateFlow.value.input
+        if (input.isNotBlank()) {
+            val lastTwoAreSymbols = when {
+                input.endsWith("÷-") -> true
+                input.endsWith("×-") -> true
+                input.endsWith("+-") -> true
+                input.endsWith("--") -> true
+                else -> false
+            }
+            val lastDigit = input.last()
             if (!lastDigit.isDigit()) {
-                // if lastDigit is an operator and end with neither `(` nor `)`
-                if (lastDigit != '(' && lastDigit != ')') {
-                    _stateFlow.value = Digits(
-                        input = _stateFlow.value.input.replace(lastDigit.toString(), operator.symbol)
-                    )
+                if (!lastDigit.isDigit() && input != "-" && !input.endsWith("(-") && !lastTwoAreSymbols) {
+                    // if lastDigit is an operator and end with neither `(` nor `)`
+                    if (lastDigit != '(' && operator.symbol != "%") {
+                        if (lastDigit != ')') { _stateFlow.value = Digits(input = input.dropLast(1)) }
+                        _stateFlow.value = Digits(input = _stateFlow.value.input + operator.symbol)
+                    }
                 }
             } else {
-                if (lastDigit != '(') {
-                    _stateFlow.value = Digits(input = _stateFlow.value.input + operator.symbol)
+                if (lastDigit != '(' && operator.symbol != "%") {
+                    _stateFlow.value = Digits(input = input + operator.symbol)
                 }
             }
+            if (operator.symbol == "%" && lastDigit.isDigit() || lastDigit == '%' || lastDigit == ')') {
+                _stateFlow.value = Digits(input = input + operator.symbol); calculateInput()
+            }
         }
-//        if (operator.symbol == "%") {
-//            _stateFlow.value = Digits(input = _stateFlow.value.input + operator.symbol)
-//        }
         // if input contains digits and operator is `%`, calculate input
-        if (!_stateFlow.value.input.all { it.isDigit() } && operator.symbol == "%") { calculateInput() }
+        if (_stateFlow.value.input.all { !it.isDigit() } && operator.symbol == "%") { calculateInput() }
         inputIsAnswer = false
     }
 
-    private fun clearInput() { _stateFlow.value = Digits() }
+    private fun clearInput() { _stateFlow.value = Digits(); currentDigit = "" }
 
     private fun deleteInput() {
-        val zeroToNine = (0..9).toString().toList()
         if (!inputIsAnswer) {
             _stateFlow.value = Digits(input = _stateFlow.value.input.dropLast(1))
+            currentDigit = currentDigit.dropLast(1)
         }
         val input = _stateFlow.value.input
-        val number = input.findLast { it in zeroToNine; true }.toString()
+        val operator = input.filter { !it.isDigit() }.toList()
         // calculate input if it contains operator and ends with digit
-        if (!input.all { it.isDigit() } && input.endsWith(number) && !inputIsAnswer) { calculateInput() }
+        if (_stateFlow.value.input.isNotBlank()) {
+            if (input.all { !it.isDigit() } && input.first() != '-' || input.first() == '(') { calculateInput() }
+            if (!input.first().isDigit() && operator.size > 1) { calculateInput() }
+            if (input.first().isDigit() && (input.all { !it.isDigit() } || operator.isNotEmpty())) { calculateInput() }
+        }
     }
 
-    // TODO()
     private fun enterDecimal() {
-        val operator = _stateFlow.value.input.filter { !it.isDigit() }
-        val lastOperator = operator.last().toString().lastIndex.until(_stateFlow.value.input.toInt())
-        if (!lastOperator.contains(".".toInt())) {
-            if (inputIsAnswer) { _stateFlow.value = Digits(input = "."); inputIsAnswer = false }
-            else { _stateFlow.value = Digits(input = _stateFlow.value.input + ".") }
+        if (!currentDigit.contains(".")) {
+            if (inputIsAnswer) {
+                _stateFlow.value = Digits(input = "."); inputIsAnswer = false
+            } else {
+                _stateFlow.value = Digits(input = _stateFlow.value.input + ".")
+            }
+            // update variable holding current digit
+            currentDigit += "."
         }
     }
 }
