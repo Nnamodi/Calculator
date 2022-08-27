@@ -40,7 +40,7 @@ class CalculatorViewModel : ViewModel() {
             _stateFlow.value.input == "-" -> { true }
             else -> { false }
         }
-        if (input.isNotBlank()) {
+        if (input.isNotBlank() && input.last() != '.') {
             if (!input.last().isDigit() && !digitIsNegative) { _stateFlow.value = Digits(input = "$input-") }
         } else { _stateFlow.value = Digits(input = "-") }
         if (digitIsNegative) {
@@ -82,17 +82,15 @@ class CalculatorViewModel : ViewModel() {
                 }
             }
             if (input.last().isDigit() || input.endsWith(")")) {
-                val calcResult = Expression(input).eval()
-                    .toString().take(15)
+                val expression = Expression(input).setPrecision(20)
+                val calcResult = expression.eval(false).toString()
                 val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
-                apply {
-                    _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
-                }
+                _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
             }
             // if `equal button` is pressed and there's a result already, show only result
             if (equalled && _stateFlow.value.result.isNotBlank()) {
                 _stateFlow.value = Digits(input = _stateFlow.value.result)
-                inputIsAnswer = true
+                inputIsAnswer = true; currentDigit = ""
             }
         } catch (e: Exception) {
             // if `equal button` is pressed, show error message
@@ -102,11 +100,8 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun enterNumber(digit: String) {
-        if (_stateFlow.value.input.isNotBlank()) {
-            val lastDigit = _stateFlow.value.input.last()
-            if (!lastDigit.isDigit() && lastDigit != '.') { currentDigit = "" }
-        }
-        _stateFlow.value = Digits(input = _stateFlow.value.input + digit)
+        if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
+        else { _stateFlow.value = Digits(input = _stateFlow.value.input + digit) }
         // to get the numbers after the last operator
         currentDigit += digit
         val input = _stateFlow.value.input
@@ -128,6 +123,7 @@ class CalculatorViewModel : ViewModel() {
                 input.endsWith("×-") -> true
                 input.endsWith("+-") -> true
                 input.endsWith("--") -> true
+                input.endsWith(".") -> true
                 else -> false
             }
             val lastDigit = input.last()
@@ -147,6 +143,7 @@ class CalculatorViewModel : ViewModel() {
             if (operator.symbol == "%" && lastDigit.isDigit() || lastDigit == '%' || lastDigit == ')') {
                 _stateFlow.value = Digits(input = input + operator.symbol); calculateInput()
             }
+            currentDigit = ""
         }
         // if input contains digits and operator is `%`, calculate input
         if (_stateFlow.value.input.all { !it.isDigit() } && operator.symbol == "%") { calculateInput() }
