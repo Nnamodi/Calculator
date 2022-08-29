@@ -100,6 +100,12 @@ class CalculatorFragment : Fragment() {
             equals.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Calculate)
             }
+
+            // expand hidden buttons
+            expandButton?.setOnCheckedChangeListener { _, checked ->
+                // giving binding-layout variable a value to toggle visibility
+                expand = checked
+            }
         }
         lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {

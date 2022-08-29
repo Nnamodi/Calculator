@@ -6,6 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="error" type="Boolean" />
+        <variable name="expand" type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,14 +28,13 @@
                 android:id="@+id/input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="18dp"
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="end"
                 android:inputType="number"
                 android:letterSpacing="0.1"
                 android:paddingStart="0dp"
-                android:paddingEnd="0dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="18dp"
                 android:singleLine="true"
                 android:text="@string/digits"
                 android:textColor="?attr/colorOnSurface"
@@ -45,26 +45,26 @@
                 android:id="@+id/result"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="22dp"
                 android:layout_gravity="end"
+                android:layout_marginBottom="22dp"
+                android:layout_weight="3"
                 android:lines="1"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
                 android:text="@string/result"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="40sp"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}"/>
+                android:visibility="@{error ? View.GONE : View.VISIBLE}" />
 
             <TextView
                 android:id="@+id/error_text"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_gravity="end"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="22dp"
                 android:layout_weight="3"
-                android:layout_gravity="end"
                 android:text="@string/format_error"
                 android:textColor="?attr/colorOnSecondary"
                 android:textSize="40sp"
@@ -79,13 +79,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/row_5"
+            android:weightSum="3.35"
+            app:layout_constraintBottom_toTopOf="@id/hidden_row_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/digits_field">
 
             <Button
                 android:id="@+id/modulus"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
@@ -93,43 +95,236 @@
                 android:text="@string/modulus"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="26sp"
-                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
                 app:autoSizeStepGranularity="2sp"
-                style="@style/Widget.Material3.Button.OutlinedButton" />
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/plus_minus"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
                 android:text="@string/plus_minus"
-                android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
                 app:autoSizeStepGranularity="2sp"
-                style="@style/Widget.Material3.Button.OutlinedButton" />
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/bracket"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
                 android:text="@string/bracket"
-                android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
                 app:autoSizeStepGranularity="2sp"
-                style="@style/Widget.Material3.Button.OutlinedButton" />
+                app:autoSizeTextType="uniform" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/expand_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".35"
+                android:layout_gravity="center"
+                android:checkable="true"
+                app:checkedIconVisible="false"
+                app:chipBackgroundColor="?attr/colorOnPrimary"
+                app:chipIcon="@drawable/expand_button"
+                app:chipIconTint="?attr/colorSecondaryVariant"
+                tools:ignore="TouchTargetSizeCheck" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hidden_row_3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
+            android:weightSum="3.35"
+            app:layout_constraintBottom_toTopOf="@id/hidden_row_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/row_6"
+            tools:visibility="gone">
+
+            <Button
+                android:id="@+id/square_root"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/square_root"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/square"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/square"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/pi"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/pi"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hidden_row_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
+            android:weightSum="3.35"
+            app:layout_constraintBottom_toTopOf="@id/hidden_row_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hidden_row_3"
+            tools:visibility="gone">
+
+            <Button
+                android:id="@+id/sin"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/sine"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/cos"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/cosine"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/tan"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/tangent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hidden_row_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
+            android:weightSum="3.35"
+            app:layout_constraintBottom_toTopOf="@id/row_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hidden_row_2"
+            tools:visibility="gone">
+
+            <Button
+                android:id="@+id/log"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/logarithm"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/rad"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/radian"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/deg"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/degree"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
         </LinearLayout>
 
         <LinearLayout
@@ -137,13 +332,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row_6">
+            app:layout_constraintTop_toBottomOf="@id/hidden_row_1">
 
             <Button
                 android:id="@+id/button_ac"
@@ -155,10 +350,10 @@
                 android:text="@string/ac"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="26sp"
                 app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp" />
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/button_del"
@@ -171,10 +366,10 @@
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="22sp"
                 app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp" />
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/divide"
@@ -197,7 +392,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_3"
@@ -271,7 +465,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_2"
@@ -345,7 +538,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_1"
@@ -419,7 +611,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:weightSum="4"
@@ -467,10 +658,10 @@
                 android:backgroundTint="?attr/colorSecondaryVariant"
                 android:text="@string/decimal"
                 android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="50sp"
-                app:autoSizeMinTextSize="30sp"
-                app:autoSizeStepGranularity="2sp" />
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/equals"
@@ -481,10 +672,10 @@
                 android:backgroundTint="@color/orange"
                 android:text="@string/equals"
                 android:textColor="@color/black"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="28sp"
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
