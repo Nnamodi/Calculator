@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
 import com.roland.android.calculator.data.Digits
+import com.roland.android.calculator.data.TrigFunctions
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,7 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Calculate -> { calculateInput(true) }
             is CalculatorActions.Bracket -> { addBracket() }
             is CalculatorActions.PlusMinus -> { addPlusMinus() }
+            is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
         }
     }
 
@@ -58,8 +60,9 @@ class CalculatorViewModel : ViewModel() {
         val openBrackets: Int = input.count { it == '(' }
         val closeBrackets: Int = input.count { it == ')' }
         when {
-            input.endsWith(")") || openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
+            input.endsWith(")") && openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
             input.endsWith("(") -> { _stateFlow.value = Digits(input = "$input(") }
+            openBrackets > closeBrackets && input.last() == ')' -> { _stateFlow.value = Digits(input = "$input)") }
             openBrackets > closeBrackets && input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input)") }
             input.isBlank() -> { _stateFlow.value = Digits(input = "(") }
             input.last().isDigit() && openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
@@ -68,7 +71,7 @@ class CalculatorViewModel : ViewModel() {
             val openedBrackets: Int = _stateFlow.value.input.count { it == '(' }
             val closedBrackets: Int = _stateFlow.value.input.count { it == ')' }
             if (openedBrackets == closedBrackets) { calculateInput() }
-        }
+        }; inputIsAnswer = false
     }
 
     private fun calculateInput(equalled: Boolean = false) {
@@ -101,7 +104,12 @@ class CalculatorViewModel : ViewModel() {
 
     private fun enterNumber(digit: String) {
         if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
-        else { _stateFlow.value = Digits(input = _stateFlow.value.input + digit) }
+        else {
+            if (_stateFlow.value.input.endsWith(")")) {
+                _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + digit)
+            }
+            else { _stateFlow.value = Digits(input = _stateFlow.value.input + digit) }
+        }
         // to get the numbers after the last operator
         currentDigit += digit
         val input = _stateFlow.value.input
@@ -150,17 +158,33 @@ class CalculatorViewModel : ViewModel() {
         inputIsAnswer = false
     }
 
+    private fun trigonometricFunction(functions: TrigFunctions) {
+        val input = _stateFlow.value.input
+        if (input.isNotBlank()) {
+            if (input.endsWith(")") || input.last().isDigit() || input.endsWith("%")) {
+                _stateFlow.value = Digits(input = input + "×" + functions.symbol)
+            } else { _stateFlow.value = Digits(input = input + functions.symbol) }
+            inputIsAnswer = false
+        } else { _stateFlow.value = Digits(input = functions.symbol) }
+    }
+
     private fun clearInput() { _stateFlow.value = Digits(); currentDigit = "" }
 
     private fun deleteInput() {
         if (!inputIsAnswer) {
-            _stateFlow.value = Digits(input = _stateFlow.value.input.dropLast(1))
-            currentDigit = currentDigit.dropLast(1)
+            if (_stateFlow.value.input.last().isDigit()) { currentDigit = currentDigit.dropLast(1) }
+            val input: String = when {
+                _stateFlow.value.input.endsWith("sin(") -> _stateFlow.value.input.dropLast(4)
+                _stateFlow.value.input.endsWith("cos(") -> _stateFlow.value.input.dropLast(4)
+                _stateFlow.value.input.endsWith("tan(") -> _stateFlow.value.input.dropLast(4)
+                else -> _stateFlow.value.input.dropLast(1)
+            }
+            _stateFlow.value = Digits(input = input)
         }
         val input = _stateFlow.value.input
         val operator = input.filter { !it.isDigit() }.toList()
         // calculate input if it contains operator and ends with digit
-        if (_stateFlow.value.input.isNotBlank()) {
+        if (input.isNotBlank()) {
             if (input.all { !it.isDigit() } && input.first() != '-' || input.first() == '(') { calculateInput() }
             if (!input.first().isDigit() && operator.size > 1) { calculateInput() }
             if (input.first().isDigit() && (input.all { !it.isDigit() } || operator.isNotEmpty())) { calculateInput() }
@@ -172,7 +196,9 @@ class CalculatorViewModel : ViewModel() {
             if (inputIsAnswer) {
                 _stateFlow.value = Digits(input = "."); inputIsAnswer = false
             } else {
-                _stateFlow.value = Digits(input = _stateFlow.value.input + ".")
+                if (_stateFlow.value.input.endsWith(")")) {
+                    _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + ".")
+                } else { _stateFlow.value = Digits(input = _stateFlow.value.input + ".") }
             }
             // update variable holding current digit
             currentDigit += "."

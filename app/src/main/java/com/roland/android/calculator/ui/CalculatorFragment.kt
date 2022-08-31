@@ -13,6 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roland.android.calculator.R
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
+import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.databinding.FragmentCalculatorBinding
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
@@ -50,18 +51,6 @@ class CalculatorFragment : Fragment() {
             button7.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Numbers("7"))
             }
-            button8.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("8"))
-            }
-            button9.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("9"))
-            }
-            button0.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("0"))
-            }
-            button00.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("00"))
-            }
             // operators
             add.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Add))
@@ -83,6 +72,16 @@ class CalculatorFragment : Fragment() {
             }
             bracket?.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Bracket)
+            }
+            // trigonometric input
+            sin?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Sine))
+            }
+            cos?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Cosine))
+            }
+            tan?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Tangent))
             }
             // clear input
             buttonAc.setOnClickListener {
