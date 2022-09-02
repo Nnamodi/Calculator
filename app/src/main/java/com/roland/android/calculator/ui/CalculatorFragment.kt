@@ -73,6 +73,14 @@ class CalculatorFragment : Fragment() {
             bracket?.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Bracket)
             }
+            // pi
+            pi?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Pi)
+            }
+            // log
+            log?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Log)
+            }
             // trigonometric input
             sin?.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Sine))

@@ -8,6 +8,8 @@ sealed interface CalculatorActions {
     object Calculate: CalculatorActions
     object PlusMinus: CalculatorActions
     object Bracket: CalculatorActions
+    object Pi : CalculatorActions
+    object Log : CalculatorActions
     data class Trigonometry(val function: TrigFunctions): CalculatorActions
     data class Operators(val operator: CalculatorOperations): CalculatorActions
 }
