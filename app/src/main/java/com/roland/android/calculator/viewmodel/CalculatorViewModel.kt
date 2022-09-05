@@ -27,7 +27,29 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Bracket -> { addBracket() }
             is CalculatorActions.PlusMinus -> { addPlusMinus() }
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
+            is CalculatorActions.Pi -> { addPi() }
+            is CalculatorActions.Log -> { addLog() }
         }
+    }
+
+    private fun addLog(symbol: String = "log(") {
+        val input = _stateFlow.value.input
+        if (input.isNotBlank()) {
+            if (input.endsWith(")") || input.last().isDigit() || input.endsWith("%")) {
+                _stateFlow.value = Digits(input = "$input×$symbol")
+            } else { _stateFlow.value = Digits(input = input + symbol) }
+            inputIsAnswer = false
+        } else { _stateFlow.value = Digits(input = symbol) }
+    }
+
+    private fun addPi() {
+        val input = _stateFlow.value.input
+        when {
+            input.isBlank() -> { _stateFlow.value = Digits(input = "π") }
+            input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input×π") }
+            else -> { _stateFlow.value = Digits(input = input + "π") }
+        }
+        calculateInput()
     }
 
     private fun addPlusMinus() {
