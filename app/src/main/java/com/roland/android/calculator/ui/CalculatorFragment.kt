@@ -30,26 +30,10 @@ class CalculatorFragment : Fragment() {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
             // enter digits
-            button1.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("1"))
-            }
-            button2.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("2"))
-            }
-            button3.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("3"))
-            }
-            button4.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("4"))
-            }
-            button5.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("5"))
-            }
-            button6.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("6"))
-            }
-            button7.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Numbers("7"))
+            val buttons = setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
+            buttons.forEach {
+                val digit = it.text.toString()
+                it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
             add.setOnClickListener {

@@ -48,6 +48,7 @@
                 android:layout_gravity="end"
                 android:layout_marginBottom="22dp"
                 android:layout_weight="3"
+                android:letterSpacing="0.05"
                 android:lines="1"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
@@ -79,8 +80,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:weightSum="3.35"
-            app:layout_constraintBottom_toTopOf="@id/hidden_row_3"
+            android:weightSum="4.45"
+            app:layout_constraintBottom_toTopOf="@id/hidden_row_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/digits_field">
@@ -130,12 +131,27 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
+            <Button
+                android:id="@+id/pi"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/pi"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/expand_button"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".35"
+                android:layout_weight=".45"
                 android:layout_gravity="center"
                 android:checkable="true"
                 app:checkedIconVisible="false"
@@ -146,18 +162,47 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/hidden_row_3"
+            android:id="@+id/hidden_row_2"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:visibility="@{expand ? View.VISIBLE : View.GONE}"
-            android:weightSum="3.35"
-            app:layout_constraintBottom_toTopOf="@id/hidden_row_2"
+            android:weightSum="4.45"
+            app:layout_constraintBottom_toTopOf="@id/hidden_row_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/row_6"
-            tools:visibility="gone">
+            app:layout_constraintTop_toBottomOf="@id/row_6">
+
+            <Button
+                android:id="@+id/rad"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/radian"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
+
+            <Button
+                android:id="@+id/log"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:text="@string/logarithm"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSurface"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform" />
 
             <Button
                 android:id="@+id/square_root"
@@ -188,37 +233,36 @@
                 app:autoSizeMinTextSize="8sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hidden_row_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
+            android:weightSum="4.45"
+            app:layout_constraintBottom_toTopOf="@id/row_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hidden_row_2">
 
             <Button
-                android:id="@+id/pi"
+                android:id="@+id/deg"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:text="@string/pi"
+                android:text="@string/degree"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
                 app:autoSizeMinTextSize="8sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/hidden_row_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
-            android:weightSum="3.35"
-            app:layout_constraintBottom_toTopOf="@id/hidden_row_1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hidden_row_3"
-            tools:visibility="gone">
 
             <Button
                 android:id="@+id/sin"
@@ -258,67 +302,6 @@
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
                 android:text="@string/tangent"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?attr/colorOnSurface"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/hidden_row_1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="@{expand ? View.VISIBLE : View.GONE}"
-            android:weightSum="3.35"
-            app:layout_constraintBottom_toTopOf="@id/row_5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hidden_row_2"
-            tools:visibility="gone">
-
-            <Button
-                android:id="@+id/log"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:text="@string/logarithm"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?attr/colorOnSurface"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/rad"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:text="@string/radian"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="?attr/colorOnSurface"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
-
-            <Button
-                android:id="@+id/deg"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:text="@string/degree"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
