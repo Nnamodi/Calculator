@@ -29,6 +29,8 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addPi() }
             is CalculatorActions.Log -> { addLog() }
+            is CalculatorActions.Square -> TODO()
+            is CalculatorActions.SquareRoot -> TODO()
         }
     }
 
@@ -79,15 +81,22 @@ class CalculatorViewModel : ViewModel() {
 
     private fun addBracket() {
         val input = _stateFlow.value.input
+        val normalOperators = listOf('÷', '×', '+', '-')
         val openBrackets: Int = input.count { it == '(' }
         val closeBrackets: Int = input.count { it == ')' }
+        // bracket to add, conditionally
+        val addCloseBracket = { _stateFlow.value = Digits(input = "$input)") }
+        val addOpenBracket = { _stateFlow.value = Digits(input = "$input(") }
         when {
-            input.endsWith(")") && openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
-            input.endsWith("(") -> { _stateFlow.value = Digits(input = "$input(") }
-            openBrackets > closeBrackets && input.last() == ')' -> { _stateFlow.value = Digits(input = "$input)") }
-            openBrackets > closeBrackets && input.last().isDigit() -> { _stateFlow.value = Digits(input = "$input)") }
             input.isBlank() -> { _stateFlow.value = Digits(input = "(") }
-            input.last().isDigit() && openBrackets == closeBrackets -> { _stateFlow.value = Digits(input = "$input(") }
+            input.endsWith(")") && openBrackets == closeBrackets -> { addOpenBracket() }
+            input.endsWith("(") -> { addOpenBracket() }
+            input.last() == ')' && openBrackets > closeBrackets -> { addCloseBracket() }
+            input.last().isDigit() && openBrackets > closeBrackets -> { addCloseBracket() }
+            input.last().isDigit() && openBrackets == closeBrackets -> { addOpenBracket() }
+            normalOperators.any{ input.endsWith(it) } -> { addOpenBracket() }
+            !input.last().isDigit() && openBrackets == closeBrackets -> { addOpenBracket() }
+            !input.last().isDigit() && openBrackets >= closeBrackets -> { addCloseBracket() }
         }
         apply {
             val openedBrackets: Int = _stateFlow.value.input.count { it == '(' }
@@ -98,18 +107,27 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateInput(equalled: Boolean = false) {
         try {
-            val input = _stateFlow.value.input.replace(Regex("[÷×%]")) {
+            val input = _stateFlow.value.input.replace(Regex("[÷×%π]")) {
                 when (it.value) {
                     "÷" -> "/"
                     "×" -> "*"
                     "%" -> "/100"
+                    "π" -> "PI"
                     else -> it.value
                 }
-            }
-            if (input.last().isDigit() || input.endsWith(")")) {
-                val expression = Expression(input).setPrecision(20)
+            }.replace("sin", "SIN")
+                .replace("cos", "COS")
+                .replace("tan", "TAN")
+                .replace("log", "LOG")
+                .replace("IP", "I*P") // ππ -> π×π
+                .replace("I(", "I*(") // π() -> π×()
+                .replace(")P", ")*P") // ()π -> ()×π
+            if (input.last().isDigit() || input.endsWith(")") || input.endsWith("PI") || input.last() == '.') {
+                val expression = Expression(input).setPrecision(12)
                 val calcResult = expression.eval(false).toString()
-                val result = if (calcResult.endsWith(".0")) { calcResult.dropLast(2) } else { calcResult }
+                val result = if (calcResult.contains(".")) {
+                    calcResult.dropLastWhile { it == '0' || it == '.' }
+                } else { calcResult }
                 _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
             }
             // if `equal button` is pressed and there's a result already, show only result
@@ -117,6 +135,7 @@ class CalculatorViewModel : ViewModel() {
                 _stateFlow.value = Digits(input = _stateFlow.value.result)
                 inputIsAnswer = true; currentDigit = ""
             }
+            Log.d("FinalInput", "calculateInput: $input")
         } catch (e: Exception) {
             // if `equal button` is pressed, show error message
             if (equalled) { _stateFlow.value = Digits(input = _stateFlow.value.input, error = true) }
@@ -127,7 +146,8 @@ class CalculatorViewModel : ViewModel() {
     private fun enterNumber(digit: String) {
         if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
         else {
-            if (_stateFlow.value.input.endsWith(")")) {
+            val symbols = setOf(')', '%', 'π')
+            if (symbols.any { _stateFlow.value.input.endsWith(it) }) {
                 _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + digit)
             }
             else { _stateFlow.value = Digits(input = _stateFlow.value.input + digit) }
@@ -159,13 +179,16 @@ class CalculatorViewModel : ViewModel() {
             val lastDigit = input.last()
             if (!lastDigit.isDigit()) {
                 if (!lastDigit.isDigit() && input != "-" && !input.endsWith("(-") && !lastTwoAreSymbols) {
-                    // if lastDigit is an operator and end with neither `(` nor `)`
-                    if (lastDigit != '(' && operator.symbol != "%") {
+                    // if lastDigit is an operator and end with neither `(` nor `)` nor `π`
+                        // and operator entered isn't `%`, replace lase operator.
+                    if (lastDigit != '(' && operator.symbol != "%" && lastDigit != 'π') {
                         if (lastDigit != ')') { _stateFlow.value = Digits(input = input.dropLast(1)) }
                         _stateFlow.value = Digits(input = _stateFlow.value.input + operator.symbol)
                     }
+                    if (lastDigit == 'π') { _stateFlow.value = Digits(input = input + operator.symbol) }
                 }
             } else {
+                // if lastDigit isn't `(` and operator entered isn't `%`, add operator to input
                 if (lastDigit != '(' && operator.symbol != "%") {
                     _stateFlow.value = Digits(input = input + operator.symbol)
                 }
@@ -190,15 +213,18 @@ class CalculatorViewModel : ViewModel() {
         } else { _stateFlow.value = Digits(input = functions.symbol) }
     }
 
-    private fun clearInput() { _stateFlow.value = Digits(); currentDigit = "" }
+    private fun clearInput() { _stateFlow.value = Digits(); currentDigit = ""; inputIsAnswer = false }
 
     private fun deleteInput() {
         if (!inputIsAnswer) {
-            if (_stateFlow.value.input.last().isDigit()) { currentDigit = currentDigit.dropLast(1) }
+            if (_stateFlow.value.input.last().isDigit() || _stateFlow.value.input.endsWith(".")) {
+                currentDigit = currentDigit.dropLast(1)
+            }
             val input: String = when {
                 _stateFlow.value.input.endsWith("sin(") -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith("cos(") -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith("tan(") -> _stateFlow.value.input.dropLast(4)
+                _stateFlow.value.input.endsWith("log(") -> _stateFlow.value.input.dropLast(4)
                 else -> _stateFlow.value.input.dropLast(1)
             }
             _stateFlow.value = Digits(input = input)
@@ -222,6 +248,7 @@ class CalculatorViewModel : ViewModel() {
                     _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + ".")
                 } else { _stateFlow.value = Digits(input = _stateFlow.value.input + ".") }
             }
+            calculateInput()
             // update variable holding current digit
             currentDigit += "."
         }
