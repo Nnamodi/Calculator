@@ -57,6 +57,10 @@ class CalculatorFragment : Fragment() {
             bracket?.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Bracket)
             }
+            // square
+            square?.setOnClickListener {
+                calcViewModel.onAction(CalculatorActions.Square)
+            }
             // pi
             pi?.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Pi)

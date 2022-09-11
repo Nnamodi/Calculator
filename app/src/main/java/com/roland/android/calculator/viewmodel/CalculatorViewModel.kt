@@ -1,6 +1,7 @@
 package com.roland.android.calculator.viewmodel
 
 import android.util.Log
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
@@ -14,7 +15,6 @@ class CalculatorViewModel : ViewModel() {
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var inputIsAnswer = false
-    private var currentDigit = ""
 
     fun onAction(action: CalculatorActions) {
         when (action) {
@@ -29,8 +29,19 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addPi() }
             is CalculatorActions.Log -> { addLog() }
-            is CalculatorActions.Square -> TODO()
-            is CalculatorActions.SquareRoot -> TODO()
+            is CalculatorActions.Square -> { addSquare() }
+        }
+    }
+
+    private fun addSquare() {
+        val input = _stateFlow.value.input
+        val symbols = setOf(')', 'π', '%')
+        val addSquare = { _stateFlow.value = Digits(input = "$input^") }
+        if (input.isNotBlank()) {
+            when {
+                input.last().isDigit() -> { addSquare() }
+                symbols.any { input.last() == it } -> { addSquare() }
+            }
         }
     }
 
@@ -105,44 +116,6 @@ class CalculatorViewModel : ViewModel() {
         }; inputIsAnswer = false
     }
 
-    private fun calculateInput(equalled: Boolean = false) {
-        try {
-            val input = _stateFlow.value.input.replace(Regex("[÷×%π]")) {
-                when (it.value) {
-                    "÷" -> "/"
-                    "×" -> "*"
-                    "%" -> "/100"
-                    "π" -> "PI"
-                    else -> it.value
-                }
-            }.replace("sin", "SIN")
-                .replace("cos", "COS")
-                .replace("tan", "TAN")
-                .replace("log", "LOG")
-                .replace("IP", "I*P") // ππ -> π×π
-                .replace("I(", "I*(") // π() -> π×()
-                .replace(")P", ")*P") // ()π -> ()×π
-            if (input.last().isDigit() || input.endsWith(")") || input.endsWith("PI") || input.last() == '.') {
-                val expression = Expression(input).setPrecision(12)
-                val calcResult = expression.eval(false).toString()
-                val result = if (calcResult.contains(".")) {
-                    calcResult.dropLastWhile { it == '0' || it == '.' }
-                } else { calcResult }
-                _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
-            }
-            // if `equal button` is pressed and there's a result already, show only result
-            if (equalled && _stateFlow.value.result.isNotBlank()) {
-                _stateFlow.value = Digits(input = _stateFlow.value.result)
-                inputIsAnswer = true; currentDigit = ""
-            }
-            Log.d("FinalInput", "calculateInput: $input")
-        } catch (e: Exception) {
-            // if `equal button` is pressed, show error message
-            if (equalled) { _stateFlow.value = Digits(input = _stateFlow.value.input, error = true) }
-            Log.e("SyntaxError", "Input error: ", e)
-        }
-    }
-
     private fun enterNumber(digit: String) {
         if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
         else {
@@ -152,8 +125,6 @@ class CalculatorViewModel : ViewModel() {
             }
             else { _stateFlow.value = Digits(input = _stateFlow.value.input + digit) }
         }
-        // to get the numbers after the last operator
-        currentDigit += digit
         val input = _stateFlow.value.input
         val operator = input.filter { !it.isDigit() }.toList()
         // calculate input only if an operator has been entered.
@@ -162,7 +133,6 @@ class CalculatorViewModel : ViewModel() {
             if (!input.first().isDigit() && operator.size > 1) { calculateInput() }
             if (input.first().isDigit() && (input.all { !it.isDigit() } || operator.isNotEmpty())) { calculateInput() }
         }
-        Log.d("CurrentDigit", "enterNumber: $currentDigit")
     }
 
     private fun enterOperation(operator: CalculatorOperations) {
@@ -196,7 +166,6 @@ class CalculatorViewModel : ViewModel() {
             if (operator.symbol == "%" && lastDigit.isDigit() || lastDigit == '%' || lastDigit == ')') {
                 _stateFlow.value = Digits(input = input + operator.symbol); calculateInput()
             }
-            currentDigit = ""
         }
         // if input contains digits and operator is `%`, calculate input
         if (_stateFlow.value.input.all { !it.isDigit() } && operator.symbol == "%") { calculateInput() }
@@ -213,13 +182,10 @@ class CalculatorViewModel : ViewModel() {
         } else { _stateFlow.value = Digits(input = functions.symbol) }
     }
 
-    private fun clearInput() { _stateFlow.value = Digits(); currentDigit = ""; inputIsAnswer = false }
+    private fun clearInput() { _stateFlow.value = Digits(); inputIsAnswer = false }
 
     private fun deleteInput() {
         if (!inputIsAnswer) {
-            if (_stateFlow.value.input.last().isDigit() || _stateFlow.value.input.endsWith(".")) {
-                currentDigit = currentDigit.dropLast(1)
-            }
             val input: String = when {
                 _stateFlow.value.input.endsWith("sin(") -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith("cos(") -> _stateFlow.value.input.dropLast(4)
@@ -240,17 +206,55 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun enterDecimal() {
-        if (!currentDigit.contains(".")) {
-            if (inputIsAnswer) {
-                _stateFlow.value = Digits(input = "."); inputIsAnswer = false
-            } else {
-                if (_stateFlow.value.input.endsWith(")")) {
-                    _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + ".")
-                } else { _stateFlow.value = Digits(input = _stateFlow.value.input + ".") }
+        val input = _stateFlow.value.input
+        if (input.isDigitsOnly()) {
+            _stateFlow.value = Digits(input = _stateFlow.value.input + ".")
+        } else {
+            val lastSymbol = _stateFlow.value.input.last { !it.isDigit() }
+            if (lastSymbol != '.' || lastSymbol == '^') {
+                if (inputIsAnswer) {
+                    _stateFlow.value = Digits(input = "."); inputIsAnswer = false
+                } else {
+                    if (input.endsWith(")") || input.endsWith("π")) {
+                        _stateFlow.value = Digits(input = "$input×.")
+                    } else { _stateFlow.value = Digits(input = "$input.") }
+                }
+                calculateInput()
             }
-            calculateInput()
-            // update variable holding current digit
-            currentDigit += "."
+        }
+    }
+
+    private fun calculateInput(equalled: Boolean = false) {
+        try {
+            val input = _stateFlow.value.input.replace(Regex("[÷×π]")) {
+                when (it.value) {
+                    "÷" -> "/"
+                    "×" -> "*"
+                    "π" -> "PI"
+                    else -> it.value
+                }
+            }.replace("IP", "I*P") // ππ -> π×π
+                .replace("I(", "I*(") // π() -> π×()
+                .replace(")P", ")*P") // ()π -> ()×π
+            val symbols = setOf(")", "PI", ".", "%")
+            if (input.last().isDigit() || symbols.any { input.endsWith(it) }) {
+                val expression = Expression(input).setPrecision(12)
+                val calcResult = expression.eval(false).toString()
+                val result = if (calcResult.contains(".")) {
+                    calcResult.dropLastWhile { it == '0' || it == '.' }
+                } else { calcResult }
+                _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
+            }
+            // if `equal button` is pressed and there's a result already, show only result
+            if (equalled && _stateFlow.value.result.isNotBlank()) {
+                _stateFlow.value = Digits(input = _stateFlow.value.result)
+                inputIsAnswer = true
+            }
+            Log.d("FinalInput", "calculateInput: $input")
+        } catch (e: Exception) {
+            // if `equal button` is pressed, show error message
+            if (equalled) { _stateFlow.value = Digits(input = _stateFlow.value.input, error = true) }
+            Log.e("SyntaxError", "Input error: ", e)
         }
     }
 }
