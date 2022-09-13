@@ -10,7 +10,7 @@
     <string name="_4">4</string>
     <string name="_5">5</string>
     <string name="_6">6</string>
-    <string name="subtract">-</string>
+    <string name="subtract">−</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
     <string name="_3">3</string>
@@ -25,7 +25,7 @@
     <string name="dialog_close">Close</string>
     <string name="dialog_title">Theme</string>
     <string name="modulus">%</string>
-    <string name="plus_minus">+/-</string>
+    <string name="plus_minus">+/–</string>
     <string name="bracket">( )</string>
     <string name="format_error">Format Error</string>
     <string name="degree">DEG</string>
@@ -37,6 +37,7 @@
     <string name="pi">π</string>
     <string name="square">^</string>
     <string name="square_root">√</string>
+    <string name="inverse">INV</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>

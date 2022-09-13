@@ -32,7 +32,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="end"
                 android:inputType="number"
-                android:letterSpacing="0.1"
+                android:letterSpacing="0.05"
                 android:padding="0dp"
                 android:singleLine="true"
                 android:text="@string/digits"
@@ -50,7 +50,7 @@
                 android:layout_marginBottom="22dp"
                 android:lines="1"
                 android:text="@string/result"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="?attr/colorTertiary"
                 android:textSize="40sp"
                 android:visibility="@{error ? View.GONE : View.VISIBLE}"/>
 

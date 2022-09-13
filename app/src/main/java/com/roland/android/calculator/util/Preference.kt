@@ -3,10 +3,9 @@ package com.roland.android.calculator.util
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.roland.android.calculator.util.Constants.THEME
 
 object Preference {
-    private const val THEME = "theme"
-
     fun getTheme(context: Context): Int {
         return PreferenceManager.getDefaultSharedPreferences(context)
             .getInt(THEME, 2)

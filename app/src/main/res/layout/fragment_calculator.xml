@@ -31,14 +31,14 @@
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="end"
                 android:inputType="number"
-                android:letterSpacing="0.1"
+                android:letterSpacing="0.05"
                 android:paddingStart="0dp"
-                android:paddingTop="20dp"
+                android:paddingTop="10dp"
                 android:paddingEnd="18dp"
                 android:singleLine="true"
                 android:text="@string/digits"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="70sp"
+                android:textSize="65sp"
                 tools:ignore="Autofill,LabelFor" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:text="@string/result"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="?attr/colorTertiary"
                 android:textSize="40sp"
                 android:visibility="@{error ? View.GONE : View.VISIBLE}" />
 
@@ -112,7 +112,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -127,7 +127,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -142,7 +142,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -175,17 +175,17 @@
             app:layout_constraintTop_toBottomOf="@id/row_6">
 
             <Button
-                android:id="@+id/rad"
+                android:id="@+id/deg_rad"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:text="@string/radian"
+                android:text="@string/degree"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="6sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -200,7 +200,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -215,7 +215,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -230,7 +230,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
         </LinearLayout>
@@ -250,17 +250,17 @@
             app:layout_constraintTop_toBottomOf="@id/hidden_row_2">
 
             <Button
-                android:id="@+id/deg"
+                android:id="@+id/inv"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:text="@string/degree"
+                android:text="@string/inverse"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="6sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -275,7 +275,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -290,7 +290,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -305,7 +305,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="8sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
         </LinearLayout>
