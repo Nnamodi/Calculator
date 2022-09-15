@@ -30,67 +30,55 @@ class CalculatorFragment : Fragment() {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
             // enter digits
-            val buttons = setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
-            buttons.forEach {
+            setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
+                .forEach {
                 val digit = it.text.toString()
                 it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
-            add.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Add))
-            }
-            subtract.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Subtract))
-            }
-            divide.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Divide))
-            }
-            multiply.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Multiply))
-            }
-            modulus?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Operators(CalculatorOperations.Modulus))
-            }
-            plusMinus?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.PlusMinus)
-            }
-            bracket?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Bracket)
-            }
-            // square
-            square?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Square)
-            }
-            // pi
-            pi?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Pi)
-            }
-            // log
-            log?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Log)
+            setOf(add, subtract, divide, multiply, modulus, plusMinus, bracket).forEach {
+                val symbol = it?.text.toString()
+                it?.setOnClickListener {
+                    val action = when (symbol) {
+                        "+" -> CalculatorActions.Operators(CalculatorOperations.Add)
+                        "−" -> CalculatorActions.Operators(CalculatorOperations.Subtract)
+                        "÷" -> CalculatorActions.Operators(CalculatorOperations.Divide)
+                        "×" -> CalculatorActions.Operators(CalculatorOperations.Multiply)
+                        "%" -> CalculatorActions.Operators(CalculatorOperations.Modulus)
+                        "+/–" -> CalculatorActions.PlusMinus
+                        else -> CalculatorActions.Bracket // "( )"
+                    }
+                    calcViewModel.onAction(action)
+                }
             }
             // trigonometric input
-            sin?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Sine))
+            setOf(sin, cos, tan).forEach {
+                val function = it?.text.toString()
+                it?.setOnClickListener {
+                    val trigFunction = when (function) {
+                        "sin" -> TrigFunctions.Sine
+                        "cos" -> TrigFunctions.Cosine
+                        else -> TrigFunctions.Tangent // "tan"
+                    }
+                    calcViewModel.onAction(CalculatorActions.Trigonometry(trigFunction))
+                }
             }
-            cos?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Cosine))
+            // other buttons
+            setOf(square, pi, log, buttonAc, buttonDel, decimal).forEach {
+                val input = it?.text.toString()
+                it?.setOnClickListener {
+                    val action = when (input) {
+                        "^" -> CalculatorActions.Square
+                        "π" -> CalculatorActions.Pi
+                        "log" -> CalculatorActions.Log
+                        "AC" -> CalculatorActions.Clear
+                        "Del" -> CalculatorActions.Delete
+                         else -> CalculatorActions.Decimal // "·"
+                    }
+                    calcViewModel.onAction(action)
+                }
             }
-            tan?.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Trigonometry(TrigFunctions.Tangent))
-            }
-            // clear input
-            buttonAc.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Clear)
-            }
-            // delete single input
-            buttonDel.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Delete)
-            }
-            // enter decimal
-            decimal.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Decimal)
-            }
+
             // calculate input
             equals.setOnClickListener {
                 calcViewModel.onAction(CalculatorActions.Calculate)
