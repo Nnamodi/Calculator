@@ -16,4 +16,5 @@ object Constants {
     const val LOG = "log("
     const val PI = "π"
     const val DOT = "."
+    const val ROOT = "√("
 }

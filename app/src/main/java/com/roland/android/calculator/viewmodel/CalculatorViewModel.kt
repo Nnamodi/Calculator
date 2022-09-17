@@ -19,6 +19,7 @@ import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SINR
 import com.roland.android.calculator.util.Constants.MINUS
+import com.roland.android.calculator.util.Constants.ROOT
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TANR
 import com.udojava.evalex.Expression
@@ -44,13 +45,21 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Pi -> { addPi() }
             is CalculatorActions.Log -> { addLog() }
             is CalculatorActions.Square -> { addSquare() }
+            is CalculatorActions.SquareRoot -> { addSquareRoot() }
         }
+    }
+
+    private fun addSquareRoot() {
+        val input = _stateFlow.value.input
+        val symbols = setOf(DIVIDE, MULTIPLY, MINUS, ADD, "(")
+        if (symbols.any { input.endsWith(it) } || input.isBlank()) { _stateFlow.value = Digits(input = input + ROOT) }
+        else { _stateFlow.value = Digits(input = "$input×$ROOT"); inputIsAnswer = false }
     }
 
     private fun addSquare() {
         val input = _stateFlow.value.input
         val symbols = setOf(')', 'π', '%')
-        val addSquare = { _stateFlow.value = Digits(input = "$input^") }
+        val addSquare = { _stateFlow.value = Digits(input = "$input^"); inputIsAnswer = false }
         if (input.isNotBlank()) {
             when {
                 input.last().isDigit() -> { addSquare() }
@@ -59,14 +68,15 @@ class CalculatorViewModel : ViewModel() {
         }
     }
 
-    private fun addLog(symbol: String = LOG) {
+    private fun addLog() {
         val input = _stateFlow.value.input
+        val symbols = setOf(")", MOD, PI)
         if (input.isNotBlank()) {
-            if (input.endsWith(")") || input.last().isDigit() || input.endsWith("%")) {
-                _stateFlow.value = Digits(input = "$input×$symbol")
-            } else { _stateFlow.value = Digits(input = input + symbol) }
+            if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
+                _stateFlow.value = Digits(input = "$input×$LOG")
+            } else { _stateFlow.value = Digits(input = input + LOG) }
             inputIsAnswer = false
-        } else { _stateFlow.value = Digits(input = symbol) }
+        } else { _stateFlow.value = Digits(input = LOG) }
     }
 
     private fun addPi() {
@@ -201,6 +211,7 @@ class CalculatorViewModel : ViewModel() {
     private fun deleteInput() {
         if (!inputIsAnswer) {
             val input: String = when {
+                _stateFlow.value.input.endsWith(ROOT) -> _stateFlow.value.input.dropLast(2)
                 _stateFlow.value.input.endsWith(SIN) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(COS) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(TAN) -> _stateFlow.value.input.dropLast(4)
@@ -252,6 +263,7 @@ class CalculatorViewModel : ViewModel() {
                 .replace("IP", "I*P") // ππ -> π×π
                 .replace("I(", "I*(") // π() -> π×()
                 .replace(")P", ")*P") // ()π -> ()×π
+                .replace("√", "sqrt")
                 .replace(SIN, SINR)
                 .replace(COS, COSR)
                 .replace(TAN, TANR)

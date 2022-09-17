@@ -64,11 +64,12 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // other buttons
-            setOf(square, pi, log, buttonAc, buttonDel, decimal).forEach {
+            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, decimal).forEach {
                 val input = it?.text.toString()
                 it?.setOnClickListener {
                     val action = when (input) {
                         "^" -> CalculatorActions.Square
+                        "√" -> CalculatorActions.SquareRoot
                         "π" -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
                         "AC" -> CalculatorActions.Clear

@@ -185,7 +185,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="6sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
@@ -260,7 +260,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="6sp"
+                app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform" />
 
