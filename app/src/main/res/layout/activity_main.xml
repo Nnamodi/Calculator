@@ -13,7 +13,8 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:menu="@menu/menu_calculator"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
+        app:titleTextColor="?attr/colorOnSurface" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"

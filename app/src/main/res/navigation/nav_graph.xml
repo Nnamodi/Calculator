@@ -7,7 +7,6 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:label=""
         android:name="com.roland.android.calculator.ui.CalculatorFragment"
         tools:layout="@layout/fragment_calculator"/>
 </navigation>

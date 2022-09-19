@@ -1,7 +1,6 @@
 package com.roland.android.calculator.data
 
 sealed interface CalculatorActions {
-    data class Numbers(val number: String): CalculatorActions
     object Clear: CalculatorActions
     object Delete: CalculatorActions
     object Decimal: CalculatorActions
@@ -12,6 +11,8 @@ sealed interface CalculatorActions {
     object Log : CalculatorActions
     object Square : CalculatorActions
     object SquareRoot: CalculatorActions
+    object DegRad: CalculatorActions
+    data class Numbers(val number: String): CalculatorActions
     data class Trigonometry(val function: TrigFunctions): CalculatorActions
     data class Operators(val operator: CalculatorOperations): CalculatorActions
 }

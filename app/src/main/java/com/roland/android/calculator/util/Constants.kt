@@ -2,6 +2,8 @@ package com.roland.android.calculator.util
 
 object Constants {
     const val THEME = "theme"
+    const val DEG_RAD = "rad_deg"
+
     const val ADD = "+"
     const val MINUS = "−"
     const val DIVIDE = "÷"
@@ -17,4 +19,6 @@ object Constants {
     const val PI = "π"
     const val DOT = "."
     const val ROOT = "√("
+    const val DEG = "DEG"
+    const val RAD = "RAD"
 }

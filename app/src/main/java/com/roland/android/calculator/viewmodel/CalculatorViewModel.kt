@@ -1,8 +1,9 @@
 package com.roland.android.calculator.viewmodel
 
+import android.app.Application
 import android.util.Log
 import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
 import com.roland.android.calculator.data.Digits
@@ -10,23 +11,26 @@ import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COSR
+import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.LOG
+import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
 import com.roland.android.calculator.util.Constants.PI
+import com.roland.android.calculator.util.Constants.RAD
+import com.roland.android.calculator.util.Constants.ROOT
 import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SINR
-import com.roland.android.calculator.util.Constants.MINUS
-import com.roland.android.calculator.util.Constants.ROOT
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TANR
+import com.roland.android.calculator.util.Preference
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class CalculatorViewModel : ViewModel() {
+class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) {
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var inputIsAnswer = false
@@ -46,7 +50,15 @@ class CalculatorViewModel : ViewModel() {
             is CalculatorActions.Log -> { addLog() }
             is CalculatorActions.Square -> { addSquare() }
             is CalculatorActions.SquareRoot -> { addSquareRoot() }
+            is CalculatorActions.DegRad -> { degRad() }
         }
+    }
+
+    private fun degRad() {
+        val degRad = Preference.getDegRad(app) == RAD
+        val value = if (degRad) { DEG } else { RAD }
+        Preference.setDegRad(app, value)
+        calculateInput()
     }
 
     private fun addSquareRoot() {
@@ -198,8 +210,9 @@ class CalculatorViewModel : ViewModel() {
 
     private fun trigonometricFunction(functions: TrigFunctions) {
         val input = _stateFlow.value.input
+        val symbols = setOf(")", MOD, PI)
         if (input.isNotBlank()) {
-            if (input.endsWith(")") || input.last().isDigit() || input.endsWith(MOD)) {
+            if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
                 _stateFlow.value = Digits(input = input + "×" + functions.symbol)
             } else { _stateFlow.value = Digits(input = input + functions.symbol) }
             inputIsAnswer = false
@@ -251,7 +264,7 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateInput(equalled: Boolean = false) {
         try {
-            val input = _stateFlow.value.input.replace(Regex("[÷×−π]")) {
+            var input = _stateFlow.value.input.replace(Regex("[÷×−π]")) {
                 when (it.value) {
                     "÷" -> "/"
                     "×" -> "*"
@@ -264,12 +277,16 @@ class CalculatorViewModel : ViewModel() {
                 .replace("I(", "I*(") // π() -> π×()
                 .replace(")P", ")*P") // ()π -> ()×π
                 .replace("√", "sqrt")
-                .replace(SIN, SINR)
-                .replace(COS, COSR)
-                .replace(TAN, TANR)
+            // convert trigonometric equation to degree or radian
+            val degRad = Preference.getDegRad(app) == RAD
+            if (degRad) {
+                input = input.replace(SIN, SINR)
+                    .replace(COS, COSR)
+                    .replace(TAN, TANR)
+            }
 
             val symbols = setOf(")", "PI", DOT, MOD)
-            if (input.last().isDigit() || symbols.any { input.endsWith(it) }) {
+            if ((input.last().isDigit() && !input.isDigitsOnly()) || symbols.any { input.endsWith(it) }) {
                 val expression = Expression(input).setPrecision(12)
                 val calcResult = expression.eval(false).toString()
                 val result = if (calcResult.contains(".")) {

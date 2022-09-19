@@ -2,6 +2,7 @@ package com.roland.android.calculator.ui
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -15,6 +16,18 @@ import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
 import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.databinding.FragmentCalculatorBinding
+import com.roland.android.calculator.util.Constants.ADD
+import com.roland.android.calculator.util.Constants.COS
+import com.roland.android.calculator.util.Constants.DEG
+import com.roland.android.calculator.util.Constants.DIVIDE
+import com.roland.android.calculator.util.Constants.MINUS
+import com.roland.android.calculator.util.Constants.MOD
+import com.roland.android.calculator.util.Constants.MULTIPLY
+import com.roland.android.calculator.util.Constants.PI
+import com.roland.android.calculator.util.Constants.RAD
+import com.roland.android.calculator.util.Constants.SIN
+import com.roland.android.calculator.util.Constants.TAN
+import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
@@ -40,11 +53,11 @@ class CalculatorFragment : Fragment() {
                 val symbol = it?.text.toString()
                 it?.setOnClickListener {
                     val action = when (symbol) {
-                        "+" -> CalculatorActions.Operators(CalculatorOperations.Add)
-                        "−" -> CalculatorActions.Operators(CalculatorOperations.Subtract)
-                        "÷" -> CalculatorActions.Operators(CalculatorOperations.Divide)
-                        "×" -> CalculatorActions.Operators(CalculatorOperations.Multiply)
-                        "%" -> CalculatorActions.Operators(CalculatorOperations.Modulus)
+                        ADD -> CalculatorActions.Operators(CalculatorOperations.Add)
+                        MINUS -> CalculatorActions.Operators(CalculatorOperations.Subtract)
+                        DIVIDE -> CalculatorActions.Operators(CalculatorOperations.Divide)
+                        MULTIPLY -> CalculatorActions.Operators(CalculatorOperations.Multiply)
+                        MOD -> CalculatorActions.Operators(CalculatorOperations.Modulus)
                         "+/–" -> CalculatorActions.PlusMinus
                         else -> CalculatorActions.Bracket // "( )"
                     }
@@ -64,27 +77,23 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // other buttons
-            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, decimal).forEach {
+            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, decimal, equals).forEach {
                 val input = it?.text.toString()
                 it?.setOnClickListener {
                     val action = when (input) {
                         "^" -> CalculatorActions.Square
                         "√" -> CalculatorActions.SquareRoot
-                        "π" -> CalculatorActions.Pi
+                        PI -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
                         "AC" -> CalculatorActions.Clear
                         "Del" -> CalculatorActions.Delete
+                        "=" -> CalculatorActions.Calculate
                          else -> CalculatorActions.Decimal // "·"
                     }
                     calcViewModel.onAction(action)
                 }
             }
-
-            // calculate input
-            equals.setOnClickListener {
-                calcViewModel.onAction(CalculatorActions.Calculate)
-            }
-
+            degRad?.setOnClickListener { degRadConfig(clicked = true) }
             // expand hidden buttons
             expandButton?.setOnCheckedChangeListener { _, checked ->
                 // giving binding-layout variable a value to toggle visibility
@@ -99,11 +108,27 @@ class CalculatorFragment : Fragment() {
                     result.text = it.result
                     // giving binding-layout variable a value
                     error = it.error
+                    degRadConfig()
                 }
             }
         }
         setupMenuItem()
         return binding.root
+    }
+
+    private fun degRadConfig(clicked: Boolean = false) {
+        // perform click action
+        if (clicked) { calcViewModel.onAction(CalculatorActions.DegRad) }
+
+        val input = calcViewModel.stateFlow.value.input
+        val trigFunctions = setOf(SIN, COS, TAN)
+        val degRad = Preference.getDegRad(requireContext())
+        // giving binding-layout variable a value
+        binding.degRadValue = if (degRad == RAD) { DEG } else { RAD }
+
+        (activity as AppCompatActivity).supportActionBar?.title = if (trigFunctions.any { trig ->
+                input.contains(trig) }
+        ) { degRad } else { "" }
     }
 
     private fun setupMenuItem() {

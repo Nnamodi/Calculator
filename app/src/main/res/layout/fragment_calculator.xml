@@ -7,6 +7,7 @@
         <import type="android.view.View"/>
         <variable name="error" type="Boolean" />
         <variable name="expand" type="Boolean" />
+        <variable name="deg_rad_value" type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -181,13 +182,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:text="@string/degree"
+                android:text="@{deg_rad_value}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="?attr/colorOnSurface"
                 app:autoSizeMaxTextSize="18sp"
                 app:autoSizeMinTextSize="4sp"
                 app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                app:autoSizeTextType="uniform"
+                tools:text="@string/degree"/>
 
             <Button
                 android:id="@+id/log"
