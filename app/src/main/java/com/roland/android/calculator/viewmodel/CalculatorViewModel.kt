@@ -25,6 +25,7 @@ import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SINR
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TANR
+import com.roland.android.calculator.util.Fractionize
 import com.roland.android.calculator.util.Preference
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -286,17 +287,27 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             }
 
             val symbols = setOf(")", "PI", DOT, MOD)
-            if ((input.last().isDigit() && !input.isDigitsOnly()) || symbols.any { input.endsWith(it) }) {
+            val signum = input.filter { !it.isDigit() }
+            if ((input.last().isDigit() && !input.isDigitsOnly() && signum != ".") ||
+                symbols.any { input.endsWith(it) }) {
                 val expression = Expression(input).setPrecision(12)
                 val calcResult = expression.eval(false).toString()
-                val result = if (calcResult.contains(".")) {
+                val result = if (calcResult.contains(DOT)) {
                     calcResult.dropLastWhile { it == '0' || it == '.' }
                 } else { calcResult }
                 _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
             }
-            // if `equal button` is pressed and there's a result already, show only result
-            if (equalled && _stateFlow.value.result.isNotBlank()) {
-                _stateFlow.value = Digits(input = _stateFlow.value.result)
+            // if `equal button` is pressed and there's a result (that isn't a fraction) already, show only result
+            // if result is decimal, fractionize.
+            val result = _stateFlow.value.result
+            if (equalled && result.isNotBlank() && !result.contains("/")) {
+                // convert answer to fraction if decimal
+                if (result.contains(DOT)) {
+                    val fractionalResult = Fractionize(result).evaluate()
+                    _stateFlow.value = Digits(input = result, result = fractionalResult)
+                } else {
+                    _stateFlow.value = Digits(input = result)
+                }
                 inputIsAnswer = true
             }
             Log.d("FinalInput", "calculateInput: $input")
