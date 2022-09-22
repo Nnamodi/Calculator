@@ -1,16 +1,15 @@
 package com.roland.android.calculator.util
 
 class Fractionize(input: String) {
-    private val digit = input.toBigDecimal()
-    private val defraction = digit.toString().dropLastWhile { it != '.' }
-    private val wholeNumber = defraction.toBigDecimal()
-    private var fractionNum = digit.minus(wholeNumber).toString().filter { it.isDigit() }.drop(1)
+    private val digit = input.replace(Constants.MINUS, "-").toBigDecimal()
+    private val wholeNumber = digit.toString().dropLastWhile { it != '.' }.dropLast(1)
+    private var fractionNum = digit.minus(wholeNumber.toBigDecimal()).toString()
+        .filter { it.isDigit() }.drop(1)
     private var numerator = fractionNum.toInt()
     private var numLength = fractionNum.length
     private var denominator = 1
     private var divisor = 10
 
-    // numerator must be >= 9 digits
     private fun getDenominator(): Int {
         while (numLength > 0) {
             denominator = (denominator.toString() + "0").toInt()
@@ -31,18 +30,22 @@ class Fractionize(input: String) {
 
     fun evaluate(): String {
         numerate()
-        val wholeNumber = if (wholeNumber.toInt() > 0) { wholeNumber } else { "" }
+        val wholeNumber = when (wholeNumber) {
+            "-0" -> { "-" }; "0" -> { "" }
+            else -> "$wholeNumber "
+        }
         var fraction = ""
         if (divisor == 1) {
-            fraction = "$wholeNumber $numerator/$denominator".trimStart()
+            fraction = "$wholeNumber$numerator/$denominator".trimStart()
         }
-        return fraction
+        return fraction.replace("-", Constants.MINUS)
     }
 }
 
 fun main() {
     while (true) {
         print("> Enter any decimal digit: ")
-        println(Fractionize(readLine()!!).evaluate())
+        try { println(Fractionize(readln()).evaluate()) }
+        catch (e: Exception) { println("! Input error") }
     }
 }

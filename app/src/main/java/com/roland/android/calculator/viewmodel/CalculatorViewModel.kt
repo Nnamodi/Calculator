@@ -287,24 +287,27 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             }
 
             val symbols = setOf(")", "PI", DOT, MOD)
-            val signum = input.filter { !it.isDigit() }
-            if ((input.last().isDigit() && !input.isDigitsOnly() && signum != ".") ||
+            if ((input.last().isDigit() && !input.isDigitsOnly()) ||
                 symbols.any { input.endsWith(it) }) {
                 val expression = Expression(input).setPrecision(12)
                 val calcResult = expression.eval(false).toString()
                 val result = if (calcResult.contains(DOT)) {
                     calcResult.dropLastWhile { it == '0' || it == '.' }
                 } else { calcResult }
-                _stateFlow.value = Digits(input = _stateFlow.value.input, result = result)
+                _stateFlow.value = Digits(
+                    input = _stateFlow.value.input,
+                    result = result.replace("-", MINUS)
+                )
             }
             // if `equal button` is pressed and there's a result (that isn't a fraction) already, show only result
             // if result is decimal, fractionize.
             val result = _stateFlow.value.result
-            if (equalled && result.isNotBlank() && !result.contains("/")) {
-                // convert answer to fraction if decimal
-                if (result.contains(DOT)) {
-                    val fractionalResult = Fractionize(result).evaluate()
-                    _stateFlow.value = Digits(input = result, result = fractionalResult)
+            if (equalled && result.isNotBlank() && "/" !in result) {
+                val decimal = result.takeLastWhile { it.isDigit() }.length
+                // convert answer to fraction if decimal and if bits <= 9
+                if (result.contains(DOT) && decimal <= 5) {
+                    val fraction = Fractionize(result).evaluate()
+                    _stateFlow.value = Digits(input = result, result = fraction)
                 } else {
                     _stateFlow.value = Digits(input = result)
                 }

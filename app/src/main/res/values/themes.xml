@@ -27,12 +27,4 @@
     <style name="ActionOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="tint">@color/dark_grey</item>
     </style>
-
-    <!-- Dialog theme. -->
-    <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
-    </style>
-    <style name="DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/orange</item>
-    </style>
 </resources>
