@@ -19,12 +19,4 @@
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
         <item name="materialAlertDialogTheme">@style/DialogTheme</item>
     </style>
-
-    <!-- Dialog theme. -->
-    <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
-    </style>
-    <style name="DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/orange</item>
-    </style>
 </resources>

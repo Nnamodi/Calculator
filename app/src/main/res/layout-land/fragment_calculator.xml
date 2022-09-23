@@ -6,6 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="error" type="Boolean" />
+        <variable name="deg_rad_value" type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginBottom="22dp"
                 android:backgroundTint="@android:color/transparent"
                 android:gravity="end"
                 android:inputType="number"
@@ -37,345 +39,228 @@
                 android:singleLine="true"
                 android:text="@string/digits"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="60sp"
+                android:textSize="50sp"
+                android:visibility="@{error ? View.GONE : View.VISIBLE}"
                 tools:ignore="Autofill,LabelFor" />
-
-            <TextView
-                android:id="@+id/result"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="22dp"
-                android:lines="1"
-                android:text="@string/result"
-                android:textColor="?attr/colorTertiary"
-                android:textSize="40sp"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}"/>
 
             <TextView
                 android:id="@+id/error_text"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="22dp"
                 android:text="@string/format_error"
                 android:textColor="?attr/colorOnSecondary"
-                android:textSize="40sp"
+                android:textSize="50sp"
                 android:visibility="@{error ? View.VISIBLE : View.GONE}"
                 tools:visibility="gone" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/row_5"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/digits_field"
-            app:layout_constraintStart_toEndOf="@+id/row_4"
-            app:layout_constraintTop_toTopOf="@+id/row_4">
-
-            <Button
-                android:id="@+id/button_ac"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorOnPrimary"
-                android:text="@string/ac"
-                android:textColor="?attr/colorOnSurface"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/row_4"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toTopOf="@+id/row_3"
-            app:layout_constraintEnd_toStartOf="@+id/row_5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/digits_field">
 
             <Button
-                android:id="@+id/button_00"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/modulus"
+                style="@style/ScientificButton"
+                android:text="@string/modulus" />
+
+            <Button
+                android:id="@+id/plus_minus"
+                style="@style/ScientificButton"
+                android:text="@string/plus_minus" />
+
+            <Button
+                android:id="@+id/bracket"
+                style="@style/ScientificButton"
+                android:text="@string/bracket" />
+
+            <Button
+                android:id="@+id/pi"
+                style="@style/ScientificButton"
                 android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_00"
-                android:textColor="@color/white"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                android:text="@string/pi" />
+
+            <Button
+                android:id="@+id/button_ac"
+                style="@style/DeleteButton"
+                android:text="@string/ac" />
 
             <Button
                 android:id="@+id/button_7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_7"
-                android:textColor="@color/white"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                style="@style/NumberButton"
+                android:text="@string/_7" />
 
             <Button
                 android:id="@+id/button_8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_8"
-                android:textColor="@color/white"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                style="@style/NumberButton"
+                android:text="@string/_8" />
 
             <Button
                 android:id="@+id/button_9"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_9"
-                android:textColor="@color/white"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                style="@style/NumberButton"
+                android:text="@string/_9" />
 
             <Button
                 android:id="@+id/subtract"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/yellow"
-                android:text="@string/subtract"
-                android:textColor="@color/black"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                style="@style/OperatorButton"
+                android:layout_marginEnd="3dp"
+                android:text="@string/subtract" />
 
             <Button
                 android:id="@+id/divide"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/yellow"
-                android:text="@string/divide"
-                android:textColor="@color/black"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform" />
+                style="@style/OperatorButton"
+                android:text="@string/divide" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/row_3"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toTopOf="@+id/row_2"
-            app:layout_constraintEnd_toStartOf="@+id/row_5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_4">
 
             <Button
-                android:id="@+id/button_0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/deg_rad"
+                style="@style/ScientificButton"
+                android:text="@{deg_rad_value}"
+                tools:text="@string/degree" />
+
+            <Button
+                android:id="@+id/log"
+                style="@style/ScientificButton"
+                android:text="@string/logarithm" />
+
+            <Button
+                android:id="@+id/square_root"
+                style="@style/ScientificButton"
+                android:text="@string/square_root" />
+
+            <Button
+                android:id="@+id/square"
+                style="@style/ScientificButton"
                 android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_0"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                android:text="@string/square" />
+
+            <Button
+                android:id="@+id/button_del"
+                style="@style/DeleteButton"
+                android:text="@string/del"
+                app:autoSizeMaxTextSize="14sp" />
 
             <Button
                 android:id="@+id/button_4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_4"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_4" />
 
             <Button
                 android:id="@+id/button_5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_5"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_5" />
 
             <Button
                 android:id="@+id/button_6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_6"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_6" />
 
             <Button
                 android:id="@+id/add"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/yellow"
-                android:text="@string/add"
-                android:textColor="@color/black"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/OperatorButton"
+                android:layout_marginEnd="3dp"
+                android:text="@string/add" />
 
             <Button
                 android:id="@+id/multiply"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/yellow"
-                android:text="@string/multiply"
-                android:textColor="@color/black"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/OperatorButton"
+                android:text="@string/multiply" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/row_2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/row_5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_3">
 
             <Button
-                android:id="@+id/decimal"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:id="@+id/inv"
+                style="@style/ScientificButton"
+                android:text="@string/inverse" />
+
+            <Button
+                android:id="@+id/sin"
+                style="@style/ScientificButton"
+                android:text="@string/sine" />
+
+            <Button
+                android:id="@+id/cos"
+                style="@style/ScientificButton"
+                android:text="@string/cosine" />
+
+            <Button
+                android:id="@+id/tan"
+                style="@style/ScientificButton"
                 android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/decimal"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                android:text="@string/tangent" />
+
+            <Button
+                android:id="@+id/button_0"
+                style="@style/NumberButton"
+                android:text="@string/_0" />
 
             <Button
                 android:id="@+id/button_1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_1"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_1" />
 
             <Button
                 android:id="@+id/button_2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_2"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_2" />
 
             <Button
                 android:id="@+id/button_3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorSecondaryVariant"
-                android:text="@string/_3"
-                android:textColor="@color/white"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                style="@style/NumberButton"
+                android:text="@string/_3" />
 
             <Button
-                android:id="@+id/button_del"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="?attr/colorOnPrimary"
-                android:text="@string/del"
-                android:textAllCaps="false"
-                android:textColor="?attr/colorOnSurface"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
-                app:autoSizeStepGranularity="2sp" />
+                android:id="@+id/decimal"
+                style="@style/NumberButton"
+                android:text="@string/decimal"
+                app:autoSizeMaxTextSize="60sp"
+                app:autoSizeMinTextSize="22sp" />
 
             <Button
                 android:id="@+id/equals"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/orange"
                 android:text="@string/equals"
                 android:textColor="@color/black"
-                app:autoSizeTextType="uniform"
                 app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="2sp"
+                app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
                 tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

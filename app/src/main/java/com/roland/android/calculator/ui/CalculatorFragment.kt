@@ -45,13 +45,13 @@ class CalculatorFragment : Fragment() {
             // enter digits
             setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
                 .forEach {
-                val digit = it.text.toString()
-                it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
+                val digit = it?.text.toString()
+                it?.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
             setOf(add, subtract, divide, multiply, modulus, plusMinus, bracket).forEach {
-                val symbol = it?.text.toString()
-                it?.setOnClickListener {
+                val symbol = it.text.toString()
+                it.setOnClickListener {
                     val action = when (symbol) {
                         ADD -> CalculatorActions.Operators(CalculatorOperations.Add)
                         MINUS -> CalculatorActions.Operators(CalculatorOperations.Subtract)
@@ -66,8 +66,8 @@ class CalculatorFragment : Fragment() {
             }
             // trigonometric input
             setOf(sin, cos, tan).forEach {
-                val function = it?.text.toString()
-                it?.setOnClickListener {
+                val function = it.text.toString()
+                it.setOnClickListener {
                     val trigFunction = when (function) {
                         "sin" -> TrigFunctions.Sine
                         "cos" -> TrigFunctions.Cosine
@@ -78,8 +78,8 @@ class CalculatorFragment : Fragment() {
             }
             // other buttons
             setOf(square, squareRoot, pi, log, buttonAc, buttonDel, decimal, equals).forEach {
-                val input = it?.text.toString()
-                it?.setOnClickListener {
+                val input = it.text.toString()
+                it.setOnClickListener {
                     val action = when (input) {
                         "^" -> CalculatorActions.Square
                         "√" -> CalculatorActions.SquareRoot
@@ -88,12 +88,12 @@ class CalculatorFragment : Fragment() {
                         "AC" -> CalculatorActions.Clear
                         "Del" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate
-                         else -> CalculatorActions.Decimal // "·"
+                        else -> CalculatorActions.Decimal // "·"
                     }
                     calcViewModel.onAction(action)
                 }
             }
-            degRad?.setOnClickListener { degRadConfig(clicked = true) }
+            degRad.setOnClickListener { degRadConfig(clicked = true) }
             // expand hidden buttons
             expandButton?.setOnCheckedChangeListener { _, checked ->
                 // giving binding-layout variable a value to toggle visibility
@@ -105,7 +105,7 @@ class CalculatorFragment : Fragment() {
                 binding.apply {
                     input.setText(it.input)
                     input.setSelection(it.input.length)
-                    result.text = it.result
+                    result?.text = it.result
                     // giving binding-layout variable a value
                     error = it.error
                     degRadConfig()

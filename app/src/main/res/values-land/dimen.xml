@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="marginEnd">6dp</dimen>
+    <dimen name="marginEnd">3dp</dimen>
     <!-- Number button -->
-    <dimen name="maxNumTextSize">30dp</dimen>
-    <dimen name="minNumTextSize">12dp</dimen>
+    <dimen name="maxNumTextSize">22dp</dimen>
+    <dimen name="minNumTextSize">10dp</dimen>
     <!-- Operator button -->
-    <dimen name="maxOperatorTextSize">28dp</dimen>
+    <dimen name="maxOperatorTextSize">22dp</dimen>
     <dimen name="minOperatorTextSize">12dp</dimen>
     <!-- Delete button -->
     <dimen name="maxDelTextSize">24dp</dimen>
-    <dimen name="minDelTextSize">8dp</dimen>
+    <dimen name="minDelTextSize">6dp</dimen>
 </resources>
