@@ -29,7 +29,6 @@
     <string name="bracket">( )</string>
     <string name="format_error">Format Error</string>
     <string name="degree">DEG</string>
-    <string name="radian">RAD</string>
     <string name="logarithm">log</string>
     <string name="tangent">tan</string>
     <string name="cosine">cos</string>

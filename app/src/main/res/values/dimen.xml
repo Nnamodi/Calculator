@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="marginEnd">6dp</dimen>
+    <!-- Scientific button -->
+    <dimen name="maxSciTextSize">24dp</dimen>
+    <dimen name="minSciTextSize">10dp</dimen>
     <!-- Number button -->
     <dimen name="maxNumTextSize">30dp</dimen>
     <dimen name="minNumTextSize">12dp</dimen>

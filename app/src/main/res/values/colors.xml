@@ -4,7 +4,12 @@
     <color name="light_purple">#E8DEF8</color>
     <color name="light_grey">#E7E0EC</color>
     <color name="grey">#79747E</color>
+    <color name="blue_grey">#B0BEC5</color>
+    <color name="bluer_grey">#263238</color>
+    <color name="dark_blue">#332D41</color>
+    <color name="darker_blue">#1E192B</color>
     <color name="dark_grey">#49454F</color>
+    <color name="darker_grey">#212121</color>
     <color name="black">#1C1B1F</color>
     <color name="light_orange">#F9DEDC</color>
     <color name="fair_orange">#F2B8B5</color>

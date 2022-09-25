@@ -7,8 +7,8 @@
         <item name="android:layout_weight">1</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="autoSizeMaxTextSize">18sp</item>
-        <item name="autoSizeMinTextSize">8sp</item>
+        <item name="autoSizeMaxTextSize">@dimen/maxSciTextSize</item>
+        <item name="autoSizeMinTextSize">@dimen/minSciTextSize</item>
         <item name="autoSizeStepGranularity">2sp</item>
         <item name="autoSizeTextType">uniform</item>
     </style>
@@ -21,7 +21,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">?attr/colorSecondaryVariant</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="autoSizeMaxTextSize">@dimen/maxNumTextSize</item>
         <item name="autoSizeMinTextSize">@dimen/minNumTextSize</item>
         <item name="autoSizeStepGranularity">2sp</item>
@@ -48,12 +48,12 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginEnd">@dimen/marginEnd</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:backgroundTint">?attr/colorOnPrimary</item>
+        <item name="android:backgroundTint">?attr/colorOnSecondaryContainer</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="autoSizeMaxTextSize">@dimen/maxDelTextSize</item>
         <item name="autoSizeMinTextSize">@dimen/minDelTextSize</item>
-        <item name="autoSizeStepGranularity">2sp</item>
+        <item name="autoSizeStepGranularity">4sp</item>
         <item name="autoSizeTextType">uniform</item>
     </style>
 

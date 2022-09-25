@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="marginEnd">3dp</dimen>
+    <!-- Scientific button -->
+    <dimen name="maxSciTextSize">18dp</dimen>
+    <dimen name="minSciTextSize">8dp</dimen>
     <!-- Number button -->
     <dimen name="maxNumTextSize">22dp</dimen>
     <dimen name="minNumTextSize">10dp</dimen>
@@ -8,6 +11,6 @@
     <dimen name="maxOperatorTextSize">22dp</dimen>
     <dimen name="minOperatorTextSize">12dp</dimen>
     <!-- Delete button -->
-    <dimen name="maxDelTextSize">24dp</dimen>
+    <dimen name="maxDelTextSize">20dp</dimen>
     <dimen name="minDelTextSize">6dp</dimen>
 </resources>
