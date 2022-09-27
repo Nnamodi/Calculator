@@ -8,13 +8,13 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="?attr/colorOnPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:menu="@menu/menu_calculator"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:titleTextColor="?attr/colorOnSurface" />
+        app:titleTextColor="?attr/colorTertiary" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"

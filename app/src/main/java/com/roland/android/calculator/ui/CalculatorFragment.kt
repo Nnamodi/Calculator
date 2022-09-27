@@ -49,7 +49,7 @@ class CalculatorFragment : Fragment() {
                 it?.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
-            setOf(add, subtract, divide, multiply, modulus, plusMinus, bracket).forEach {
+            setOf(add, subtract, divide, multiply, modulus, bracket).forEach {
                 val symbol = it.text.toString()
                 it.setOnClickListener {
                     val action = when (symbol) {
@@ -58,7 +58,6 @@ class CalculatorFragment : Fragment() {
                         DIVIDE -> CalculatorActions.Operators(CalculatorOperations.Divide)
                         MULTIPLY -> CalculatorActions.Operators(CalculatorOperations.Multiply)
                         MOD -> CalculatorActions.Operators(CalculatorOperations.Modulus)
-                        "+/–" -> CalculatorActions.PlusMinus
                         else -> CalculatorActions.Bracket // "( )"
                     }
                     calcViewModel.onAction(action)

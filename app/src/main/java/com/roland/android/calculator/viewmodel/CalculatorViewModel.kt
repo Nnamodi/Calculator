@@ -45,7 +45,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.Operators -> { enterOperation(action.operator) }
             is CalculatorActions.Calculate -> { calculateInput(true) }
             is CalculatorActions.Bracket -> { addBracket() }
-            is CalculatorActions.PlusMinus -> { addPlusMinus() }
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addPi() }
             is CalculatorActions.Log -> { addLog() }
@@ -102,31 +101,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
         calculateInput()
     }
 
-    private fun addPlusMinus() {
-        val input = _stateFlow.value.input
-        val digitIsNegative = when {
-            _stateFlow.value.input.endsWith("+−") -> { true }
-            _stateFlow.value.input.endsWith("%−") -> { true }
-            _stateFlow.value.input.endsWith("×−") -> { true }
-            _stateFlow.value.input.endsWith("÷−") -> { true }
-            _stateFlow.value.input.endsWith("−−") -> { true }
-            _stateFlow.value.input.endsWith("(−") -> { true }
-            _stateFlow.value.input == "−" -> { true }
-            else -> { false }
-        }
-        if (input.isNotBlank() && input.last() != '.') {
-            if (!input.last().isDigit() && !digitIsNegative) { _stateFlow.value = Digits(input = "$input−") }
-        } else { _stateFlow.value = Digits(input = "−") }
-        if (digitIsNegative) {
-            _stateFlow.value = Digits(input = _stateFlow.value.input.dropLast(1))
-        }
-        if (_stateFlow.value.input.isNotBlank()) {
-            if (_stateFlow.value.input.last() == '%') {
-                calculateInput()
-            }
-        }
-    }
-
     private fun addBracket() {
         val input = _stateFlow.value.input
         val normalOperators = listOf(DIVIDE, MULTIPLY, ADD, MINUS)
@@ -180,33 +154,66 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 input.endsWith("×−") -> true
                 input.endsWith("+−") -> true
                 input.endsWith("−−") -> true
+                input.endsWith("(−") -> true
                 input.endsWith(DOT) -> true
+                input == MINUS -> true
                 else -> false
             }
             val lastDigit = input.last()
-            if (!lastDigit.isDigit()) {
-                if (!lastDigit.isDigit() && input != MINUS && !input.endsWith("(−") && !lastTwoAreSymbols) {
-                    // if lastDigit is an operator and end with neither `(` nor `)` nor `π`
-                        // and operator entered isn't `%`, replace lase operator.
-                    if (lastDigit != '(' && operator.symbol != MOD && lastDigit != 'π') {
-                        if (lastDigit != ')') { _stateFlow.value = Digits(input = input.dropLast(1)) }
-                        _stateFlow.value = Digits(input = _stateFlow.value.input + operator.symbol)
+            if (operator.symbol != MINUS && operator.symbol != MOD) {
+                if (!lastDigit.isDigit()) {
+                    if (!lastTwoAreSymbols) {
+                        // if lastDigit is an operator and end with neither `(` nor `)` nor `π`
+                        // and operator entered isn't `%`, replace last operator.
+                        val signum = setOf('π', ')')
+                        if (signum.any { lastDigit != it } && lastDigit != '(') {
+                            _stateFlow.value =
+                                Digits(input = input.dropLast(1) + operator.symbol)
+                        }
+                        if (signum.any { lastDigit == it }) {
+                            _stateFlow.value = Digits(input = input + operator.symbol)
+                        }
                     }
-                    if (lastDigit == 'π') { _stateFlow.value = Digits(input = input + operator.symbol) }
-                }
-            } else {
-                // if lastDigit isn't `(` and operator entered isn't `%`, add operator to input
-                if (lastDigit != '(' && operator.symbol != MOD) {
-                    _stateFlow.value = Digits(input = input + operator.symbol)
+                } else {
+                    // if lastDigit isn't `(` and operator entered isn't `%`, add operator to input
+                    if (lastDigit != '(') {
+                        _stateFlow.value = Digits(input = input + operator.symbol)
+                    }
                 }
             }
-            if (operator.symbol == MOD && lastDigit.isDigit() || lastDigit == '%' || lastDigit == ')') {
+            val signum = setOf('%', ')')
+            if (operator.symbol == MOD && (lastDigit.isDigit() || signum.any { lastDigit == it })) {
                 _stateFlow.value = Digits(input = input + operator.symbol); calculateInput()
             }
         }
-        // if input contains digits and operator is `%`, calculate input
-        if (_stateFlow.value.input.all { !it.isDigit() } && operator.symbol == MOD) { calculateInput() }
+        if (operator.symbol == MINUS) { addMinus() }
         inputIsAnswer = false
+    }
+
+    private fun addMinus() {
+        val input = _stateFlow.value.input
+        val digitIsNegative = when {
+            input.endsWith("+−") -> { true }
+            input.endsWith("×−") -> { true }
+            input.endsWith("÷−") -> { true }
+            input.endsWith("−−") -> { true }
+            input.endsWith("(−") -> { true }
+            input.endsWith("^−") -> { true }
+            input == MINUS -> { true }
+            else -> { false }
+        }
+        if (input.isNotBlank()) {
+            if (!digitIsNegative && !input.endsWith(".")
+            ) { _stateFlow.value = Digits(input = "$input−") }
+        } else { _stateFlow.value = Digits(input = "−") }
+        if (digitIsNegative) {
+            _stateFlow.value = Digits(input = input.dropLast(1))
+        }
+        if (_stateFlow.value.input.isNotBlank()) {
+            if (_stateFlow.value.input.last() == '%') {
+                calculateInput()
+            }
+        }
     }
 
     private fun trigonometricFunction(functions: TrigFunctions) {
