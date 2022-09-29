@@ -21,4 +21,5 @@ object Constants {
     const val ROOT = "√("
     const val DEG = "DEG"
     const val RAD = "RAD"
+    const val EULER = "e"
 }

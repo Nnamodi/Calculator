@@ -17,7 +17,7 @@
     <style name="NumberButton" parent="">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginEnd">@dimen/marginEnd</item>
+        <item name="android:layout_marginEnd">@dimen/buttonMarginEnd</item>
         <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">?attr/colorSecondaryVariant</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
@@ -46,7 +46,7 @@
     <style name="DeleteButton" parent="">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginEnd">@dimen/marginEnd</item>
+        <item name="android:layout_marginEnd">@dimen/buttonMarginEnd</item>
         <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">?attr/colorOnSecondaryContainer</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>

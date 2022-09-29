@@ -20,6 +20,7 @@ import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
+import com.roland.android.calculator.util.Constants.EULER
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
@@ -49,7 +50,7 @@ class CalculatorFragment : Fragment() {
                 it?.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
-            setOf(add, subtract, divide, multiply, modulus, bracket).forEach {
+            setOf(add, subtract, divide, multiply, modulus, euler, bracket).forEach {
                 val symbol = it.text.toString()
                 it.setOnClickListener {
                     val action = when (symbol) {
@@ -58,6 +59,7 @@ class CalculatorFragment : Fragment() {
                         DIVIDE -> CalculatorActions.Operators(CalculatorOperations.Divide)
                         MULTIPLY -> CalculatorActions.Operators(CalculatorOperations.Multiply)
                         MOD -> CalculatorActions.Operators(CalculatorOperations.Modulus)
+                        EULER -> CalculatorActions.Euler
                         else -> CalculatorActions.Bracket // "( )"
                     }
                     calcViewModel.onAction(action)

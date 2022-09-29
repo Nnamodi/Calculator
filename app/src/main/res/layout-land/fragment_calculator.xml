@@ -60,11 +60,11 @@
 
         <LinearLayout
             android:id="@+id/row_4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/margin"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/margin"
             app:layout_constraintBottom_toTopOf="@+id/row_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,9 +76,9 @@
                 android:text="@string/modulus" />
 
             <Button
-                android:id="@+id/plus_minus"
+                android:id="@+id/euler"
                 style="@style/ScientificButton"
-                android:text="@string/plus_minus" />
+                android:text="@string/euler" />
 
             <Button
                 android:id="@+id/bracket"
@@ -88,7 +88,7 @@
             <Button
                 android:id="@+id/pi"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/pi" />
 
             <Button
@@ -125,10 +125,10 @@
 
         <LinearLayout
             android:id="@+id/row_3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             app:layout_constraintBottom_toTopOf="@+id/row_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -153,7 +153,7 @@
             <Button
                 android:id="@+id/square"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/square" />
 
             <Button
@@ -190,10 +190,10 @@
 
         <LinearLayout
             android:id="@+id/row_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +218,7 @@
             <Button
                 android:id="@+id/tan"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/tangent" />
 
             <Button

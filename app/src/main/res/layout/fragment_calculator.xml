@@ -78,9 +78,9 @@
             android:id="@+id/row_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/margin"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/margin"
             android:weightSum="4.45"
             app:layout_constraintBottom_toTopOf="@id/hidden_row_2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -93,9 +93,9 @@
                 android:text="@string/modulus" />
 
             <Button
-                android:id="@+id/plus_minus"
+                android:id="@+id/euler"
                 style="@style/ScientificButton"
-                android:text="@string/plus_minus" />
+                android:text="@string/euler" />
 
             <Button
                 android:id="@+id/bracket"
@@ -105,7 +105,7 @@
             <Button
                 android:id="@+id/pi"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="3dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/pi" />
 
             <com.google.android.material.chip.Chip
@@ -127,8 +127,8 @@
             android:id="@+id/hidden_row_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:visibility="@{expand ? View.VISIBLE : View.GONE}"
             android:weightSum="4.45"
             app:layout_constraintBottom_toTopOf="@id/hidden_row_1"
@@ -155,7 +155,7 @@
             <Button
                 android:id="@+id/square"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="3dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/square" />
         </LinearLayout>
 
@@ -163,8 +163,8 @@
             android:id="@+id/hidden_row_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:visibility="@{expand ? View.VISIBLE : View.GONE}"
             android:weightSum="4.45"
             app:layout_constraintBottom_toTopOf="@id/row_5"
@@ -191,7 +191,7 @@
             <Button
                 android:id="@+id/tan"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="3dp"
+                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/tangent" />
         </LinearLayout>
 
@@ -199,9 +199,9 @@
             android:id="@+id/row_5"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/margin"
             android:layout_marginTop="3dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/margin"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -230,8 +230,8 @@
             android:id="@+id/row_4"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -263,8 +263,8 @@
             android:id="@+id/row_3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -296,8 +296,8 @@
             android:id="@+id/row_2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
             android:weightSum="4"
             app:layout_constraintBottom_toTopOf="@+id/row_1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -329,9 +329,9 @@
             android:id="@+id/row_1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
             android:weightSum="4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

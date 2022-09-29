@@ -25,7 +25,7 @@
     <string name="dialog_close">Close</string>
     <string name="dialog_title">Theme</string>
     <string name="modulus">%</string>
-    <string name="plus_minus">+/–</string>
+    <string name="euler">e</string>
     <string name="bracket">( )</string>
     <string name="format_error">Format Error</string>
     <string name="degree">DEG</string>
