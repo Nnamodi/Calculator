@@ -277,10 +277,10 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             if (degRad) { input = regexR(input) }
 
             val symbols = setOf(")", "PI", DOT, MOD, EULER)
-            if ((input.last().isDigit() && !input.isDigitsOnly()) ||
-                symbols.any { input.endsWith(it) }) {
+            if (input.isNotBlank() && ((input.last().isDigit() && !input.isDigitsOnly()) ||
+                symbols.any { input.endsWith(it) })) {
                 val expression = Expression(input).setPrecision(12)
-                val calcResult = expression.eval(false).toString()
+                val calcResult = expression.eval(false).toPlainString()
                 val result = if (calcResult.contains(DOT)) {
                     calcResult.dropLastWhile { it == '0' || it == '.' }
                 } else { calcResult }

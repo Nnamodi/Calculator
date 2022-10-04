@@ -21,6 +21,7 @@ import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
@@ -32,14 +33,26 @@ import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
 class CalculatorFragment : Fragment() {
     private val calcViewModel: CalculatorViewModel by viewModels()
     private lateinit var binding: FragmentCalculatorBinding
+    private val _inverse = MutableStateFlow(false)
+    private val inverse = _inverse.asStateFlow()
+    private lateinit var squared: String
+    private lateinit var sinInverse: CharSequence
+    private lateinit var cosInverse: String
+    private lateinit var tanInverse: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
+        squared = getString(R.string.squared)
+        sinInverse = getString(R.string.arc_sine)
+        cosInverse = getString(R.string.arc_cosine)
+        tanInverse = getString(R.string.arc_tangent)
         binding.apply {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
@@ -78,7 +91,7 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // other buttons
-            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, decimal, equals).forEach {
+            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, equals, decimal).forEach {
                 val input = it.text.toString()
                 it.setOnClickListener {
                     val action = when (input) {
@@ -95,8 +108,10 @@ class CalculatorFragment : Fragment() {
                 }
             }
             degRad.setOnClickListener { degRadConfig(clicked = true) }
+            inv.setOnClickListener { _inverse.value = !inverse.value }
             // expand hidden buttons
             expandButton?.setOnCheckedChangeListener { _, checked ->
+                _inverse.value = false
                 // giving binding-layout variable a value to toggle visibility
                 expand = checked
             }
@@ -110,6 +125,25 @@ class CalculatorFragment : Fragment() {
                     // giving binding-layout variable a value
                     error = it.error
                     degRadConfig()
+                }
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            inverse.collectLatest {
+                binding.apply {
+                    if (it) {
+                        log.text = INV_LOG
+                        sin.text = sinInverse
+                        cos.text = cosInverse
+                        tan.text = tanInverse
+                        squareRoot.text = squared
+                    } else {
+                        sin.text = getString(R.string.sine)
+                        cos.text = getString(R.string.cosine)
+                        tan.text = getString(R.string.tangent)
+                        log.text = getString(R.string.logarithm)
+                        squareRoot.text = getString(R.string.square_root)
+                    }
                 }
             }
         }

@@ -16,6 +16,7 @@ object Constants {
     const val COSR = "cosr("
     const val TANR = "tanr("
     const val LOG = "log("
+    const val INV_LOG = "10^"
     const val PI = "π"
     const val DOT = "."
     const val ROOT = "√("
