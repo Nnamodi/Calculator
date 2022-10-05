@@ -9,7 +9,9 @@ sealed interface CalculatorActions {
     object Bracket: CalculatorActions
     object Pi : CalculatorActions
     object Log : CalculatorActions
+    object LogInv : CalculatorActions
     object Square : CalculatorActions
+    object SquareInv : CalculatorActions
     object SquareRoot: CalculatorActions
     object DegRad: CalculatorActions
     data class Numbers(val number: String): CalculatorActions

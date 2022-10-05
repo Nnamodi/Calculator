@@ -18,17 +18,23 @@ import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.databinding.FragmentCalculatorBinding
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
+import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
 import com.roland.android.calculator.util.Constants.INV_LOG
+import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
+import com.roland.android.calculator.util.Constants.ROOT
 import com.roland.android.calculator.util.Constants.SIN
+import com.roland.android.calculator.util.Constants.SIN_INV
+import com.roland.android.calculator.util.Constants.SQUARE
 import com.roland.android.calculator.util.Constants.TAN
+import com.roland.android.calculator.util.Constants.TAN_INV
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
@@ -79,13 +85,15 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // trigonometric input
-            setOf(sin, cos, tan).forEach {
-                val function = it.text.toString()
-                it.setOnClickListener {
-                    val trigFunction = when (function) {
+            setOf(sin, cos, tan).forEach { button ->
+                button.setOnClickListener {
+                    val trigFunction = when (button.text) {
                         "sin" -> TrigFunctions.Sine
                         "cos" -> TrigFunctions.Cosine
-                        else -> TrigFunctions.Tangent // "tan"
+                        "tan" -> TrigFunctions.Tangent
+                        sinInverse -> TrigFunctions.ASine
+                        cosInverse -> TrigFunctions.ACosine
+                        else -> TrigFunctions.ATangent // "tanInverse"
                     }
                     calcViewModel.onAction(CalculatorActions.Trigonometry(trigFunction))
                 }
@@ -96,9 +104,11 @@ class CalculatorFragment : Fragment() {
                 it.setOnClickListener {
                     val action = when (input) {
                         "^" -> CalculatorActions.Square
+                        "x²" -> CalculatorActions.SquareInv
                         "√" -> CalculatorActions.SquareRoot
                         PI -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
+                        INV_LOG -> CalculatorActions.LogInv
                         "AC" -> CalculatorActions.Clear
                         "Del" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate
@@ -156,7 +166,7 @@ class CalculatorFragment : Fragment() {
         if (clicked) { calcViewModel.onAction(CalculatorActions.DegRad) }
 
         val input = calcViewModel.stateFlow.value.input
-        val trigFunctions = setOf(SIN, COS, TAN)
+        val trigFunctions = setOf(SIN, COS, TAN, SIN_INV, COS_INV, TAN_INV)
         val degRad = Preference.getDegRad(requireContext())
         // giving binding-layout variable a value
         binding.degRadValue = if (degRad == RAD) { DEG } else { RAD }

@@ -10,10 +10,12 @@ import com.roland.android.calculator.data.Digits
 import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
+import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
@@ -22,7 +24,11 @@ import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
 import com.roland.android.calculator.util.Constants.SIN
+import com.roland.android.calculator.util.Constants.SIN_INV
+import com.roland.android.calculator.util.Constants.SQUARE
+import com.roland.android.calculator.util.Constants.SQUARED
 import com.roland.android.calculator.util.Constants.TAN
+import com.roland.android.calculator.util.Constants.TAN_INV
 import com.roland.android.calculator.util.Fractionize
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Regex.regex
@@ -49,7 +55,9 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addSymbol(PI) }
             is CalculatorActions.Log -> { addLog() }
+            is CalculatorActions.LogInv -> { addLog(INV_LOG) }
             is CalculatorActions.Square -> { addSquare() }
+            is CalculatorActions.SquareInv -> { addSquare(SQUARED) }
             is CalculatorActions.SquareRoot -> { addSquareRoot() }
             is CalculatorActions.DegRad -> { degRad() }
         }
@@ -64,32 +72,33 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
 
     private fun addSquareRoot() {
         val input = _stateFlow.value.input
-        val symbols = setOf(DIVIDE, MULTIPLY, MINUS, ADD, "(")
+        val symbols = setOf(DIVIDE, MULTIPLY, MINUS, ADD, SQUARE, "(")
         if (symbols.any { input.endsWith(it) } || input.isBlank()) { _stateFlow.value = Digits(input = input + ROOT) }
         else { _stateFlow.value = Digits(input = "$input×$ROOT"); inputIsAnswer = false }
     }
 
-    private fun addSquare() {
+    private fun addSquare(square: String = SQUARE) {
         val input = _stateFlow.value.input
-        val symbols = setOf(')', 'π', '%', 'e')
-        val addSquare = { _stateFlow.value = Digits(input = "$input^"); inputIsAnswer = false }
+        val symbols = setOf(')', 'π', '%', 'e', '²')
+        val addSquare = { _stateFlow.value = Digits(input = "$input$square"); inputIsAnswer = false }
         if (input.isNotBlank()) {
             when {
                 input.last().isDigit() -> { addSquare() }
                 symbols.any { input.last() == it } -> { addSquare() }
             }
         }
+        if (square == SQUARED) { calculateInput() }
     }
 
-    private fun addLog() {
+    private fun addLog(log: String = LOG) {
         val input = _stateFlow.value.input
         val symbols = setOf(")", MOD, PI)
         if (input.isNotBlank()) {
             if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
-                _stateFlow.value = Digits(input = "$input×$LOG")
-            } else { _stateFlow.value = Digits(input = input + LOG) }
+                _stateFlow.value = Digits(input = "$input×$log")
+            } else { _stateFlow.value = Digits(input = input + log) }
             inputIsAnswer = false
-        } else { _stateFlow.value = Digits(input = LOG) }
+        } else { _stateFlow.value = Digits(input = log) }
     }
 
     private fun addSymbol(symbol: String) {
@@ -104,7 +113,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
 
     private fun addBracket() {
         val input = _stateFlow.value.input
-        val normalOperators = listOf(DIVIDE, MULTIPLY, ADD, MINUS)
+        val normalOperators = listOf(DIVIDE, MULTIPLY, ADD, MINUS, SQUARE)
         val openBrackets: Int = input.count { it == '(' }
         val closeBrackets: Int = input.count { it == ')' }
         // bracket to add, conditionally
@@ -131,7 +140,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
     private fun enterNumber(digit: String) {
         if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
         else {
-            val symbols = setOf(')', '%', 'π', 'e')
+            val symbols = setOf(')', '%', 'π', 'e', '²')
             if (symbols.any { _stateFlow.value.input.endsWith(it) }) {
                 _stateFlow.value = Digits(input = _stateFlow.value.input + "×" + digit)
             }
@@ -161,7 +170,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 else -> false
             }
             val lastDigit = input.last()
-            val signum = setOf('π', ')', 'e', '%')
+            val signum = setOf('π', ')', 'e', '%', '²')
             if (operator.symbol != MINUS && operator.symbol != MOD) {
                 if (!lastDigit.isDigit()) {
                     if (!lastTwoAreSymbols) {
@@ -217,7 +226,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
 
     private fun trigonometricFunction(functions: TrigFunctions) {
         val input = _stateFlow.value.input
-        val symbols = setOf(")", MOD, PI)
+        val symbols = setOf(")", MOD, PI, EULER, SQUARED)
         if (input.isNotBlank()) {
             if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
                 _stateFlow.value = Digits(input = input + "×" + functions.symbol)
@@ -236,6 +245,9 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 _stateFlow.value.input.endsWith(COS) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(TAN) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(LOG) -> _stateFlow.value.input.dropLast(4)
+                _stateFlow.value.input.endsWith(SIN_INV) -> _stateFlow.value.input.dropLast(6)
+                _stateFlow.value.input.endsWith(COS_INV) -> _stateFlow.value.input.dropLast(6)
+                _stateFlow.value.input.endsWith(TAN_INV) -> _stateFlow.value.input.dropLast(6)
                 else -> _stateFlow.value.input.dropLast(1)
             }
             _stateFlow.value = Digits(input = input)
@@ -276,7 +288,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             val degRad = Preference.getDegRad(app) == RAD
             if (degRad) { input = regexR(input) }
 
-            val symbols = setOf(")", "PI", DOT, MOD, EULER)
+            val symbols = setOf(")", "PI", DOT, MOD, EULER, SQUARED)
             if (input.isNotBlank() && ((input.last().isDigit() && !input.isDigitsOnly()) ||
                 symbols.any { input.endsWith(it) })) {
                 val expression = Expression(input).setPrecision(12)

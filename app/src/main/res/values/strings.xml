@@ -33,11 +33,12 @@
     <string name="tangent">tan</string>
     <string name="cosine">cos</string>
     <string name="sine">sin</string>
-    <string name="arc_sine">sin<sup>-1</sup></string>
-    <string name="arc_cosine">cos<sup>-1</sup></string>
-    <string name="arc_tangent">tan<sup>-1</sup></string>
+    <string name="arc_sine">sin⁻¹</string>
+    <string name="arc_cosine">cos⁻¹</string>
+    <string name="arc_tangent">tan⁻¹</string>
     <string name="pi">π</string>
     <string name="square">^</string>
+    <string name="squared">x²</string>
     <string name="square_root">√</string>
     <string name="squared">x²</string>
     <string name="inverse">INV</string>
