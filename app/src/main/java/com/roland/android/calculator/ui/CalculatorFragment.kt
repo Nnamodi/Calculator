@@ -49,16 +49,20 @@ class CalculatorFragment : Fragment() {
     private val _inverse = MutableStateFlow(false)
     private val inverse = _inverse.asStateFlow()
     private lateinit var squared: String
-    private lateinit var sinInverse: CharSequence
+//    private lateinit var cubeRoot: String
+    private lateinit var sinInverse: String
     private lateinit var cosInverse: String
     private lateinit var tanInverse: String
+    private lateinit var eulerInverse: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
         squared = getString(R.string.squared)
+//        cubeRoot = getString(R.string.cube_root)
         sinInverse = getString(R.string.arc_sine)
         cosInverse = getString(R.string.arc_cosine)
         tanInverse = getString(R.string.arc_tangent)
+        eulerInverse = getString(R.string.euler_inv)
         binding.apply {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
@@ -146,13 +150,17 @@ class CalculatorFragment : Fragment() {
                         sin.text = sinInverse
                         cos.text = cosInverse
                         tan.text = tanInverse
+//                        square.text = cubeRoot
                         squareRoot.text = squared
+                        naturalLog.text = eulerInverse
                     } else {
                         sin.text = getString(R.string.sine)
                         cos.text = getString(R.string.cosine)
                         tan.text = getString(R.string.tangent)
                         log.text = getString(R.string.logarithm)
+//                        square.text = getString(R.string.square)
                         squareRoot.text = getString(R.string.square_root)
+                        naturalLog.text = getString(R.string.natural_log)
                     }
                 }
             }

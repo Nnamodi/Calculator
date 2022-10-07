@@ -26,10 +26,12 @@
     <string name="dialog_title">Theme</string>
     <string name="modulus">%</string>
     <string name="euler">e</string>
+    <string name="euler_inv">e^</string>
     <string name="bracket">( )</string>
     <string name="format_error">Format Error</string>
     <string name="degree">DEG</string>
     <string name="logarithm">log</string>
+    <string name="natural_log">ln</string>
     <string name="tangent">tan</string>
     <string name="cosine">cos</string>
     <string name="sine">sin</string>
@@ -40,8 +42,9 @@
     <string name="square">^</string>
     <string name="squared">x²</string>
     <string name="square_root">√</string>
-    <string name="squared">x²</string>
+    <string name="cube_root">³√</string>
     <string name="inverse">INV</string>
+    <string name="factorial">!</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>
