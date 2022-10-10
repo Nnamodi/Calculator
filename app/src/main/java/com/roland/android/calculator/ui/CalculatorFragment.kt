@@ -69,14 +69,13 @@ class CalculatorFragment : Fragment() {
             // enter digits
             setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
                 .forEach {
-                val digit = it?.text.toString()
-                it?.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
+                val digit = it.text.toString()
+                it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
-            setOf(add, subtract, divide, multiply, modulus, euler, bracket).forEach {
-                val symbol = it.text.toString()
-                it.setOnClickListener {
-                    val action = when (symbol) {
+            setOf(add, subtract, divide, multiply, modulus, euler, bracket).forEach { button ->
+                button.setOnClickListener {
+                    val action = when (button.text) {
                         ADD -> CalculatorActions.Operators(CalculatorOperations.Add)
                         MINUS -> CalculatorActions.Operators(CalculatorOperations.Subtract)
                         DIVIDE -> CalculatorActions.Operators(CalculatorOperations.Divide)
@@ -103,18 +102,17 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // other buttons
-            setOf(square, squareRoot, pi, log, buttonAc, buttonDel, equals, decimal).forEach {
-                val input = it.text.toString()
-                it.setOnClickListener {
-                    val action = when (input) {
-                        "^" -> CalculatorActions.Square
+            setOf(square, squareRoot, pi, log, buttonAc, equals, decimal).forEach { button ->
+                button.setOnClickListener {
+                    val action = when (button.text) {
+                        SQUARE -> CalculatorActions.Square
                         "x²" -> CalculatorActions.SquareInv
                         "√" -> CalculatorActions.SquareRoot
                         PI -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
                         INV_LOG -> CalculatorActions.LogInv
                         "AC" -> CalculatorActions.Clear
-                        "Del" -> CalculatorActions.Delete
+                        "C" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate
                         else -> CalculatorActions.Decimal // "·"
                     }
@@ -138,6 +136,8 @@ class CalculatorFragment : Fragment() {
                     result?.text = it.result
                     // giving binding-layout variable a value
                     error = it.error
+
+                    deleteButtonText = delButtonText(it.input)
                     degRadConfig()
                 }
             }
@@ -167,6 +167,21 @@ class CalculatorFragment : Fragment() {
         }
         setupMenuItem()
         return binding.root
+    }
+
+    private fun delButtonText(input: String): String {
+        return when {
+            input.length <= 1 -> getString(R.string.ac)
+            input == ROOT -> getString(R.string.ac)
+            input == SIN -> getString(R.string.ac)
+            input == COS -> getString(R.string.ac)
+            input == TAN -> getString(R.string.ac)
+            input == LOG -> getString(R.string.ac)
+            input == SIN_INV -> getString(R.string.ac)
+            input == COS_INV -> getString(R.string.ac)
+            input == TAN_INV -> getString(R.string.ac)
+            else -> getString(R.string.del)
+        }
     }
 
     private fun degRadConfig(clicked: Boolean = false) {

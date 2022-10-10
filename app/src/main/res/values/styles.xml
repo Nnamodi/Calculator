@@ -3,7 +3,8 @@
     <!-- Scientific buttons -->
     <style name="ScientificButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginEnd">@dimen/sciMarginEnd</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">?attr/colorOnSurface</item>

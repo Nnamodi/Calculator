@@ -8,6 +8,7 @@
         <variable name="error" type="Boolean" />
         <variable name="expand" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
+        <variable name="deleteButtonText" type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -88,25 +89,25 @@
             app:layout_constraintTop_toBottomOf="@+id/digits_field">
 
             <Button
-                android:id="@+id/modulus"
+                android:id="@+id/pi"
                 style="@style/ScientificButton"
-                android:text="@string/modulus" />
+                android:text="@string/pi" />
+
+            <Button
+                android:id="@+id/square_root"
+                style="@style/ScientificButton"
+                android:text="@string/square_root" />
+
+            <Button
+                android:id="@+id/square"
+                style="@style/ScientificButton"
+                android:text="@string/square" />
 
             <Button
                 android:id="@+id/euler"
                 style="@style/ScientificButton"
-                android:text="@string/euler" />
-
-            <Button
-                android:id="@+id/bracket"
-                style="@style/ScientificButton"
-                android:text="@string/bracket" />
-
-            <Button
-                android:id="@+id/pi"
-                style="@style/ScientificButton"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/pi" />
+                android:text="@string/euler" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/expand_button"
@@ -137,26 +138,25 @@
             app:layout_constraintTop_toBottomOf="@id/row_6">
 
             <Button
-                android:id="@+id/deg_rad"
+                android:id="@+id/sin"
                 style="@style/ScientificButton"
-                android:text="@{deg_rad_value}"
-                tools:text="@string/degree"/>
+                android:text="@string/sine" />
 
             <Button
-                android:id="@+id/log"
+                android:id="@+id/cos"
                 style="@style/ScientificButton"
-                android:text="@string/logarithm" />
+                android:text="@string/cosine" />
 
             <Button
-                android:id="@+id/square_root"
+                android:id="@+id/tan"
                 style="@style/ScientificButton"
-                android:text="@string/square_root" />
+                android:text="@string/tangent" />
 
             <Button
-                android:id="@+id/square"
+                android:id="@+id/natural_log"
                 style="@style/ScientificButton"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/square" />
+                android:text="@string/natural_log" />
         </LinearLayout>
 
         <LinearLayout
@@ -174,25 +174,26 @@
             app:layout_constraintTop_toBottomOf="@id/hidden_row_2">
 
             <Button
+                android:id="@+id/deg_rad"
+                style="@style/ScientificButton"
+                android:text="@{deg_rad_value}"
+                tools:text="@string/degree"/>
+
+            <Button
+                android:id="@+id/log"
+                style="@style/ScientificButton"
+                android:text="@string/logarithm" />
+
+            <Button
+                android:id="@+id/factorial"
+                style="@style/ScientificButton"
+                android:text="@string/factorial" />
+
+            <Button
                 android:id="@+id/inv"
                 style="@style/ScientificButton"
-                android:text="@string/inverse" />
-
-            <Button
-                android:id="@+id/sin"
-                style="@style/ScientificButton"
-                android:text="@string/sine" />
-
-            <Button
-                android:id="@+id/cos"
-                style="@style/ScientificButton"
-                android:text="@string/cosine" />
-
-            <Button
-                android:id="@+id/tan"
-                style="@style/ScientificButton"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/tangent" />
+                android:text="@string/inverse" />
         </LinearLayout>
 
         <LinearLayout
@@ -211,14 +212,20 @@
             <Button
                 android:id="@+id/button_ac"
                 style="@style/DeleteButton"
-                android:layout_weight="2"
-                android:text="@string/ac" />
+                android:text="@{deleteButtonText}"
+                tools:text="@string/ac" />
 
             <Button
-                android:id="@+id/button_del"
-                style="@style/DeleteButton"
-                android:text="@string/del"
-                android:textAllCaps="false" />
+                android:id="@+id/bracket"
+                style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
+                android:text="@string/bracket" />
+
+            <Button
+                android:id="@+id/modulus"
+                style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
+                android:text="@string/modulus" />
 
             <Button
                 android:id="@+id/divide"
@@ -357,17 +364,9 @@
 
             <Button
                 android:id="@+id/equals"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                style="@style/OperatorButton"
                 android:backgroundTint="@color/orange"
-                android:text="@string/equals"
-                android:textColor="@color/black"
-                app:autoSizeMaxTextSize="28sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                tools:ignore="TextContrastCheck" />
+                android:text="@string/equals" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

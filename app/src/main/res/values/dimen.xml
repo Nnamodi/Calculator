@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="buttonMarginEnd">6dp</dimen>
     <dimen name="marginEnd">6dp</dimen>
     <dimen name="margin">14dp</dimen>
     <!-- Scientific button -->
+    <dimen name="sciMarginEnd">0dp</dimen>
     <dimen name="maxSciTextSize">24dp</dimen>
     <dimen name="minSciTextSize">10dp</dimen>
     <!-- Number button -->
+    <dimen name="buttonMarginEnd">6dp</dimen>
     <dimen name="maxNumTextSize">30dp</dimen>
     <dimen name="minNumTextSize">12dp</dimen>
     <!-- Operator button -->

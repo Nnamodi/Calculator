@@ -7,6 +7,7 @@
         <import type="android.view.View"/>
         <variable name="error" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
+        <variable name="deleteButtonText" type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,30 +72,19 @@
             app:layout_constraintTop_toBottomOf="@+id/digits_field">
 
             <Button
-                android:id="@+id/modulus"
-                style="@style/ScientificButton"
-                android:text="@string/modulus" />
-
-            <Button
-                android:id="@+id/euler"
-                style="@style/ScientificButton"
-                android:text="@string/euler" />
-
-            <Button
-                android:id="@+id/bracket"
-                style="@style/ScientificButton"
-                android:text="@string/bracket" />
-
-            <Button
                 android:id="@+id/pi"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/pi" />
 
             <Button
-                android:id="@+id/button_ac"
-                style="@style/DeleteButton"
-                android:text="@string/ac" />
+                android:id="@+id/square_root"
+                style="@style/ScientificButton"
+                android:text="@string/square_root" />
+
+            <Button
+                android:id="@+id/square"
+                style="@style/ScientificButton"
+                android:text="@string/square" />
 
             <Button
                 android:id="@+id/button_7"
@@ -112,15 +102,17 @@
                 android:text="@string/_9" />
 
             <Button
-                android:id="@+id/subtract"
-                style="@style/OperatorButton"
-                android:layout_marginEnd="3dp"
-                android:text="@string/subtract" />
-
-            <Button
                 android:id="@+id/divide"
                 style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
                 android:text="@string/divide" />
+
+            <Button
+                android:id="@+id/button_ac"
+                android:layout_marginEnd="0dp"
+                style="@style/DeleteButton"
+                android:text="@{deleteButtonText}"
+                tools:text="@string/ac" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,31 +127,19 @@
             app:layout_constraintTop_toBottomOf="@+id/row_4">
 
             <Button
-                android:id="@+id/deg_rad"
+                android:id="@+id/euler"
                 style="@style/ScientificButton"
-                android:text="@{deg_rad_value}"
-                tools:text="@string/degree" />
+                android:text="@string/euler" />
+
+            <Button
+                android:id="@+id/natural_log"
+                style="@style/ScientificButton"
+                android:text="@string/natural_log" />
 
             <Button
                 android:id="@+id/log"
                 style="@style/ScientificButton"
                 android:text="@string/logarithm" />
-
-            <Button
-                android:id="@+id/square_root"
-                style="@style/ScientificButton"
-                android:text="@string/square_root" />
-
-            <Button
-                android:id="@+id/square"
-                style="@style/ScientificButton"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/square" />
-
-            <Button
-                android:id="@+id/button_del"
-                style="@style/DeleteButton"
-                android:text="@string/del" />
 
             <Button
                 android:id="@+id/button_4"
@@ -177,15 +157,15 @@
                 android:text="@string/_6" />
 
             <Button
-                android:id="@+id/add"
-                style="@style/OperatorButton"
-                android:layout_marginEnd="3dp"
-                android:text="@string/add" />
-
-            <Button
                 android:id="@+id/multiply"
                 style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
                 android:text="@string/multiply" />
+
+            <Button
+                android:id="@+id/bracket"
+                style="@style/OperatorButton"
+                android:text="@string/bracket" />
         </LinearLayout>
 
         <LinearLayout
@@ -194,16 +174,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/row_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/row_3">
-
-            <Button
-                android:id="@+id/inv"
-                style="@style/ScientificButton"
-                android:text="@string/inverse" />
 
             <Button
                 android:id="@+id/sin"
@@ -218,13 +192,7 @@
             <Button
                 android:id="@+id/tan"
                 style="@style/ScientificButton"
-                android:layout_marginEnd="@dimen/marginEnd"
                 android:text="@string/tangent" />
-
-            <Button
-                android:id="@+id/button_0"
-                style="@style/NumberButton"
-                android:text="@string/_0" />
 
             <Button
                 android:id="@+id/button_1"
@@ -242,6 +210,56 @@
                 android:text="@string/_3" />
 
             <Button
+                android:id="@+id/subtract"
+                style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
+                android:text="@string/subtract" />
+
+            <Button
+                android:id="@+id/modulus"
+                style="@style/OperatorButton"
+                android:text="@string/modulus" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row_2">
+
+            <Button
+                android:id="@+id/deg_rad"
+                style="@style/ScientificButton"
+                android:text="@{deg_rad_value}"
+                tools:text="@string/degree" />
+
+            <Button
+                android:id="@+id/factorial"
+                style="@style/ScientificButton"
+                android:text="@string/factorial" />
+
+            <Button
+                android:id="@+id/inv"
+                style="@style/ScientificButton"
+                android:text="@string/inverse" />
+
+            <Button
+                android:id="@+id/button_00"
+                style="@style/NumberButton"
+                android:text="@string/_00" />
+
+            <Button
+                android:id="@+id/button_0"
+                style="@style/NumberButton"
+                android:text="@string/_0" />
+
+            <Button
                 android:id="@+id/decimal"
                 style="@style/NumberButton"
                 android:text="@string/decimal"
@@ -249,18 +267,16 @@
                 app:autoSizeMinTextSize="22sp" />
 
             <Button
+                android:id="@+id/add"
+                style="@style/OperatorButton"
+                android:layout_marginEnd="@dimen/buttonMarginEnd"
+                android:text="@string/add" />
+
+            <Button
                 android:id="@+id/equals"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                style="@style/OperatorButton"
                 android:backgroundTint="@color/orange"
-                android:text="@string/equals"
-                android:textColor="@color/black"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
-                tools:ignore="TextContrastCheck" />
+                android:text="@string/equals" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
