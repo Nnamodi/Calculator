@@ -28,49 +28,32 @@
 
             <EditText
                 android:id="@+id/input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:gravity="end"
-                android:inputType="number"
-                android:letterSpacing="0.05"
-                android:paddingStart="0dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="21dp"
-                android:singleLine="true"
-                android:text="@string/digits"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="65sp"
+                style="@style/InputText"
+                android:visibility="@{error ? View.GONE : View.VISIBLE}"
                 tools:ignore="Autofill,LabelFor" />
+
+            <EditText
+                android:id="@+id/wrong_input"
+                style="@style/InputText"
+                android:textColor="?attr/colorOnSecondary"
+                android:visibility="@{error ? View.VISIBLE : View.GONE}"
+                tools:ignore="Autofill,LabelFor"
+                tools:visibility="gone" />
 
             <TextView
                 android:id="@+id/result"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="end"
-                android:layout_marginBottom="22dp"
+                style="@style/ResultText"
                 android:layout_weight="3"
                 android:letterSpacing="0.05"
-                android:lines="1"
-                android:paddingStart="18dp"
-                android:paddingEnd="21dp"
-                android:text="@string/result"
                 android:textColor="?attr/colorTertiary"
-                android:textSize="40sp"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}" />
+                android:visibility="@{error ? View.GONE : View.VISIBLE}"
+                tools:text="@string/result" />
 
             <TextView
                 android:id="@+id/error_text"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="end"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="22dp"
+                style="@style/ResultText"
                 android:layout_weight="3"
-                android:text="@string/format_error"
                 android:textColor="?attr/colorOnSecondary"
-                android:textSize="40sp"
                 android:visibility="@{error ? View.VISIBLE : View.GONE}"
                 tools:visibility="gone" />
         </LinearLayout>

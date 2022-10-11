@@ -34,4 +34,20 @@ object Constants {
     const val DEG = "DEG"
     const val RAD = "RAD"
     const val EULER = "e"
+
+    /** error messages **/
+    const val UNKNOWN = "Format error"
+    const val CANT_DIVIDE = "Can't divide by 0"
+    const val FORMAT_ERROR = "Format error"
+    const val MISMATCHED = "Mismatched parentheses"
+    const val CANT_CALC = "Value too large"
+    const val DOMAIN_ERROR = "Domain error"
+    const val UNDEFINED = "Wetin you go type?"
+    // initial error messages
+    const val UNKNOWN_UNARY = "Unknown unary operator"
+    const val DIVIDE_0 = "Division by zero"
+    const val MISSING_PARAM = "Missing parameter(s) for operator ^"
+    const val MISMATCHED_PAR = "Mismatched parentheses"
+    const val ROUNDING_NEC = "Rounding necessary"
+    const val INFINITY = "Infinity or NaN: NaN"
 }

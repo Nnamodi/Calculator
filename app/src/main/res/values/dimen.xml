@@ -16,4 +16,15 @@
     <!-- Delete button -->
     <dimen name="maxDelTextSize">24dp</dimen>
     <dimen name="minDelTextSize">8dp</dimen>
+    <!-- Result text -->
+    <dimen name="resultMarginStart">18dp</dimen>
+    <dimen name="resultMarginEnd">21dp</dimen>
+    <dimen name="resultMarginBottom">22dp</dimen>
+    <dimen name="resultTextSize">40sp</dimen>
+    <!-- Input text -->
+    <dimen name="inputPaddingStart">0dp</dimen>
+    <dimen name="inputPaddingEnd">21dp</dimen>
+    <dimen name="inputPaddingBottom">11dp</dimen>
+    <dimen name="inputPaddingTop">0dp</dimen>
+    <dimen name="inputTextSize">65sp</dimen>
 </resources>

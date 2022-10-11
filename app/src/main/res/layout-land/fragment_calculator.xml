@@ -27,34 +27,15 @@
 
             <EditText
                 android:id="@+id/input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="22dp"
-                android:backgroundTint="@android:color/transparent"
-                android:gravity="end"
-                android:inputType="number"
-                android:letterSpacing="0.05"
-                android:padding="0dp"
-                android:singleLine="true"
-                android:text="@string/digits"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="50sp"
+                style="@style/InputText"
                 android:visibility="@{error ? View.GONE : View.VISIBLE}"
                 tools:ignore="Autofill,LabelFor" />
 
             <TextView
                 android:id="@+id/error_text"
-                android:layout_width="wrap_content"
+                style="@style/ResultText"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="22dp"
-                android:text="@string/format_error"
                 android:textColor="?attr/colorOnSecondary"
-                android:textSize="50sp"
                 android:visibility="@{error ? View.VISIBLE : View.GONE}"
                 tools:visibility="gone" />
         </LinearLayout>

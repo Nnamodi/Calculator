@@ -66,6 +66,7 @@ class CalculatorFragment : Fragment() {
         binding.apply {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
+            wrongInput?.showSoftInputOnFocus = false
             // enter digits
             setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
                 .forEach {
@@ -134,9 +135,12 @@ class CalculatorFragment : Fragment() {
                     input.setText(it.input)
                     input.setSelection(it.input.length)
                     result?.text = it.result
+                    errorText.text = it.errorMessage
                     // giving binding-layout variable a value
                     error = it.error
 
+                    wrongInput?.setText(it.input)
+                    wrongInput?.setSelection(it.input.length)
                     deleteButtonText = delButtonText(it.input)
                     degRadConfig()
                 }

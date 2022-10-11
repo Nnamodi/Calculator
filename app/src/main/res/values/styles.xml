@@ -58,6 +58,37 @@
         <item name="autoSizeTextType">uniform</item>
     </style>
 
+    <!-- Result text -->
+    <style name="ResultText" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginStart">@dimen/resultMarginStart</item>
+        <item name="android:layout_marginEnd">@dimen/resultMarginEnd</item>
+        <item name="android:layout_marginBottom">@dimen/resultMarginBottom</item>
+        <item name="android:lines">1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">@dimen/resultTextSize</item>
+    </style>
+
+    <!-- Input text -->
+    <style name="InputText" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:gravity">end</item>
+        <item name="android:inputType">number</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="android:paddingStart">@dimen/inputPaddingStart</item>
+        <item name="android:paddingTop">@dimen/inputPaddingTop</item>
+        <item name="android:paddingEnd">@dimen/inputPaddingEnd</item>
+        <item name="android:paddingBottom">@dimen/inputPaddingBottom</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:text">@string/digits</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">@dimen/inputTextSize</item>
+    </style>
+
     <!-- Dialog theme. -->
     <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>

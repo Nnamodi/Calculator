@@ -28,7 +28,6 @@
     <string name="euler">e</string>
     <string name="euler_inv">e^</string>
     <string name="bracket">( )</string>
-    <string name="format_error">Format Error</string>
     <string name="degree">DEG</string>
     <string name="logarithm">log</string>
     <string name="natural_log">ln</string>

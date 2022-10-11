@@ -4,31 +4,34 @@ import android.app.Application
 import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.AndroidViewModel
-import com.roland.android.calculator.data.CalculatorActions
-import com.roland.android.calculator.data.CalculatorOperations
-import com.roland.android.calculator.data.Digits
-import com.roland.android.calculator.data.TrigFunctions
+import com.roland.android.calculator.data.*
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
+import com.roland.android.calculator.util.Constants.DIVIDE_0
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.INFINITY
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.MINUS
+import com.roland.android.calculator.util.Constants.MISMATCHED_PAR
+import com.roland.android.calculator.util.Constants.MISSING_PARAM
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
+import com.roland.android.calculator.util.Constants.ROUNDING_NEC
 import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SIN_INV
 import com.roland.android.calculator.util.Constants.SQUARE
 import com.roland.android.calculator.util.Constants.SQUARED
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TAN_INV
+import com.roland.android.calculator.util.Constants.UNKNOWN_UNARY
 import com.roland.android.calculator.util.Fractionize
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Regex.regex
@@ -318,8 +321,27 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             Log.d("FinalInput", "calculateInput: $input")
         } catch (e: Exception) {
             // if `equal button` is pressed, show error message
-            if (equalled) { _stateFlow.value = Digits(input = _stateFlow.value.input, error = true) }
+            if (equalled) {
+                _stateFlow.value = Digits(
+                    input = _stateFlow.value.input,
+                    error = true,
+                    errorMessage = e(e.message!!)
+                )
+            }
             Log.e("SyntaxError", "Input error: ", e)
         }
+    }
+
+    private fun e(e: String): String {
+        val error = when {
+            UNKNOWN_UNARY in e -> ErrorMessage.Unknown
+            DIVIDE_0 in e -> ErrorMessage.Division0
+            MISSING_PARAM in e -> ErrorMessage.MissingParam
+            MISMATCHED_PAR in e -> ErrorMessage.Mismatched
+            ROUNDING_NEC in e -> ErrorMessage.RoundNec
+            INFINITY in e -> ErrorMessage.Infinity
+            else -> ErrorMessage.Undefined
+        }
+        return error.message
     }
 }
