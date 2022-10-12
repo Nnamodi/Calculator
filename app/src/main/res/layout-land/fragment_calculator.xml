@@ -257,7 +257,8 @@
                 android:id="@+id/equals"
                 style="@style/OperatorButton"
                 android:backgroundTint="@color/orange"
-                android:text="@string/equals" />
+                android:text="@string/equals"
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

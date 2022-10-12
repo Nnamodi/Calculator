@@ -21,6 +21,7 @@ object Regex {
         .replace(")e", ")*e") // ()e -> ()×e
         .replace("*ee", "*e*e") // *ee -> *e×e
         .replace("log", "log10")
+        .replace("ln", "log")
         .replace(Constants.SIN_INV, Constants.ASIN)
         .replace(Constants.COS_INV, Constants.ACOS)
         .replace(Constants.TAN_INV, Constants.ATAN)

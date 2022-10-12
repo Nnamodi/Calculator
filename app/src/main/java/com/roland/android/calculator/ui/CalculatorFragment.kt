@@ -24,6 +24,7 @@ import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
+import com.roland.android.calculator.util.Constants.LOG_N
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
@@ -103,7 +104,7 @@ class CalculatorFragment : Fragment() {
                 }
             }
             // other buttons
-            setOf(square, squareRoot, pi, log, buttonAc, equals, decimal).forEach { button ->
+            setOf(square, squareRoot, pi, log, naturalLog, buttonAc, equals, decimal).forEach { button ->
                 button.setOnClickListener {
                     val action = when (button.text) {
                         SQUARE -> CalculatorActions.Square
@@ -112,6 +113,7 @@ class CalculatorFragment : Fragment() {
                         PI -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
                         INV_LOG -> CalculatorActions.LogInv
+                        "ln" -> CalculatorActions.LogN
                         "AC" -> CalculatorActions.Clear
                         "C" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate
@@ -119,6 +121,13 @@ class CalculatorFragment : Fragment() {
                     }
                     calcViewModel.onAction(action)
                 }
+            }
+            buttonAc.setOnLongClickListener {
+                var handled = false
+                if (buttonAc.text == "C") {
+                    calcViewModel.onAction(CalculatorActions.Clear)
+                    handled = true
+                }; handled
             }
             degRad.setOnClickListener { degRadConfig(clicked = true) }
             inv.setOnClickListener { _inverse.value = !inverse.value }
@@ -181,6 +190,7 @@ class CalculatorFragment : Fragment() {
             input == COS -> getString(R.string.ac)
             input == TAN -> getString(R.string.ac)
             input == LOG -> getString(R.string.ac)
+            input == LOG_N -> getString(R.string.ac)
             input == SIN_INV -> getString(R.string.ac)
             input == COS_INV -> getString(R.string.ac)
             input == TAN_INV -> getString(R.string.ac)

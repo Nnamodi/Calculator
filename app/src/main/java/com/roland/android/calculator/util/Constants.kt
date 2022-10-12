@@ -26,6 +26,7 @@ object Constants {
     const val ATANR = "atanr("
     const val LOG = "log("
     const val INV_LOG = "10^"
+    const val LOG_N = "ln("
     const val PI = "π"
     const val DOT = "."
     const val ROOT = "√("
@@ -36,7 +37,7 @@ object Constants {
     const val EULER = "e"
 
     /** error messages **/
-    const val UNKNOWN = "Format error"
+    const val UNKNOWN = "Syntax error"
     const val CANT_DIVIDE = "Can't divide by 0"
     const val FORMAT_ERROR = "Format error"
     const val MISMATCHED = "Mismatched parentheses"
@@ -45,8 +46,9 @@ object Constants {
     const val UNDEFINED = "Wetin you go type?"
     // initial error messages
     const val UNKNOWN_UNARY = "Unknown unary operator"
+    const val UNKNOWN_OPERATOR = "Unknown operator"
     const val DIVIDE_0 = "Division by zero"
-    const val MISSING_PARAM = "Missing parameter(s) for operator ^"
+    const val MISSING_PARAM = "Missing parameter(s) for operator"
     const val MISMATCHED_PAR = "Mismatched parentheses"
     const val ROUNDING_NEC = "Rounding necessary"
     const val INFINITY = "Infinity or NaN: NaN"

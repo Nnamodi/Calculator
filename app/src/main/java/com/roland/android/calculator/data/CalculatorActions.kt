@@ -10,6 +10,7 @@ sealed interface CalculatorActions {
     object Pi : CalculatorActions
     object Log : CalculatorActions
     object LogInv : CalculatorActions
+    object LogN : CalculatorActions
     object Square : CalculatorActions
     object SquareInv : CalculatorActions
     object SquareRoot: CalculatorActions
