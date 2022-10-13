@@ -97,8 +97,8 @@
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".45"
                 android:layout_gravity="center"
+                android:layout_weight=".45"
                 android:checkable="true"
                 app:checkedIconVisible="false"
                 app:chipBackgroundColor="?attr/colorOnPrimary"
@@ -160,7 +160,7 @@
                 android:id="@+id/deg_rad"
                 style="@style/ScientificButton"
                 android:text="@{deg_rad_value}"
-                tools:text="@string/degree"/>
+                tools:text="@string/degree" />
 
             <Button
                 android:id="@+id/log"

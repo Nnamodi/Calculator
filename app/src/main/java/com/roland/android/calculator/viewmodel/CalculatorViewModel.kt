@@ -13,6 +13,7 @@ import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.DIVIDE_0
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.FACT
 import com.roland.android.calculator.util.Constants.INFINITY
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
@@ -57,9 +58,10 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.Operators -> { enterOperation(action.operator) }
             is CalculatorActions.Calculate -> { calculateInput(true) }
             is CalculatorActions.Bracket -> { addBracket() }
-            is CalculatorActions.Euler -> { addSymbol(EULER) }
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addSymbol(PI) }
+            is CalculatorActions.Euler -> { addSymbol(EULER) }
+            is CalculatorActions.Factorial -> { addSymbol(FACT) }
             is CalculatorActions.Log -> { addLog() }
             is CalculatorActions.LogInv -> { addLog(INV_LOG) }
             is CalculatorActions.LogN -> { addLog(LOG_N) }

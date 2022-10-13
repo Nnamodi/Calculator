@@ -15,6 +15,7 @@ sealed interface CalculatorActions {
     object SquareInv : CalculatorActions
     object SquareRoot: CalculatorActions
     object DegRad: CalculatorActions
+    object Factorial: CalculatorActions
     data class Numbers(val number: String): CalculatorActions
     data class Trigonometry(val function: TrigFunctions): CalculatorActions
     data class Operators(val operator: CalculatorOperations): CalculatorActions

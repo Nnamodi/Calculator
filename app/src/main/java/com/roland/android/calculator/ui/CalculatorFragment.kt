@@ -22,6 +22,7 @@ import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.FACT
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.LOG_N
@@ -75,7 +76,7 @@ class CalculatorFragment : Fragment() {
                 it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
             }
             // operators
-            setOf(add, subtract, divide, multiply, modulus, euler, bracket).forEach { button ->
+            setOf(add, subtract, divide, multiply, modulus, euler, factorial, bracket).forEach { button ->
                 button.setOnClickListener {
                     val action = when (button.text) {
                         ADD -> CalculatorActions.Operators(CalculatorOperations.Add)
@@ -84,6 +85,7 @@ class CalculatorFragment : Fragment() {
                         MULTIPLY -> CalculatorActions.Operators(CalculatorOperations.Multiply)
                         MOD -> CalculatorActions.Operators(CalculatorOperations.Modulus)
                         EULER -> CalculatorActions.Euler
+                        "!" -> CalculatorActions.Factorial
                         else -> CalculatorActions.Bracket // "( )"
                     }
                     calcViewModel.onAction(action)
@@ -185,11 +187,12 @@ class CalculatorFragment : Fragment() {
     private fun delButtonText(input: String): String {
         return when {
             input.length <= 1 -> getString(R.string.ac)
-            input == ROOT -> getString(R.string.ac)
             input == SIN -> getString(R.string.ac)
             input == COS -> getString(R.string.ac)
             input == TAN -> getString(R.string.ac)
             input == LOG -> getString(R.string.ac)
+            input == FACT -> getString(R.string.ac)
+            input == ROOT -> getString(R.string.ac)
             input == LOG_N -> getString(R.string.ac)
             input == SIN_INV -> getString(R.string.ac)
             input == COS_INV -> getString(R.string.ac)
