@@ -22,6 +22,7 @@ import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.EULER_INV
 import com.roland.android.calculator.util.Constants.FACT
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
@@ -116,6 +117,7 @@ class CalculatorFragment : Fragment() {
                         "log" -> CalculatorActions.Log
                         INV_LOG -> CalculatorActions.LogInv
                         "ln" -> CalculatorActions.LogN
+                        EULER_INV -> CalculatorActions.EulerInv
                         "AC" -> CalculatorActions.Clear
                         "C" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate

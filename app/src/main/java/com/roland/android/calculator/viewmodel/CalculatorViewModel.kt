@@ -13,6 +13,7 @@ import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.DIVIDE_0
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.EULER
+import com.roland.android.calculator.util.Constants.EULER_INV
 import com.roland.android.calculator.util.Constants.FACT
 import com.roland.android.calculator.util.Constants.INFINITY
 import com.roland.android.calculator.util.Constants.INV_LOG
@@ -61,6 +62,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.Trigonometry -> { trigonometricFunction(action.function) }
             is CalculatorActions.Pi -> { addSymbol(PI) }
             is CalculatorActions.Euler -> { addSymbol(EULER) }
+            is CalculatorActions.EulerInv -> { addSymbol(EULER_INV) }
             is CalculatorActions.Factorial -> { addSymbol(FACT) }
             is CalculatorActions.Log -> { addLog() }
             is CalculatorActions.LogInv -> { addLog(INV_LOG) }

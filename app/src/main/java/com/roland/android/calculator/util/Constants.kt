@@ -35,6 +35,7 @@ object Constants {
     const val DEG = "DEG"
     const val RAD = "RAD"
     const val EULER = "e"
+    const val EULER_INV = "e^"
     const val FACT = "fact("
 
     /** error messages **/

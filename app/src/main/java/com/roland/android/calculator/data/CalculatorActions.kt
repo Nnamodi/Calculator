@@ -6,6 +6,7 @@ sealed interface CalculatorActions {
     object Decimal: CalculatorActions
     object Calculate: CalculatorActions
     object Euler: CalculatorActions
+    object EulerInv: CalculatorActions
     object Bracket: CalculatorActions
     object Pi : CalculatorActions
     object Log : CalculatorActions
