@@ -41,6 +41,7 @@ import com.roland.android.calculator.util.Constants.TAN_INV
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
+import com.roland.android.calculator.util.Haptic
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -73,9 +74,10 @@ class CalculatorFragment : Fragment() {
             // enter digits
             setOf(button00, button0, button1, button2, button3, button4, button5, button6, button7, button8, button9)
                 .forEach {
-                val digit = it.text.toString()
-                it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
-            }
+                    val digit = it.text.toString()
+                    it.setOnClickListener { calcViewModel.onAction(CalculatorActions.Numbers(digit)) }
+                    it.setOnTouchListener(Haptic.ClickFeedback(requireContext()))
+                }
             // operators
             setOf(add, subtract, divide, multiply, modulus, euler, factorial, bracket).forEach { button ->
                 button.setOnClickListener {
@@ -91,6 +93,7 @@ class CalculatorFragment : Fragment() {
                     }
                     calcViewModel.onAction(action)
                 }
+                button.setOnTouchListener(Haptic.ClickFeedback(requireContext()))
             }
             // trigonometric input
             setOf(sin, cos, tan).forEach { button ->
@@ -105,6 +108,7 @@ class CalculatorFragment : Fragment() {
                     }
                     calcViewModel.onAction(CalculatorActions.Trigonometry(trigFunction))
                 }
+                button.setOnTouchListener(Haptic.ClickFeedback(requireContext()))
             }
             // other buttons
             setOf(square, squareRoot, pi, log, naturalLog, buttonAc, equals, decimal).forEach { button ->
@@ -125,6 +129,7 @@ class CalculatorFragment : Fragment() {
                     }
                     calcViewModel.onAction(action)
                 }
+                button.setOnTouchListener(Haptic.ClickFeedback(requireContext()))
             }
             buttonAc.setOnLongClickListener {
                 var handled = false
@@ -141,6 +146,8 @@ class CalculatorFragment : Fragment() {
                 // giving binding-layout variable a value to toggle visibility
                 expand = checked
             }
+            setOf(degRad, inv, expandButton)
+                .forEach { it?.setOnTouchListener(Haptic.ClickFeedback(requireContext())) }
         }
         lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {
