@@ -48,9 +48,10 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var previousEquation = ""
-    private var inputIsAnswer = false
+    var inputIsAnswer = false
 
     fun onAction(action: CalculatorActions) {
+        if (action !is CalculatorActions.Delete) { inputIsAnswer = false }
         when (action) {
             is CalculatorActions.Numbers -> { enterNumber(action.number) }
             is CalculatorActions.Clear -> { clearInput() }
@@ -85,13 +86,13 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
         val input = _stateFlow.value.input
         val symbols = setOf(DIVIDE, MULTIPLY, MINUS, ADD, SQUARE, "(")
         if (symbols.any { input.endsWith(it) } || input.isBlank()) { _stateFlow.value = Digits(input = input + ROOT) }
-        else { _stateFlow.value = Digits(input = "$input×$ROOT"); inputIsAnswer = false }
+        else { _stateFlow.value = Digits(input = "$input×$ROOT") }
     }
 
     private fun addSquare(square: String = SQUARE) {
         val input = _stateFlow.value.input
         val symbols = setOf(')', 'π', '%', 'e', '²')
-        val addSquare = { _stateFlow.value = Digits(input = "$input$square"); inputIsAnswer = false }
+        val addSquare = { _stateFlow.value = Digits(input = "$input$square") }
         if (input.isNotBlank()) {
             when {
                 input.last().isDigit() -> { addSquare() }
@@ -107,7 +108,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
                 _stateFlow.value = Digits(input = "$input×$log")
             } else { _stateFlow.value = Digits(input = input + log) }
-            inputIsAnswer = false
         } else { _stateFlow.value = Digits(input = log) }
     }
 
@@ -139,11 +139,10 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             !input.last().isDigit() && openBrackets == closeBrackets -> { addOpenBracket() }
             !input.last().isDigit() && openBrackets >= closeBrackets -> { addCloseBracket() }
         }
-        inputIsAnswer = false
     }
 
     private fun enterNumber(digit: String) {
-        if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
+        if (inputIsAnswer) { _stateFlow.value = Digits(input = digit) }
         else {
             val symbols = setOf(')', 'π', 'e', '²')
             if (symbols.any { _stateFlow.value.input.endsWith(it) }) {
@@ -191,7 +190,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             }
         }
         if (operator.symbol == MINUS) { addMinus() }
-        inputIsAnswer = false
     }
 
     private fun addMinus() {
@@ -220,20 +218,21 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             if (symbols.any { input.endsWith(it) } || input.last().isDigit()) {
                 _stateFlow.value = Digits(input = input + "×" + functions.symbol)
             } else { _stateFlow.value = Digits(input = input + functions.symbol) }
-            inputIsAnswer = false
         } else { _stateFlow.value = Digits(input = functions.symbol) }
     }
 
-    private fun clearInput() { _stateFlow.value = Digits(); inputIsAnswer = false }
+    private fun clearInput() { _stateFlow.value = Digits() }
 
     private fun deleteInput() {
         if (!inputIsAnswer) {
             val input: String = when {
                 _stateFlow.value.input.endsWith(ROOT) -> _stateFlow.value.input.dropLast(2)
+                _stateFlow.value.input.endsWith(LOG_N) -> _stateFlow.value.input.dropLast(3)
                 _stateFlow.value.input.endsWith(SIN) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(COS) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(TAN) -> _stateFlow.value.input.dropLast(4)
                 _stateFlow.value.input.endsWith(LOG) -> _stateFlow.value.input.dropLast(4)
+                _stateFlow.value.input.endsWith(FACT) -> _stateFlow.value.input.dropLast(5)
                 _stateFlow.value.input.endsWith(SIN_INV) -> _stateFlow.value.input.dropLast(6)
                 _stateFlow.value.input.endsWith(COS_INV) -> _stateFlow.value.input.dropLast(6)
                 _stateFlow.value.input.endsWith(TAN_INV) -> _stateFlow.value.input.dropLast(6)
@@ -242,8 +241,8 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             _stateFlow.value = Digits(input = input)
         } else {
             val input = previousEquation.dropLast(1)
-            _stateFlow.value = Digits(input = input)
             inputIsAnswer = false
+            _stateFlow.value = Digits(input = input)
         }
     }
 
@@ -255,7 +254,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             val lastSymbol = _stateFlow.value.input.last { !it.isDigit() }
             if (lastSymbol != '.' || lastSymbol == '^') {
                 if (inputIsAnswer) {
-                    _stateFlow.value = Digits(input = DOT); inputIsAnswer = false
+                    _stateFlow.value = Digits(input = DOT)
                 } else {
                     val signum = setOf(")", PI, EULER)
                     if (signum.any { input.endsWith(it) }) {
@@ -300,6 +299,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             val result = _stateFlow.value.result
             if (equalled && result.isNotBlank() && "/" !in result) {
                 val decimal = result.takeLastWhile { it.isDigit() }.length
+                inputIsAnswer = true
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input
                 // convert answer to fraction if result is decimal and if bits <= 5
@@ -309,7 +309,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 } else {
                     _stateFlow.value = Digits(input = result)
                 }
-                inputIsAnswer = true
             }
             Log.d("FinalInput", "calculateInput: $input")
         } catch (e: Exception) {
@@ -320,7 +319,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                     error = true,
                     errorMessage = e(e.message!!)
                 )
-            }
+            }; inputIsAnswer = false
             Log.e("SyntaxError", "Input error: ", e)
         }
     }

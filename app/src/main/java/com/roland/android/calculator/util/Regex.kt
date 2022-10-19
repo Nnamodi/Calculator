@@ -8,6 +8,7 @@ object Regex {
         .replace("π", "PI")
         .replace("²", "^2")
         .replace("√", "sqrt")
+        .replace("%", "/100")
         .replace("2e", "2*e") // ²e -> ²×e
         .replace("2P", "2*P") // ²π -> ²×π
         .replace("IP", "I*P") // ππ -> π×π

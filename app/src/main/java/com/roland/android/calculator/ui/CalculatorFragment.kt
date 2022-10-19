@@ -154,6 +154,7 @@ class CalculatorFragment : Fragment() {
                 binding.apply {
                     input.setText(it.input)
                     input.setSelection(it.input.length)
+                    input.isCursorVisible = !calcViewModel.inputIsAnswer
                     result?.text = it.result
                     errorText.text = it.errorMessage
                     // giving binding-layout variable a value

@@ -32,6 +32,16 @@
                 android:visibility="@{error ? View.GONE : View.VISIBLE}"
                 tools:ignore="Autofill,LabelFor" />
 
+            <TextView
+                android:id="@+id/result"
+                style="@style/ResultText"
+                android:layout_weight="3"
+                android:letterSpacing="0.05"
+                android:textColor="?attr/colorTertiary"
+                android:textIsSelectable="true"
+                android:visibility="@{error ? View.GONE : View.VISIBLE}"
+                tools:text="@string/result" />
+
             <EditText
                 android:id="@+id/wrong_input"
                 style="@style/InputText"
@@ -39,15 +49,6 @@
                 android:visibility="@{error ? View.VISIBLE : View.GONE}"
                 tools:ignore="Autofill,LabelFor"
                 tools:visibility="gone" />
-
-            <TextView
-                android:id="@+id/result"
-                style="@style/ResultText"
-                android:layout_weight="3"
-                android:letterSpacing="0.05"
-                android:textColor="?attr/colorTertiary"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}"
-                tools:text="@string/result" />
 
             <TextView
                 android:id="@+id/error_text"
