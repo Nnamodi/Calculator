@@ -45,6 +45,7 @@ object Constants {
     const val MISMATCHED = "Mismatched parentheses"
     const val CANT_CALC = "Value too large"
     const val DOMAIN_ERROR = "Domain error"
+    const val NEG_SQRT = "Can't calculate"
     const val UNDEFINED = "Wetin you go type?"
     // initial error messages
     const val UNKNOWN_UNARY = "Unknown unary operator"
@@ -54,4 +55,5 @@ object Constants {
     const val MISMATCHED_PAR = "Mismatched parentheses"
     const val ROUNDING_NEC = "Rounding necessary"
     const val INFINITY = "Infinity or NaN: NaN"
+    const val NEGATIVE_SQRT = "Argument to SQRT() function must not be negative"
 }

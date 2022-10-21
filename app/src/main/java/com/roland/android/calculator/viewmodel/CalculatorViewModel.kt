@@ -24,6 +24,7 @@ import com.roland.android.calculator.util.Constants.MISMATCHED_PAR
 import com.roland.android.calculator.util.Constants.MISSING_PARAM
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
+import com.roland.android.calculator.util.Constants.NEGATIVE_SQRT
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
@@ -344,6 +345,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             MISMATCHED_PAR in e -> ErrorMessage.Mismatched
             ROUNDING_NEC in e -> ErrorMessage.RoundNec
             INFINITY in e -> ErrorMessage.Infinity
+            NEGATIVE_SQRT in e -> ErrorMessage.NegSqrt
             else -> ErrorMessage.Undefined
         }
         return error.message
