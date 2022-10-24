@@ -12,6 +12,7 @@
         <item name="autoSizeMinTextSize">@dimen/minSciTextSize</item>
         <item name="autoSizeStepGranularity">2sp</item>
         <item name="autoSizeTextType">uniform</item>
+        <item name="rippleColor">?attr/color</item>
     </style>
 
     <!-- Number buttons -->
@@ -27,6 +28,7 @@
         <item name="autoSizeMinTextSize">@dimen/minNumTextSize</item>
         <item name="autoSizeStepGranularity">2sp</item>
         <item name="autoSizeTextType">uniform</item>
+        <item name="rippleColor">?attr/color</item>
     </style>
 
     <!-- Operator buttons -->
@@ -41,6 +43,7 @@
         <item name="autoSizeMinTextSize">@dimen/minOperatorTextSize</item>
         <item name="autoSizeStepGranularity">2sp</item>
         <item name="autoSizeTextType">uniform</item>
+        <item name="rippleColor">?attr/color</item>
     </style>
 
     <!-- Delete buttons -->
@@ -56,6 +59,7 @@
         <item name="autoSizeMinTextSize">@dimen/minDelTextSize</item>
         <item name="autoSizeStepGranularity">4sp</item>
         <item name="autoSizeTextType">uniform</item>
+        <item name="rippleColor">?attr/color</item>
     </style>
 
     <!-- Result text -->

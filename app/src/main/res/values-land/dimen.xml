@@ -19,7 +19,7 @@
     <!-- Result text -->
     <dimen name="resultMarginStart">24dp</dimen>
     <dimen name="resultMarginEnd">21dp</dimen>
-    <dimen name="resultMarginBottom">22dp</dimen>
+    <dimen name="resultMarginBottom">20dp</dimen>
     <dimen name="resultTextSize">50sp</dimen>
     <!-- Input text -->
     <dimen name="inputPaddingStart">24dp</dimen>
