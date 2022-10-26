@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable name="error" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
-        <variable name="deleteButtonText" type="String" />
+        <variable name="delete" type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,8 +92,16 @@
                 android:id="@+id/button_ac"
                 android:layout_marginEnd="0dp"
                 style="@style/DeleteButton"
-                android:text="@{deleteButtonText}"
-                tools:text="@string/ac" />
+                android:text="@string/ac"
+                android:visibility="@{delete ? View.GONE : View.VISIBLE}" />
+
+            <Button
+                android:id="@+id/del_button"
+                android:layout_marginEnd="0dp"
+                style="@style/DeleteButton"
+                android:text="@string/del"
+                android:visibility="@{delete ? View.VISIBLE : View.GONE}"
+                tools:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout

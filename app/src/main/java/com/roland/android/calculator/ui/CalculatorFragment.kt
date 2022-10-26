@@ -42,6 +42,7 @@ import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getTheme
 import com.roland.android.calculator.util.Preference.setTheme
 import com.roland.android.calculator.util.Haptic
+import com.roland.android.calculator.util.Haptic.haptic
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -123,7 +124,6 @@ class CalculatorFragment : Fragment() {
                         "ln" -> CalculatorActions.LogN
                         EULER_INV -> CalculatorActions.EulerInv
                         "AC" -> CalculatorActions.Clear
-                        "C" -> CalculatorActions.Delete
                         "=" -> CalculatorActions.Calculate
                         else -> CalculatorActions.Decimal // "·"
                     }
@@ -131,12 +131,14 @@ class CalculatorFragment : Fragment() {
                 }
                 button.setOnTouchListener(Haptic.ClickFeedback(requireContext()))
             }
-            buttonAc.setOnLongClickListener {
-                var handled = false
-                if (buttonAc.text == "C") {
-                    calcViewModel.onAction(CalculatorActions.Clear)
-                    handled = true
-                }; handled
+            delButton.apply {
+                setOnClickListener {
+                    calcViewModel.onAction(CalculatorActions.Delete)
+                    haptic(requireContext(), 50)
+                }
+                setOnLongClickListener {
+                    calcViewModel.onAction(CalculatorActions.Clear); true
+                }
             }
             degRad.setOnClickListener { degRadConfig(clicked = true) }
             inv.setOnClickListener { _inverse.value = !inverse.value }
@@ -159,10 +161,10 @@ class CalculatorFragment : Fragment() {
                     errorText.text = it.errorMessage
                     // giving binding-layout variable a value
                     error = it.error
+                    delete = delButtonText(it.input)
 
                     wrongInput?.setText(it.input)
                     wrongInput?.setSelection(it.input.length)
-                    deleteButtonText = delButtonText(it.input)
                     degRadConfig()
                 }
             }
@@ -194,20 +196,20 @@ class CalculatorFragment : Fragment() {
         return binding.root
     }
 
-    private fun delButtonText(input: String): String {
+    private fun delButtonText(input: String): Boolean {
         return when {
-            input.length <= 1 -> getString(R.string.ac)
-            input == SIN -> getString(R.string.ac)
-            input == COS -> getString(R.string.ac)
-            input == TAN -> getString(R.string.ac)
-            input == LOG -> getString(R.string.ac)
-            input == FACT -> getString(R.string.ac)
-            input == ROOT -> getString(R.string.ac)
-            input == LOG_N -> getString(R.string.ac)
-            input == SIN_INV -> getString(R.string.ac)
-            input == COS_INV -> getString(R.string.ac)
-            input == TAN_INV -> getString(R.string.ac)
-            else -> getString(R.string.del)
+            input.length <= 1 -> false
+            input == SIN -> false
+            input == COS -> false
+            input == TAN -> false
+            input == LOG -> false
+            input == FACT -> false
+            input == ROOT -> false
+            input == LOG_N -> false
+            input == SIN_INV -> false
+            input == COS_INV -> false
+            input == TAN_INV -> false
+            else -> true
         }
     }
 

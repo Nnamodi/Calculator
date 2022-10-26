@@ -8,7 +8,7 @@
         <variable name="error" type="Boolean" />
         <variable name="expand" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
-        <variable name="deleteButtonText" type="String" />
+        <variable name="delete" type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -196,8 +196,15 @@
             <Button
                 android:id="@+id/button_ac"
                 style="@style/DeleteButton"
-                android:text="@{deleteButtonText}"
-                tools:text="@string/ac" />
+                android:text="@string/ac"
+                android:visibility="@{delete ? View.GONE : View.VISIBLE}" />
+
+            <Button
+                android:id="@+id/del_button"
+                style="@style/DeleteButton"
+                android:text="@string/del"
+                android:visibility="@{delete ? View.VISIBLE : View.GONE}"
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/bracket"
