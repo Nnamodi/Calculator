@@ -282,7 +282,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             val symbols = setOf(")", "PI", DOT, MOD, EULER, SQUARED)
             if ((input.isNotBlank() && input != DOT) && ((input.last().isDigit() &&
                     !input.isDigitsOnly()) || symbols.any { input.endsWith(it) }) &&
-                    (setOf( ".", "-", "-.").all { signum != it } ||
+                    (setOf(".", "-", "-.").all { signum != it } ||
                     setOf("-.", "-(", "-").all { !input.startsWith(it) })
             ) {
                 val expression = Expression(optimizedInput(input)).setPrecision(11)

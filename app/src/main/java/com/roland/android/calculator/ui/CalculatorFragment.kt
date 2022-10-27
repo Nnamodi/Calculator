@@ -1,16 +1,14 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
-import android.view.*
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roland.android.calculator.R
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
@@ -38,11 +36,9 @@ import com.roland.android.calculator.util.Constants.SIN_INV
 import com.roland.android.calculator.util.Constants.SQUARE
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TAN_INV
-import com.roland.android.calculator.util.Preference
-import com.roland.android.calculator.util.Preference.getTheme
-import com.roland.android.calculator.util.Preference.setTheme
 import com.roland.android.calculator.util.Haptic
 import com.roland.android.calculator.util.Haptic.haptic
+import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,6 +49,7 @@ class CalculatorFragment : Fragment() {
     private lateinit var binding: FragmentCalculatorBinding
     private val _inverse = MutableStateFlow(false)
     private val inverse = _inverse.asStateFlow()
+    private var toolbarSet = false
     private lateinit var squared: String
 //    private lateinit var cubeRoot: String
     private lateinit var sinInverse: String
@@ -60,8 +57,21 @@ class CalculatorFragment : Fragment() {
     private lateinit var tanInverse: String
     private lateinit var eulerInverse: String
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i("MenuItemStuff", "Calculator - OnCreate")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalculatorBinding.inflate(layoutInflater)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        Log.i("MenuItemStuff", "Calculator - OnCreateView")
+        toolbarSet = true
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         squared = getString(R.string.squared)
 //        cubeRoot = getString(R.string.cube_root)
         sinInverse = getString(R.string.arc_sine)
@@ -151,7 +161,20 @@ class CalculatorFragment : Fragment() {
             setOf(degRad, inv, expandButton)
                 .forEach { it?.setOnTouchListener(Haptic.ClickFeedback(requireContext())) }
         }
-        lifecycleScope.launchWhenStarted {
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("MenuItemStuff", "Calculator - onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!toolbarSet) {
+            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+            Log.i("MenuItemStuff", "Calculator - toolbar just set")
+        }
+        lifecycleScope.launchWhenResumed {
             calcViewModel.stateFlow.collectLatest {
                 binding.apply {
                     input.setText(it.input)
@@ -192,8 +215,12 @@ class CalculatorFragment : Fragment() {
                 }
             }
         }
-        setupMenuItem()
-        return binding.root
+        Log.i("MenuItemStuff", "Calculator - onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        toolbarSet = false
     }
 
     private fun delButtonText(input: String): Boolean {

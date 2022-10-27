@@ -44,6 +44,7 @@
     <string name="cube_root">³√</string>
     <string name="inverse">INV</string>
     <string name="factorial">!</string>
+    <string name="history">History</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>
