@@ -254,38 +254,4 @@ class CalculatorFragment : Fragment() {
                 input.contains(trig) }
         ) { degRad } else { "" }
     }
-
-    private fun setupMenuItem() {
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_calculator, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.change_theme -> { themeDialog(); true }
-                    else -> false
-                }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.STARTED)
-    }
-
-    private fun themeDialog() {
-        val options = resources.getStringArray(R.array.dialog_options)
-        val checkedOption = getTheme(requireContext())
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.dialog_title))
-            .setPositiveButton(getString(R.string.dialog_close)) { _, _ -> }
-            .setSingleChoiceItems(options, checkedOption) { dialog, option ->
-                val mode = when (option) {
-                    0 -> { AppCompatDelegate.MODE_NIGHT_YES }
-                    1 -> { AppCompatDelegate.MODE_NIGHT_NO }
-                    else -> { AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM }
-                }
-                AppCompatDelegate.setDefaultNightMode(mode)
-                setTheme(requireContext(), option)
-                dialog.dismiss()
-            }.show()
-    }
 }
