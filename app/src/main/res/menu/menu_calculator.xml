@@ -6,4 +6,8 @@
         android:id="@+id/change_theme"
         android:title="@string/change_theme"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/history"
+        android:title="@string/history"
+        app:showAsAction="never" />
 </menu>

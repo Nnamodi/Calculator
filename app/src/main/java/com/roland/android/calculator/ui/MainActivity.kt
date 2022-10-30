@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.change_theme -> { themeDialog(); true }
+                    R.id.history -> { binding.viewPager.currentItem = 1; true }
                     else -> false
                 }
             }
