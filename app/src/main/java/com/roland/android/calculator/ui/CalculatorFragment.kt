@@ -1,13 +1,14 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import com.roland.android.calculator.R
 import com.roland.android.calculator.data.CalculatorActions
@@ -46,7 +47,8 @@ import kotlinx.coroutines.flow.collectLatest
 
 class CalculatorFragment : Fragment() {
     private val calcViewModel: CalculatorViewModel by viewModels()
-    private lateinit var binding: FragmentCalculatorBinding
+    private var _binding: FragmentCalculatorBinding? = null
+    private val binding get() = _binding!!
     private val _inverse = MutableStateFlow(false)
     private val inverse = _inverse.asStateFlow()
     private var toolbarSet = false
@@ -57,16 +59,10 @@ class CalculatorFragment : Fragment() {
     private lateinit var tanInverse: String
     private lateinit var eulerInverse: String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("MenuItemStuff", "Calculator - OnCreate")
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentCalculatorBinding.inflate(layoutInflater)
+        _binding = FragmentCalculatorBinding.inflate(layoutInflater)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        Log.i("MenuItemStuff", "Calculator - OnCreateView")
-        toolbarSet = true
+        addObservers(); toolbarSet = true
         return binding.root
     }
 
@@ -163,16 +159,10 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i("MenuItemStuff", "Calculator - onStart")
-    }
-
     override fun onResume() {
         super.onResume()
         if (!toolbarSet) {
             (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-            Log.i("MenuItemStuff", "Calculator - toolbar just set")
         }
         lifecycleScope.launchWhenResumed {
             calcViewModel.stateFlow.collectLatest {
@@ -215,12 +205,13 @@ class CalculatorFragment : Fragment() {
                 }
             }
         }
-        Log.i("MenuItemStuff", "Calculator - onResume")
     }
 
-    override fun onPause() {
-        super.onPause()
-        toolbarSet = false
+    private fun addObservers() {
+        lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_PAUSE) { toolbarSet = false }
+            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
+        })
     }
 
     private fun delButtonText(input: String): Boolean {

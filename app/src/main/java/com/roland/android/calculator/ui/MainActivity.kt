@@ -1,7 +1,6 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,26 +22,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        Log.i("MenuItemStuff", "MainActivity - OnCreate")
-        setContentView(binding.root)
-        setTheme()
-
         binding.viewPager.adapter = PagerAdapter(this)
-
-        // overflow menu
-        addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_calculator, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.change_theme -> { themeDialog(); true }
-                    R.id.history -> { binding.viewPager.currentItem = 1; true }
-                    else -> false
-                }
-            }
-        })
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setContentView(binding.root)
+        setTheme(); setupMenuItem()
     }
 
     override fun onBackPressed() {
@@ -53,10 +36,36 @@ class MainActivity : AppCompatActivity() {
     private inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = NUM_SCREENS
 
-        override fun createFragment(position: Int): Fragment {
-            return if (position == 0) { CalculatorFragment() }
-            else { HistoryFragment() }
+        override fun getItemId(position: Int): Long {
+            invalidateMenu()
+            return super.getItemId(position)
         }
+
+        override fun createFragment(position: Int): Fragment {
+            return if (position == 0) { CalculatorFragment() } else { HistoryFragment() }
+        }
+    }
+
+    private fun setupMenuItem() {
+        addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_calculator, menu)
+            }
+
+            override fun onPrepareMenu(menu: Menu) {
+                val isCalcFrag = binding.viewPager.currentItem == 0
+                menu.findItem(R.id.change_theme).isVisible = isCalcFrag
+                menu.findItem(R.id.history).isVisible = isCalcFrag
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.change_theme -> { themeDialog(); true }
+                    R.id.history -> { binding.viewPager.currentItem = 1; true }
+                    else -> false
+                }
+            }
+        })
     }
 
     private fun themeDialog() {

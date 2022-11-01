@@ -1,36 +1,30 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
-    private lateinit var binding: FragmentHistoryBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("MenuItemStuff", "History - OnCreate")
-    }
+    private var _binding: FragmentHistoryBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentHistoryBinding.inflate(layoutInflater)
-        Log.i("MenuItemStuff", "History - OnCreateView")
+        _binding = FragmentHistoryBinding.inflate(layoutInflater)
+        addObservers()
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i("MenuItemStuff", "History - onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("MenuItemStuff", "History - onResume")
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+    private fun addObservers() {
+        val activity = (activity as AppCompatActivity)
+        lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) { activity.setSupportActionBar(binding.toolbar) }
+            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
+        })
     }
 }
