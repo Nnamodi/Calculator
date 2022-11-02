@@ -23,7 +23,9 @@ class HistoryFragment : Fragment() {
     private fun addObservers() {
         val activity = (activity as AppCompatActivity)
         lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) { activity.setSupportActionBar(binding.toolbar) }
+            if (event == Lifecycle.Event.ON_RESUME) { activity.setSupportActionBar(binding.toolbar)
+                activity.supportActionBar?.title = getString(R.string.history)
+                activity.supportActionBar?.setDisplayHomeAsUpEnabled(true) }
             if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
         })
     }

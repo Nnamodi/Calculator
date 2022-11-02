@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.viewPager.adapter = PagerAdapter(this)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(binding.root)
         setTheme(); setupMenuItem()
     }
@@ -31,6 +30,13 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (binding.viewPager.currentItem == 0) { super.onBackPressed() }
         else { binding.viewPager.currentItem =- 1 }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        if (binding.viewPager.currentItem != 0) {
+            binding.viewPager.currentItem =- 1
+        }
+        return true
     }
 
     private inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
