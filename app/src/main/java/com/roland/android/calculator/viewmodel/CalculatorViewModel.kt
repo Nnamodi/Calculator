@@ -4,7 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.roland.android.calculator.data.*
+import com.roland.android.calculator.data.database.Equation
+import com.roland.android.calculator.data.database.EquationDatabase
+import com.roland.android.calculator.repository.EquationRepository
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COS_INV
@@ -42,10 +47,29 @@ import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Regex.regex
 import com.roland.android.calculator.util.Regex.regexR
 import com.udojava.evalex.Expression
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) {
+    // database
+    private val repository: EquationRepository
+    val getEquation: LiveData<List<Equation>>
+
+    init {
+        val equationDao = EquationDatabase.getDatabase(app).equationDao()
+        repository = EquationRepository(equationDao)
+        getEquation = repository.getEquations
+    }
+
+    private fun addCalculation(equation: Equation) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addCalculation(equation)
+        }
+    }
+
+    // calculation logic
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var previousEquation = ""
@@ -303,6 +327,11 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 inputIsAnswer = true
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input
+                // save to history
+                addCalculation(Equation(
+                    input = stateFlow.value.input,
+                    result = stateFlow.value.result
+                ))
                 // convert answer to fraction if result is decimal and if bits <= 5
                 if (result.contains(DOT) && decimal <= 5) {
                     val fraction = Fractionize(result).evaluate()

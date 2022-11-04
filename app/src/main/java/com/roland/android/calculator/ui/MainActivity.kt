@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.MenuProvider
@@ -62,12 +63,20 @@ class MainActivity : AppCompatActivity() {
                 val isCalcFrag = binding.viewPager.currentItem == 0
                 menu.findItem(R.id.change_theme).isVisible = isCalcFrag
                 menu.findItem(R.id.history).isVisible = isCalcFrag
+                menu.findItem(R.id.clear_history).isVisible = !isCalcFrag
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.change_theme -> { themeDialog(); true }
                     R.id.history -> { binding.viewPager.currentItem = 1; true }
+                    R.id.clear_history -> {
+                        Toast.makeText(
+                            applicationContext,
+                            "Feature will be availed soon!",
+                            Toast.LENGTH_SHORT
+                        ).show(); true
+                    }
                     else -> false
                 }
             }

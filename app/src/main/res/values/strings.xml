@@ -45,6 +45,8 @@
     <string name="inverse">INV</string>
     <string name="factorial">!</string>
     <string name="history">History</string>
+    <string name="clear_history">Clear history</string>
+    <string name="no_history">No history</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>
