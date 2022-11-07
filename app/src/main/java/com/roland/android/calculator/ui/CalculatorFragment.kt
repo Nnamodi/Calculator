@@ -1,15 +1,17 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roland.android.calculator.R
 import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
@@ -51,7 +53,6 @@ class CalculatorFragment : Fragment() {
     private val binding get() = _binding!!
     private val _inverse = MutableStateFlow(false)
     private val inverse = _inverse.asStateFlow()
-    private var toolbarSet = false
     private lateinit var squared: String
 //    private lateinit var cubeRoot: String
     private lateinit var sinInverse: String
@@ -62,12 +63,12 @@ class CalculatorFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCalculatorBinding.inflate(layoutInflater)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        addObservers(); toolbarSet = true
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupMenuItem()
         squared = getString(R.string.squared)
 //        cubeRoot = getString(R.string.cube_root)
         sinInverse = getString(R.string.arc_sine)
@@ -161,9 +162,6 @@ class CalculatorFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (!toolbarSet) {
-            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        }
         lifecycleScope.launchWhenResumed {
             calcViewModel.stateFlow.collectLatest {
                 binding.apply {
@@ -207,11 +205,8 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    private fun addObservers() {
-        lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_PAUSE) { toolbarSet = false }
-            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
-        })
+    override fun onDestroy() {
+        super.onDestroy(); _binding = null
     }
 
     private fun delButtonText(input: String): Boolean {
@@ -244,5 +239,40 @@ class CalculatorFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = if (trigFunctions.any { trig ->
                 input.contains(trig) }
         ) { degRad } else { "" }
+    }
+
+    private fun setupMenuItem() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_calculator, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.change_theme -> { themeDialog(); true }
+                    R.id.history -> { findNavController().navigate(R.id.move_to_history); true }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
+    }
+
+    private fun themeDialog() {
+        val options = resources.getStringArray(R.array.dialog_options)
+        val checkedOption = Preference.getTheme(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.dialog_title))
+            .setPositiveButton(getString(R.string.dialog_close)) { _, _ -> }
+            .setSingleChoiceItems(options, checkedOption) { dialog, option ->
+                val mode = when (option) {
+                    0 -> { AppCompatDelegate.MODE_NIGHT_YES }
+                    1 -> { AppCompatDelegate.MODE_NIGHT_NO }
+                    else -> { AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM }
+                }
+                AppCompatDelegate.setDefaultNightMode(mode)
+                Preference.setTheme(requireContext(), option)
+                dialog.dismiss()
+            }.show()
     }
 }

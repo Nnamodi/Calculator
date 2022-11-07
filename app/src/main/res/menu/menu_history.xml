@@ -3,11 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/change_theme"
-        android:title="@string/change_theme"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/history"
-        android:title="@string/history"
+        android:id="@+id/clear_history"
+        android:title="@string/clear_history"
         app:showAsAction="never" />
 </menu>
