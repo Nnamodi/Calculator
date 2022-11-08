@@ -10,10 +10,12 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
 import com.roland.android.calculator.ui.adapter.HistoryAdapter
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class HistoryFragment : Fragment() {
     private val viewModel by viewModels<CalculatorViewModel>()
@@ -34,10 +36,12 @@ class HistoryFragment : Fragment() {
         setupMenuItem()
         val adapter = HistoryAdapter()
         binding.recyclerView.adapter = adapter
-        viewModel.getEquation.observe(viewLifecycleOwner) { equation ->
-            binding.noHistory = equation.isEmpty() // give binding-variable a value
-            adapter.submitList(equation)
-            Log.d("HistoryItem", "History: $equation")
+        lifecycleScope.launchWhenStarted {
+            viewModel.getEquation.collectLatest { equation ->
+                binding.noHistory = equation.isEmpty() // give binding-variable a value
+                adapter.submitList(equation)
+                Log.d("HistoryItem", "History: $equation")
+            }
         }
     }
 

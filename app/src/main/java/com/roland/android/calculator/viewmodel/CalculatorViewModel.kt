@@ -4,7 +4,6 @@ import android.app.Application
 import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.roland.android.calculator.data.*
 import com.roland.android.calculator.data.database.Equation
@@ -48,6 +47,7 @@ import com.roland.android.calculator.util.Regex.regex
 import com.roland.android.calculator.util.Regex.regexR
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -55,7 +55,7 @@ import kotlinx.coroutines.launch
 class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) {
     // database
     private val repository: EquationRepository
-    val getEquation: LiveData<List<Equation>>
+    val getEquation: Flow<List<Equation>>
 
     init {
         val equationDao = EquationDatabase.getDatabase(app).equationDao()
@@ -328,9 +328,14 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input
                 // save to history
+                val equation = stateFlow.value.input
+                val trigFunctions = setOf(SIN, COS, TAN, SIN_INV, COS_INV, TAN_INV)
+                val radDeg = if (trigFunctions.any { equation.contains(it) }) {
+                    Preference.getDegRad(app)!! } else { "" }
                 addCalculation(Equation(
                     input = stateFlow.value.input,
-                    result = stateFlow.value.result
+                    result = stateFlow.value.result,
+                    degRad = radDeg
                 ))
                 // convert answer to fraction if result is decimal and if bits <= 5
                 if (result.contains(DOT) && decimal <= 5) {

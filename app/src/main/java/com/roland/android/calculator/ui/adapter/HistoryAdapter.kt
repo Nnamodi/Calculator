@@ -20,6 +20,7 @@ class HistoryAdapter : ListAdapter<Equation, HistoryAdapter.ViewHolder>(DiffCall
     class ViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(eq: Equation) {
             binding.apply {
+                degRad.text = eq.degRad
                 equation.apply {
                     setOnClickListener { onClick(eq.input) }
                     text = eq.input

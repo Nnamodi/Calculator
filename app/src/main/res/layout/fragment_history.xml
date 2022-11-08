@@ -32,12 +32,15 @@
             android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
             android:visibility="@{noHistory ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:reverseLayout="false"
+            app:stackFromEnd="true"
             tools:itemCount="4"
             tools:listitem="@layout/item_history" />
 
@@ -66,7 +69,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/no_history"
                 android:textAlignment="center"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="?attr/colorTertiary"
                 android:textSize="40sp" />
         </LinearLayout>
 

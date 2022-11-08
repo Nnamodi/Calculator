@@ -8,5 +8,6 @@ data class Equation(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var input: String = "",
-    var result: String = ""
+    var result: String = "",
+    var degRad: String = ""
 )
