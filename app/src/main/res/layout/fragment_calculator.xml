@@ -9,6 +9,7 @@
         <variable name="expand" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
         <variable name="delete" type="Boolean" />
+        <variable name="inverse_value" type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -191,7 +192,8 @@
                 android:id="@+id/inv"
                 style="@style/ScientificButton"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/inverse" />
+                android:text="@string/inverse"
+                app:pressed="@{inverse_value}" />
         </LinearLayout>
 
         <LinearLayout

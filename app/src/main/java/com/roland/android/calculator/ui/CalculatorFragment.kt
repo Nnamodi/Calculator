@@ -200,6 +200,8 @@ class CalculatorFragment : Fragment() {
                         squareRoot.text = getString(R.string.square_root)
                         naturalLog.text = getString(R.string.natural_log)
                     }
+                    // giving binding-variable a value
+                    inverseValue = it
                 }
             }
         }
