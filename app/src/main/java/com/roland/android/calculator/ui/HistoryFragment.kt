@@ -10,15 +10,18 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
 import com.roland.android.calculator.ui.adapter.HistoryAdapter
-import com.roland.android.calculator.viewmodel.CalculatorViewModel
+import com.roland.android.calculator.util.Constants.HISTORY
+import com.roland.android.calculator.viewmodel.HistoryViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class HistoryFragment : Fragment() {
-    private val viewModel by viewModels<CalculatorViewModel>()
+    private val viewModel by viewModels<HistoryViewModel>()
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
@@ -33,8 +36,12 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObservables()
         setupMenuItem()
-        val adapter = HistoryAdapter()
+    }
+
+    private fun setupObservables() {
+        val adapter = HistoryAdapter { onClick(it) }
         binding.recyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             viewModel.getEquation.collectLatest { equation ->
@@ -43,10 +50,9 @@ class HistoryFragment : Fragment() {
                 Log.d("HistoryItem", "History: $equation")
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy(); _binding = null
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
+        })
     }
 
     private fun setupMenuItem() {
@@ -69,5 +75,12 @@ class HistoryFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
+    }
+
+    private fun onClick(text: String) {
+        findNavController().apply {
+            previousBackStackEntry?.savedStateHandle?.set(HISTORY, text)
+            navigateUp()
+        }
     }
 }

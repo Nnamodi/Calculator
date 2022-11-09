@@ -9,6 +9,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -25,6 +26,7 @@ import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
 import com.roland.android.calculator.util.Constants.EULER_INV
 import com.roland.android.calculator.util.Constants.FACT
+import com.roland.android.calculator.util.Constants.HISTORY
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.LOG_N
@@ -68,7 +70,7 @@ class CalculatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupMenuItem()
+        setupMenuItem(); setupObservables()
         squared = getString(R.string.squared)
 //        cubeRoot = getString(R.string.cube_root)
         sinInverse = getString(R.string.arc_sine)
@@ -207,8 +209,18 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy(); _binding = null
+    private fun setupObservables() {
+        val navBackStackEntry = findNavController().getBackStackEntry(R.id.calculatorFragment)
+        navBackStackEntry.savedStateHandle.getLiveData<String>(HISTORY)
+            .observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) { calcViewModel.onAction(CalculatorActions.EnterEquation(it)) }
+            }
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                findNavController().currentBackStackEntry?.savedStateHandle?.set(HISTORY, "")
+            }
+            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
+        })
     }
 
     private fun delButtonText(input: String): Boolean {

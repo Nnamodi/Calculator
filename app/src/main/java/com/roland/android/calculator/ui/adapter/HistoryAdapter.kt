@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.roland.android.calculator.data.database.Equation
 import com.roland.android.calculator.databinding.ItemHistoryBinding
 
-class HistoryAdapter : ListAdapter<Equation, HistoryAdapter.ViewHolder>(DiffCallback()) {
+class HistoryAdapter(private val onClick: (String) -> Unit) :
+    ListAdapter<Equation, HistoryAdapter.ViewHolder>(DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
         ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
@@ -17,7 +18,7 @@ class HistoryAdapter : ListAdapter<Equation, HistoryAdapter.ViewHolder>(DiffCall
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(eq: Equation) {
             binding.apply {
                 degRad.text = eq.degRad
@@ -31,8 +32,6 @@ class HistoryAdapter : ListAdapter<Equation, HistoryAdapter.ViewHolder>(DiffCall
                 }
             }
         }
-
-        private fun onClick(text: CharSequence) {}
     }
 
     class DiffCallback: DiffUtil.ItemCallback<Equation>() {

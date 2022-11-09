@@ -47,7 +47,6 @@ import com.roland.android.calculator.util.Regex.regex
 import com.roland.android.calculator.util.Regex.regexR
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -55,12 +54,10 @@ import kotlinx.coroutines.launch
 class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) {
     // database
     private val repository: EquationRepository
-    val getEquation: Flow<List<Equation>>
 
     init {
         val equationDao = EquationDatabase.getDatabase(app).equationDao()
         repository = EquationRepository(equationDao)
-        getEquation = repository.getEquations
     }
 
     private fun addCalculation(equation: Equation) {
@@ -97,6 +94,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.SquareInv -> { addSquare(SQUARED) }
             is CalculatorActions.SquareRoot -> { addSquareRoot() }
             is CalculatorActions.DegRad -> { degRad() }
+            is CalculatorActions.EnterEquation -> { enterEquation(action.equation) }
         }
         if (action !is CalculatorActions.Calculate) { calculateInput() }
     }
@@ -288,6 +286,14 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 }
             }
         }
+    }
+
+    private fun enterEquation(equation: String) {
+        val input = _stateFlow.value.input
+        _stateFlow.value = if (input.isNotBlank()) {
+            Digits(input = "($input)×$equation")
+        } else { Digits(input = equation) }
+        calculateInput()
     }
 
     private fun calculateInput(equalled: Boolean = false) {
