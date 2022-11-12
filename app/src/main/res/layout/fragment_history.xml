@@ -23,7 +23,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/menu_calculator"
-            app:navigationIconTint="?attr/colorOnSurface"
+            app:navigationIcon="@drawable/up_button"
+            app:navigationContentDescription="@string/back"
             app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
             app:title="@string/history"
             app:titleTextColor="?attr/colorOnSurface" />

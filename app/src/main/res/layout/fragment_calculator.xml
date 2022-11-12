@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
+        <variable name="equalled" type="Boolean" />
         <variable name="error" type="Boolean" />
         <variable name="expand" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
@@ -47,15 +48,29 @@
                 android:visibility="@{error ? View.GONE : View.VISIBLE}"
                 tools:ignore="Autofill,LabelFor" />
 
-            <TextView
-                android:id="@+id/result"
-                style="@style/ResultText"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="22dp"
                 android:layout_weight="3"
-                android:letterSpacing="0.05"
-                android:textColor="?attr/colorTertiary"
-                android:textIsSelectable="true"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}"
-                tools:text="@string/result" />
+                android:paddingStart="21dp"
+                android:paddingEnd="21dp"
+                android:scrollbarSize="0dp"
+                android:visibility="@{error ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/result"
+                    style="@style/ResultText"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:ellipsize="start"
+                    android:letterSpacing="0.05"
+                    android:textColor="?attr/colorTertiary"
+                    android:textIsSelectable="true"
+                    tools:text="@string/result" />
+            </HorizontalScrollView>
 
             <EditText
                 android:id="@+id/wrong_input"

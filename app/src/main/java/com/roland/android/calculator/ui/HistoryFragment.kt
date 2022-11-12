@@ -27,10 +27,7 @@ class HistoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHistoryBinding.inflate(layoutInflater)
-        (activity as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         return binding.root
     }
 
@@ -41,7 +38,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupObservables() {
-        val adapter = HistoryAdapter { onClick(it) }
+        val adapter = HistoryAdapter(this::onClick)
         binding.recyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             viewModel.getEquation.collectLatest { equation ->

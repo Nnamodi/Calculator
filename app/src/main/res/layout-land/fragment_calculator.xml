@@ -5,6 +5,7 @@
 
     <data>
         <import type="android.view.View"/>
+        <variable name="equalled" type="Boolean" />
         <variable name="error" type="Boolean" />
         <variable name="deg_rad_value" type="String" />
         <variable name="delete" type="Boolean" />
@@ -40,11 +41,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <EditText
-                android:id="@+id/input"
-                style="@style/InputText"
-                android:visibility="@{error ? View.GONE : View.VISIBLE}"
-                tools:ignore="Autofill,LabelFor" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{error ? View.GONE : View.VISIBLE}">
+
+                <EditText
+                    android:id="@+id/input"
+                    style="@style/InputText"
+                    android:layout_gravity="end"
+                    android:visibility="@{equalled ? View.GONE : View.VISIBLE}"
+                    tools:ignore="Autofill,LabelFor" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginStart="21dp"
+                    android:scrollbarSize="0dp"
+                    android:visibility="@{equalled ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/land_result"
+                        style="@style/ResultText"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:ellipsize="start"
+                        android:letterSpacing="0.05"
+                        android:textColor="?attr/colorOnSurface"
+                        tools:text="23"/>
+                </HorizontalScrollView>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/error_text"

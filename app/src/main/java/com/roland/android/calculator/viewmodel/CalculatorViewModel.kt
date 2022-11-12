@@ -70,10 +70,12 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
     private val _stateFlow = MutableStateFlow(Digits())
     val stateFlow = _stateFlow.asStateFlow()
     private var previousEquation = ""
+    var equalled = false
     var inputIsAnswer = false
 
     fun onAction(action: CalculatorActions) {
         if (action !is CalculatorActions.Delete) { inputIsAnswer = false }
+        if (action !is CalculatorActions.Calculate) { equalled = false }
         when (action) {
             is CalculatorActions.Numbers -> { enterNumber(action.number) }
             is CalculatorActions.Clear -> { clearInput() }
@@ -315,7 +317,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                     (setOf(".", "-", "-.").all { signum != it } ||
                     setOf("-.", "-(", "-").all { !input.startsWith(it) })
             ) {
-                val expression = Expression(optimizedInput(input)).setPrecision(11)
+                val expression = Expression(optimizedInput(input)).setPrecision(100)
                 val calcResult = expression.eval(false).toPlainString()
                 val result = if (calcResult.contains(DOT)) {
                     calcResult.dropLastWhile { it == '0' || it == '.' }
@@ -330,6 +332,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             val result = _stateFlow.value.result
             if (equalled && result.isNotBlank() && "/" !in result) {
                 val decimal = result.takeLastWhile { it.isDigit() }.length
+                this.equalled = true
                 inputIsAnswer = true
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input

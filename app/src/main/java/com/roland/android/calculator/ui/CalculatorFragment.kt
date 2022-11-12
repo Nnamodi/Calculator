@@ -162,17 +162,19 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launchWhenResumed {
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {
                 binding.apply {
                     input.setText(it.input)
                     input.setSelection(it.input.length)
                     input.isCursorVisible = !calcViewModel.inputIsAnswer
                     result?.text = it.result
+                    landResult?.text = it.input
                     errorText.text = it.errorMessage
                     // giving binding-layout variable a value
+                    equalled = calcViewModel.equalled
                     error = it.error
                     delete = delButtonText(it.input)
 

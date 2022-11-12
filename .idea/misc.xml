@@ -6,6 +6,8 @@
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable-anydpi/collapse_icon.xml" value="0.1" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable-anydpi/expand_icon.xml" value="0.188" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable-anydpi/history_icon.xml" value="0.188" />
+        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable-anydpi/up_button.xml" value="0.152" />
+        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable-anydpi/up_button_.xml" value="0.188" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable/corner_radius.xml" value="0.152" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable/dialog.xml" value="0.188" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/drawable/dialog_background.xml" value="0.152" />
@@ -16,10 +18,16 @@
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/fragment_history.xml" value="0.25" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/item_history.xml" value="0.25" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/more_buttons.xml" value="0.24909420289855072" />
+        <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/layout/separator_item.xml" value="0.33" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/menu/menu_calculator.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/Martins/AndroidStudioProjects/Calculator/app/src/main/res/menu/menu_history.xml" value="0.22268518518518518" />
       </map>
     </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="androidx.room.TypeConverter" />
+    </list>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
