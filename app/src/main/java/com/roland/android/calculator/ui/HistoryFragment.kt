@@ -48,6 +48,9 @@ class HistoryFragment : Fragment() {
             }
         }
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(HISTORY, "")
+            }
             if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
         })
     }

@@ -50,6 +50,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.*
 
 class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) {
     // database
@@ -342,6 +343,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 val radDeg = if (trigFunctions.any { equation.contains(it) }) {
                     Preference.getDegRad(app)!! } else { "" }
                 addCalculation(Equation(
+                    date = Calendar.getInstance().time,
                     input = stateFlow.value.input,
                     result = stateFlow.value.result,
                     degRad = radDeg
