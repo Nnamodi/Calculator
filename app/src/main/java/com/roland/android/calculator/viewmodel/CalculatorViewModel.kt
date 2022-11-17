@@ -58,7 +58,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
 
     init {
         val equationDao = EquationDatabase.getDatabase(app).equationDao()
-        repository = EquationRepository(equationDao)
+        repository = EquationRepository(equationDao, viewModelScope)
     }
 
     private fun addCalculation(equation: Equation) {
