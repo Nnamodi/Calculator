@@ -42,8 +42,8 @@ class HistoryFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             viewModel.getEquation.collectLatest { equation ->
-                binding.noHistory = equation.isEmpty() // give binding-variable a value
-                adapter.submitList(equation)
+//                binding.noHistory = equation.isEmpty() // give binding-variable a value
+                adapter.submitData(equation)
                 Log.d("HistoryItem", "History: $equation")
             }
         }
