@@ -37,7 +37,7 @@ class HistoryViewModel(app: Application) : AndroidViewModel(app) {
                     }
                     if (before.simpleDate != after.simpleDate) {
                         return@insertSeparators UiModel.SeparatorItem(
-                            before.history.date
+                            after.history.date
                         )
                     } else { null }
                 }
