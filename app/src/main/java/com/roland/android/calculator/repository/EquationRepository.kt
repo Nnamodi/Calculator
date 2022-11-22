@@ -30,4 +30,8 @@ class EquationRepository(
     suspend fun addCalculation(equation: Equation) {
         equationDao.addCalculation(equation)
     }
+
+    suspend fun clearHistory() {
+        equationDao.clearHistory()
+    }
 }

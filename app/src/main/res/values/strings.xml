@@ -48,7 +48,14 @@
     <string name="clear_history">Clear history</string>
     <string name="no_history">No history</string>
     <string name="back">Back</string>
-    <string name="history_date">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="days_ago">%d days ago</string>
+    <string name="a_week_ago">A week ago</string>
+    <string name="delete_dialog_title">Clear all history</string>
+    <string name="dialog_dismiss">Dismiss</string>
+    <string name="dialog_clear">Clear</string>
+    <string name="cleared_toast">Cleared!</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>

@@ -95,9 +95,13 @@
 
     <!-- Dialog theme. -->
     <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/DialogButton</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveDialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/NeutralDialogButton</item>
     </style>
-    <style name="DialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
+    <style name="PositiveDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/orange</item>
+    </style>
+    <style name="NeutralDialogButton" parent="Widget.Material3.Button.TextButton.Dialog.Flush">
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 </resources>

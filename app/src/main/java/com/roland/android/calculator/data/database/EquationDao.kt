@@ -11,4 +11,7 @@ interface EquationDao {
 
     @Insert
     suspend fun addCalculation(equation: Equation)
+
+    @Query("DELETE FROM equation")
+    suspend fun clearHistory()
 }

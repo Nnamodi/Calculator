@@ -1,6 +1,5 @@
 package com.roland.android.calculator.data.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.roland.android.calculator.data.database.Equation
@@ -20,7 +19,7 @@ class PagingSource(private val source: EquationDao) : PagingSource<Int, Equation
 
             LoadResult.Page(
                 data = entities,
-                prevKey = if (currentPage == 0) null else currentPage - 1, // possible cause for bug
+                prevKey = if (currentPage == 0) null else currentPage - 1,
                 nextKey = if (currentPage == 0) null else currentPage + 1
             )
         } catch (e: Exception) {
