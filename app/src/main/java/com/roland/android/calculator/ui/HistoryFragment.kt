@@ -22,7 +22,6 @@ import com.roland.android.calculator.viewmodel.HistoryViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class HistoryFragment : Fragment() {
-    private lateinit var menuHost: MenuHost
     private val viewModel by viewModels<HistoryViewModel>()
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
@@ -44,8 +43,8 @@ class HistoryFragment : Fragment() {
         val adapter = HistoryAdapter(this::onClick)
         binding.recyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
-            viewModel.getEquation.collectLatest { equation ->
-                adapter.submitData(equation)
+            viewModel.getEquation.collectLatest {
+                adapter.submitData(it)
             }
         }
         lifecycleScope.launchWhenStarted {
@@ -54,7 +53,6 @@ class HistoryFragment : Fragment() {
                 binding.noHistory = adapter.itemCount == 0 && loadState.refresh is LoadState.NotLoading
                 noHistory = adapter.itemCount == 0
                 Log.d("HistoryItem", "item(s) fetched: ${adapter.itemCount}")
-                menuHost.invalidateMenu()
             }
         }
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
@@ -66,21 +64,18 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupMenuItem() {
-        menuHost = requireActivity()
+        val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_history, menu)
-                Log.d("HistoryItem", "Created")
             }
 
             override fun onPrepareMenu(menu: Menu) {
                 super.onPrepareMenu(menu)
-                menu.findItem(R.id.clear_history).isEnabled = noHistory
-                Log.d("HistoryItem", "Prepared")
+                menu.findItem(R.id.clear_history).isEnabled = !noHistory
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                Log.d("HistoryItem", "Selected")
                 return when (menuItem.itemId) {
                     R.id.clear_history -> {
                         MaterialAlertDialogBuilder(requireContext())
