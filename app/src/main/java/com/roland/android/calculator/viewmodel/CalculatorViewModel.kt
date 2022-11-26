@@ -365,6 +365,13 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                     error = true,
                     errorMessage = e(e.message!!)
                 )
+                // save to history
+                addCalculation(Equation(
+                    date = Calendar.getInstance().time,
+                    input = stateFlow.value.input,
+                    error = true,
+                    errorMessage = e(e.message!!)
+                ))
             }; inputIsAnswer = false
             Log.e("SyntaxError", "Input error: ", e)
         }

@@ -11,5 +11,7 @@ data class Equation(
     var date: Date = Date(),
     var input: String = "",
     var result: String = "",
-    var degRad: String = ""
+    var degRad: String = "",
+    var error: Boolean = false,
+    var errorMessage: String = ""
 )

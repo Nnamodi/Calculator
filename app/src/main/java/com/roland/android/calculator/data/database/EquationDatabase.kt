@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Equation::class], version = 2, exportSchema = false)
+@Database(entities = [Equation::class], version = 3, exportSchema = false)
 @TypeConverters(TypeConverter::class)
 abstract class EquationDatabase : RoomDatabase() {
     abstract fun equationDao(): EquationDao
@@ -36,10 +36,13 @@ abstract class EquationDatabase : RoomDatabase() {
     }
 }
 
-val migration = object : Migration(1, 2) {
+val migration = object : Migration(2, 3) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(
-            "ALTER TABLE Equation ADD COLUMN date INTEGER NOT NULL DEFAULT ''"
+            "ALTER TABLE Equation ADD COLUMN error INTEGER NOT NULL DEFAULT ''"
+        )
+        database.execSQL(
+            "ALTER TABLE Equation ADD COLUMN errorMessage TEXT NOT NULL DEFAULT ''"
         )
     }
 

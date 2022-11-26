@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
@@ -48,9 +47,9 @@ class HistoryFragment : Fragment() {
             }
         }
         lifecycleScope.launchWhenStarted {
-            adapter.loadStateFlow.collectLatest { loadState ->
+            adapter.loadStateFlow.collectLatest {
                 // give binding-variable a value
-                binding.noHistory = adapter.itemCount == 0 && loadState.refresh is LoadState.NotLoading
+                binding.noHistory = adapter.itemCount == 0
                 noHistory = adapter.itemCount == 0
                 Log.d("HistoryItem", "item(s) fetched: ${adapter.itemCount}")
             }
@@ -83,6 +82,8 @@ class HistoryFragment : Fragment() {
                             .setPositiveButton(getString(R.string.dialog_dismiss)) { _, _ -> }
                             .setNeutralButton(getString(R.string.dialog_clear)) { _, _ ->
                                 viewModel.clearHistory()
+                                binding.noHistory = true
+                                findNavController().navigateUp()
                             }.show()
                         true
                     }

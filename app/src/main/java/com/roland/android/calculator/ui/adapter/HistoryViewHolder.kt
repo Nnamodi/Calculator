@@ -1,6 +1,7 @@
 package com.roland.android.calculator.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.roland.android.calculator.data.database.Equation
@@ -17,6 +18,17 @@ class HistoryViewHolder(private val binding: ItemHistoryBinding) : RecyclerView.
             eqResult.apply {
                 setOnClickListener { onClick(eq.result) }
                 text = eq.result
+            }
+            inputError.apply {
+                setOnClickListener { onClick(eq.input) }
+                text = eq.input
+            }
+            errorMessage.text = eq.errorMessage
+            // giving binding-variable a value
+            inputIsError = eq.error
+            if (eq.error) {
+                inputErrorContainer.visibility = View.VISIBLE
+                errorMessageContainer.visibility = View.VISIBLE
             }
         }
     }
