@@ -4,7 +4,9 @@ object Constants {
     const val THEME = "theme"
     const val DEG_RAD = "rad_deg"
     const val HISTORY = "history_equation"
-    const val PATTERN = "MMMM, d"
+    const val PATTERN = "MMMM d"
+    const val FULL_PATTERN = "MMMM d, YYYY"
+    const val YEAR = "YYYY"
     const val STARTING_PAGE = 0
     const val LOAD_PAGE_SIZE = 30
 

@@ -159,6 +159,9 @@ class CalculatorFragment : Fragment() {
             }
             setOf(degRad, inv, expandButton)
                 .forEach { it?.setOnTouchListener(Haptic.ClickFeedback(requireContext())) }
+            setOf(input, wrongInput).forEach { input -> input?.setOnClickListener {
+                if (input.text.isNotBlank()) { input.isCursorVisible = false }
+            } }
         }
     }
 
@@ -281,14 +284,16 @@ class CalculatorFragment : Fragment() {
             .setTitle(getString(R.string.dialog_title))
             .setPositiveButton(getString(R.string.dialog_close)) { _, _ -> }
             .setSingleChoiceItems(options, checkedOption) { dialog, option ->
-                val mode = when (option) {
-                    0 -> { AppCompatDelegate.MODE_NIGHT_YES }
-                    1 -> { AppCompatDelegate.MODE_NIGHT_NO }
-                    else -> { AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM }
+                if (option != checkedOption) {
+                    val mode = when (option) {
+                        0 -> { AppCompatDelegate.MODE_NIGHT_YES }
+                        1 -> { AppCompatDelegate.MODE_NIGHT_NO }
+                        else -> { AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM }
+                    }
+                    AppCompatDelegate.setDefaultNightMode(mode)
+                    Preference.setTheme(requireContext(), option)
+                    dialog.dismiss()
                 }
-                AppCompatDelegate.setDefaultNightMode(mode)
-                Preference.setTheme(requireContext(), option)
-                dialog.dismiss()
             }.show()
     }
 }
