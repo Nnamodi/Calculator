@@ -18,6 +18,7 @@ import com.roland.android.calculator.data.CalculatorActions
 import com.roland.android.calculator.data.CalculatorOperations
 import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.databinding.FragmentCalculatorBinding
+import com.roland.android.calculator.util.Accessibility.accessCalculator
 import com.roland.android.calculator.util.Constants.ADD
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COS_INV
@@ -150,14 +151,17 @@ class CalculatorFragment : Fragment() {
                 }
             }
             degRad.setOnClickListener { degRadConfig(clicked = true) }
+            toolbarDegRad.setOnClickListener { degRadConfig(clicked = true) }
             inv.setOnClickListener { _inverse.value = !inverse.value }
             // expand hidden buttons
             expandButton?.setOnCheckedChangeListener { _, checked ->
                 _inverse.value = false
+                // make calculator accessible
+                accessCalculator()
                 // giving binding-layout variable a value to toggle visibility
                 expand = checked
             }
-            setOf(degRad, inv, expandButton)
+            setOf(degRad, toolbarDegRad, inv, expandButton)
                 .forEach { it?.setOnTouchListener(Haptic.ClickFeedback(requireContext())) }
             setOf(input, wrongInput).forEach { input -> input?.setOnClickListener {
                 if (input.text.isNotBlank()) { input.isCursorVisible = false }
@@ -184,6 +188,8 @@ class CalculatorFragment : Fragment() {
                     wrongInput?.setText(it.input)
                     wrongInput?.setSelection(it.input.length)
                     degRadConfig()
+                    // make calculator accessible
+                    accessCalculator()
                 }
             }
         }
@@ -209,6 +215,7 @@ class CalculatorFragment : Fragment() {
                     }
                     // giving binding-variable a value
                     inverseValue = it
+                    accessCalculator(inverse = it)
                 }
             }
         }
@@ -251,13 +258,17 @@ class CalculatorFragment : Fragment() {
 
         val input = calcViewModel.stateFlow.value.input
         val trigFunctions = setOf(SIN, COS, TAN, SIN_INV, COS_INV, TAN_INV)
-        val degRad = Preference.getDegRad(requireContext())
+        val radDeg = Preference.getDegRad(requireContext())
         // giving binding-layout variable a value
-        binding.degRadValue = if (degRad == RAD) { DEG } else { RAD }
-
-        (activity as AppCompatActivity).supportActionBar?.title = if (trigFunctions.any { trig ->
-                input.contains(trig) }
-        ) { degRad } else { "" }
+        binding.apply {
+            degRad.text = if (radDeg == RAD) { DEG } else { RAD }
+            toolbarDegRad.text = radDeg
+            toolbarDegRad.visibility = if (trigFunctions.any { trig ->
+                    input.contains(trig) }
+            ) { View.VISIBLE } else { View.GONE }
+        }
+        if (clicked) { binding.accessCalculator() }
+        (activity as AppCompatActivity).supportActionBar?.title = ""
     }
 
     private fun setupMenuItem() {

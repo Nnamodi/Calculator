@@ -7,7 +7,6 @@
         <import type="android.view.View"/>
         <variable name="equalled" type="Boolean" />
         <variable name="error" type="Boolean" />
-        <variable name="deg_rad_value" type="String" />
         <variable name="delete" type="Boolean" />
         <variable name="inverse_value" type="Boolean" />
     </data>
@@ -28,8 +27,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/menu_calculator"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-            app:titleTextColor="?attr/colorTertiary" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
+
+            <Button
+                android:id="@+id/toolbar_deg_rad"
+                style="@style/ScientificButton"
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:textColor="?attr/colorTertiary"
+                android:textSize="24sp"
+                android:visibility="gone"
+                tools:text="@string/degree" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <LinearLayout
             android:id="@+id/digits_field"
@@ -55,6 +64,7 @@
                     tools:ignore="Autofill,LabelFor" />
 
                 <HorizontalScrollView
+                    android:id="@+id/land_result_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="21dp"
@@ -147,6 +157,7 @@
                 android:id="@+id/del_button"
                 android:layout_marginEnd="0dp"
                 style="@style/DeleteButton"
+                android:longClickable="true"
                 android:text="@string/del"
                 android:visibility="@{delete ? View.VISIBLE : View.GONE}"
                 tools:visibility="gone" />
@@ -273,7 +284,6 @@
             <Button
                 android:id="@+id/deg_rad"
                 style="@style/ScientificButton"
-                android:text="@{deg_rad_value}"
                 tools:text="@string/degree" />
 
             <Button

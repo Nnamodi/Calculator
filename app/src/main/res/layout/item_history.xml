@@ -53,10 +53,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:scrollbarSize="0dp"
-            android:visibility="gone"
+            android:visibility="@{input_is_error ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deg_rad">
+            app:layout_constraintTop_toBottomOf="@+id/deg_rad"
+            tools:visibilty="gone">
 
             <TextView
                 android:id="@+id/input_error"
@@ -109,11 +110,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             android:scrollbarSize="0dp"
-            android:visibility="gone"
+            android:visibility="@{input_is_error ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/input_error_container">
+            app:layout_constraintTop_toBottomOf="@+id/input_error_container"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/error_message"

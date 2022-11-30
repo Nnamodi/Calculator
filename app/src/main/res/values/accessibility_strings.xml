@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- widget accessibility -->
+    <string name="a_no_result">no result</string>
+    <string name="a_no_equation">no equation</string>
+    <string name="a_divide">divide</string>
+    <string name="a_multiply">multiply</string>
+    <string name="a_equals">equals</string>
+    <string name="a_double_zero">double zero</string>
+    <string name="a_euler">euler\'s number</string>
+    <string name="a_euler_inverse">euler\'s number inverse</string>
+    <string name="a_factorial">factorial</string>
+    <string name="a_parenthesis">left or right parenthesis</string>
+    <string name="a_sine">sine</string>
+    <string name="a_sine_inverse">sine inverse</string>
+    <string name="a_cosine">cosine</string>
+    <string name="a_cosine_inverse">cosine inverse</string>
+    <string name="a_tangent">tangent</string>
+    <string name="a_tangent_inverse">tangent inverse</string>
+    <string name="a_power">power</string>
+    <string name="a_square_root">square root</string>
+    <string name="a_square">square</string>
+    <string name="a_log">logarithm</string>
+    <string name="a_log_inverse">logarithm inverse</string>
+    <string name="a_natural_log">natural logarithm</string>
+    <string name="a_clear">clear</string>
+    <string name="a_delete">delete</string>
+    <string name="a_point">point</string>
+    <string name="a_deg_mode">switch to deg mode</string>
+    <string name="a_rad_mode">switch to rad mode</string>
+    <string name="a_from_inverse">switch back from inverse functions</string>
+    <string name="a_to_inverse">switch to inverse functions</string>
+    <string name="a_expand">expand</string>
+    <string name="a_collapse">collapse</string>
+    <string name="a_deg_rad_mode">%s mode</string>
+    <!-- text accessibility -->
+    <string name="a_minus">minus</string>
+    <string name="a_divided_by">divided by</string>
+    <string name="a_left_parenthesis">left parenthesis</string>
+    <string name="a_right_parenthesis">right parenthesis</string>
+    <string name="a_exponent">raised to power</string>
+</resources>
