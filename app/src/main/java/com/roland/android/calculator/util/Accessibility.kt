@@ -24,7 +24,7 @@ object Accessibility {
                     input.text.toString().accessibilityRegex(string)
                 }
             }
-            Log.d("AccessibilityRegex", "accessCalculator: ${input.text.toString().accessibilityRegex(string)}")
+            Log.d("AccessibilityRegex", "accessCalculator: ${input.contentDescription}")
         }
 
         setOf(divide, multiply, equals, button00, euler, factorial, bracket, sin, cos, tan, square, squareRoot,

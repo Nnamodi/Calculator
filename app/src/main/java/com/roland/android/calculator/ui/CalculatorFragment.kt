@@ -237,6 +237,7 @@ class CalculatorFragment : Fragment() {
 
     private fun delButtonText(input: String): Boolean {
         return when {
+            calcViewModel.inputIsAnswer -> true
             input.length <= 1 -> false
             input == SIN -> false
             input == COS -> false

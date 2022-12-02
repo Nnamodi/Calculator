@@ -82,8 +82,6 @@ class HistoryFragment : Fragment() {
                             .setPositiveButton(getString(R.string.dialog_dismiss)) { _, _ -> }
                             .setNeutralButton(getString(R.string.dialog_clear)) { _, _ ->
                                 viewModel.clearHistory()
-                                binding.noHistory = true
-                                findNavController().navigateUp()
                             }.show()
                         true
                     }

@@ -15,6 +15,8 @@ class EquationRepository(
     private val equationDao: EquationDao,
     private val viewModelScope: CoroutineScope
 ) {
+    private var pagingSource: PagingSource? = null
+
     fun getEquations(): Flow<PagingData<Equation>> {
         return Pager(
             config = PagingConfig(
@@ -23,7 +25,9 @@ class EquationRepository(
             ),
             pagingSourceFactory = { PagingSource(
                 equationDao
-            ) }
+            ).also {
+                pagingSource = it
+            } }
         ).flow.cachedIn(viewModelScope)
     }
 
@@ -33,5 +37,6 @@ class EquationRepository(
 
     suspend fun clearHistory() {
         equationDao.clearHistory()
+        pagingSource?.invalidate()
     }
 }
