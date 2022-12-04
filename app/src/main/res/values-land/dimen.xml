@@ -20,11 +20,11 @@
     <dimen name="resultMarginStart">24dp</dimen>
     <dimen name="resultMarginEnd">21dp</dimen>
     <dimen name="resultMarginBottom">20dp</dimen>
-    <dimen name="resultTextSize">50sp</dimen>
+    <dimen name="resultTextSize">55sp</dimen>
     <!-- Input text -->
     <dimen name="inputPaddingStart">24dp</dimen>
     <dimen name="inputPaddingEnd">21dp</dimen>
     <dimen name="inputPaddingBottom">20dp</dimen>
     <dimen name="inputPaddingTop">0dp</dimen>
-    <dimen name="inputTextSize">50sp</dimen>
+    <dimen name="inputTextSize">55sp</dimen>
 </resources>

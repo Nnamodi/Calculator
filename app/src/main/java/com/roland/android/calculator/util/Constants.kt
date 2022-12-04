@@ -60,6 +60,6 @@ object Constants {
     const val MISSING_PARAM = "Missing parameter(s) for operator"
     const val MISMATCHED_PAR = "Mismatched parentheses"
     const val ROUNDING_NEC = "Rounding necessary"
-    const val INFINITY = "Infinity or NaN: NaN"
+    const val INFINITY = "Infinity or NaN: "
     const val NEGATIVE_SQRT = "Argument to SQRT() function must not be negative"
 }

@@ -318,8 +318,8 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                     (setOf(".", "-", "-.").all { signum != it } ||
                     setOf("-.", "-(", "-").all { !input.startsWith(it) })
             ) {
-                val expression = Expression(optimizedInput(input)).setPrecision(100)
-                val calcResult = expression.eval(false).toPlainString()
+                val expression = Expression(optimizedInput(input)).setPrecision(50)
+                val calcResult = expression.eval().toPlainString()
                 val result = if (calcResult.contains(DOT)) {
                     calcResult.dropLastWhile { it == '0' || it == '.' }
                 } else { calcResult }
