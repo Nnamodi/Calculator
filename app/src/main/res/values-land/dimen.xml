@@ -4,7 +4,7 @@
     <dimen name="margin">14dp</dimen>
     <!-- Scientific button -->
     <dimen name="sciMarginEnd">12dp</dimen>
-    <dimen name="maxSciTextSize">18dp</dimen>
+    <dimen name="maxSciTextSize">24dp</dimen>
     <dimen name="minSciTextSize">8dp</dimen>
     <!-- Number button -->
     <dimen name="buttonMarginEnd">12dp</dimen>
@@ -14,7 +14,7 @@
     <dimen name="maxOperatorTextSize">22dp</dimen>
     <dimen name="minOperatorTextSize">12dp</dimen>
     <!-- Delete button -->
-    <dimen name="maxDelTextSize">20dp</dimen>
+    <dimen name="maxDelTextSize">22dp</dimen>
     <dimen name="minDelTextSize">6dp</dimen>
     <!-- Result text -->
     <dimen name="resultMarginStart">24dp</dimen>

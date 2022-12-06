@@ -23,6 +23,7 @@
         <item name="android:layout_marginEnd">@dimen/buttonMarginEnd</item>
         <item name="android:layout_weight">1</item>
         <item name="android:backgroundTint">?attr/colorSecondaryVariant</item>
+        <item name="android:fontFamily">@font/lato</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="autoSizeMaxTextSize">@dimen/maxNumTextSize</item>
@@ -100,8 +101,12 @@
 
     <!-- Dialog theme. -->
     <style name="DialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogBodyTextStyle">@style/DialogContentText</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveDialogButton</item>
         <item name="buttonBarNeutralButtonStyle">@style/NeutralDialogButton</item>
+    </style>
+    <style name="DialogContentText" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="PositiveDialogButton" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/orange</item>

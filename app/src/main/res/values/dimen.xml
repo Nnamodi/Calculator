@@ -14,7 +14,7 @@
     <dimen name="maxOperatorTextSize">28dp</dimen>
     <dimen name="minOperatorTextSize">12dp</dimen>
     <!-- Delete button -->
-    <dimen name="maxDelTextSize">24dp</dimen>
+    <dimen name="maxDelTextSize">23dp</dimen>
     <dimen name="minDelTextSize">8dp</dimen>
     <!-- Result text -->
     <dimen name="resultMarginStart">18dp</dimen>

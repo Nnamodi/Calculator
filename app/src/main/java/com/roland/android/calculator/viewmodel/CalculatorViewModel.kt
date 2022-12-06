@@ -75,7 +75,8 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
     var inputIsAnswer = false
 
     fun onAction(action: CalculatorActions) {
-        if (action !is CalculatorActions.Delete) { inputIsAnswer = false }
+        if (action !is CalculatorActions.Delete && action !is CalculatorActions.Numbers &&
+            action !is CalculatorActions.Decimal) { inputIsAnswer = false }
         if (action !is CalculatorActions.Calculate) { equalled = false }
         when (action) {
             is CalculatorActions.Numbers -> { enterNumber(action.number) }
@@ -168,7 +169,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
     }
 
     private fun enterNumber(digit: String) {
-        if (inputIsAnswer) { _stateFlow.value = Digits(input = digit) }
+        if (inputIsAnswer) { _stateFlow.value = Digits(input = digit); inputIsAnswer = false }
         else {
             val symbols = setOf(')', 'π', 'e', '²')
             if (symbols.any { _stateFlow.value.input.endsWith(it) }) {
@@ -274,21 +275,23 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
 
     private fun enterDecimal() {
         val input = _stateFlow.value.input
-        if (input.isDigitsOnly()) {
-            _stateFlow.value = Digits(input = _stateFlow.value.input + DOT)
+        if (inputIsAnswer) {
+            _stateFlow.value = Digits(input = DOT)
         } else {
-            val lastSymbol = _stateFlow.value.input.last { !it.isDigit() }
-            if (lastSymbol != '.' || lastSymbol == '^') {
-                if (inputIsAnswer) {
-                    _stateFlow.value = Digits(input = DOT)
-                } else {
+            if (input.isDigitsOnly()) {
+                _stateFlow.value = Digits(input = _stateFlow.value.input + DOT)
+            } else {
+                val lastSymbol = _stateFlow.value.input.last { !it.isDigit() }
+                if (lastSymbol != '.' || lastSymbol == '^') {
                     val signum = setOf(")", PI, EULER)
                     if (signum.any { input.endsWith(it) }) {
                         _stateFlow.value = Digits(input = "$input×.")
-                    } else { _stateFlow.value = Digits(input = input + DOT) }
+                    } else {
+                        _stateFlow.value = Digits(input = input + DOT)
+                    }
                 }
             }
-        }
+        }; inputIsAnswer = false
     }
 
     private fun enterEquation(equation: String) {
