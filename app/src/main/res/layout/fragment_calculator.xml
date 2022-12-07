@@ -79,7 +79,6 @@
                     android:ellipsize="start"
                     android:letterSpacing="0.05"
                     android:textColor="?attr/colorTertiary"
-                    android:textIsSelectable="true"
                     tools:text="@string/result" />
             </HorizontalScrollView>
 
@@ -381,7 +380,8 @@
             <Button
                 android:id="@+id/button_00"
                 style="@style/NumberButton"
-                android:text="@string/_00" />
+                android:text="@string/_00"
+                app:autoSizeMaxTextSize="27dp" />
 
             <Button
                 android:id="@+id/button_0"

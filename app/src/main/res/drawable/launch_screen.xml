@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item android:drawable="?attr/colorPrimaryVariant"/>
+
+    <item android:drawable="@mipmap/launch_icon_foreground"
+        android:width="250dp"
+        android:height="250dp"
+        android:gravity="center"
+        tools:ignore="UnusedAttribute" />
+</layer-list>

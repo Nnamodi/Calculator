@@ -27,4 +27,15 @@
     <style name="ActionOverflow" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="tint">@color/dark_grey</item>
     </style>
+
+    <!-- Launch screen theme. -->
+    <style name="LaunchScreen" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_purple</item>
+        <item name="colorPrimaryVariant">@color/light_purple</item>
+        <item name="colorOnBackground">@color/light_purple</item>
+        <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+    </style>
 </resources>
