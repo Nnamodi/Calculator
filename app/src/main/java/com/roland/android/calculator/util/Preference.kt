@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.roland.android.calculator.util.Constants.DEG_RAD
+import com.roland.android.calculator.util.Constants.HAPTIC
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.THEME
 
@@ -27,6 +28,17 @@ object Preference {
     fun setDegRad(context: Context, value: String) {
         PreferenceManager.getDefaultSharedPreferences(context).edit {
             putString(DEG_RAD, value)
+        }
+    }
+
+    fun getHaptic(context: Context): Boolean {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(HAPTIC, true)
+    }
+
+    fun setHaptic(context: Context, vibrate: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(HAPTIC, vibrate)
         }
     }
 }

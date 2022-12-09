@@ -163,9 +163,12 @@ class CalculatorFragment : Fragment() {
             }
             setOf(degRad, toolbarDegRad, inv, expandButton)
                 .forEach { it?.setOnTouchListener(Haptic.ClickFeedback(requireContext())) }
-            setOf(input, wrongInput).forEach { input -> input?.setOnClickListener {
-                if (input.text.isNotBlank()) { input.isCursorVisible = false }
-            } }
+            setOf(input, wrongInput).forEach { input ->
+                input?.setOnClickListener {
+                    if (input.text.isNotBlank()) { input.isCursorVisible = false }
+                }
+                input?.let { registerForContextMenu(it) }
+            }; result?.let { registerForContextMenu(it) }
         }
     }
 
@@ -283,6 +286,7 @@ class CalculatorFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.change_theme -> { themeDialog(); true }
                     R.id.history -> { findNavController().navigate(R.id.move_to_history); true }
+                    R.id.settings -> { findNavController().navigate(R.id.settingsSheet); true }
                     else -> false
                 }
             }

@@ -114,4 +114,13 @@
     <style name="NeutralDialogButton" parent="Widget.Material3.Button.TextButton.Dialog.Flush">
         <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
+
+    <!-- BottomSheet Theme. -->
+    <style name="BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/SheetStyle</item>
+    </style>
+
+    <style name="SheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="behavior_peekHeight">@dimen/peekHeight</item>
+    </style>
 </resources>

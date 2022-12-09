@@ -17,6 +17,7 @@
         <item name="colorOnBackground">@color/black</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:navigationBarColor" tools:targetApi="l">?attr/colorOnBackground</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
         <item name="materialAlertDialogTheme">@style/DialogTheme</item>
     </style>
 

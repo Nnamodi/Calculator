@@ -43,28 +43,30 @@ object Haptic {
 
     @Suppress("DEPRECATION")
     fun haptic(context: Context, milliSec: Long) {
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager)
-                    .vibrate(
-                        CombinedVibration.createParallel(
-                            VibrationEffect.createOneShot(
-                                milliSec, VibrationEffect.EFFECT_CLICK
+        if (Preference.getHaptic(context)) {
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                    (context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager)
+                        .vibrate(
+                            CombinedVibration.createParallel(
+                                VibrationEffect.createOneShot(
+                                    milliSec, VibrationEffect.EFFECT_CLICK
+                                )
                             )
                         )
-                    )
-            }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-                    .vibrate(
-                        VibrationEffect.createOneShot(
-                            milliSec, VibrationEffect.DEFAULT_AMPLITUDE
+                }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+                        .vibrate(
+                            VibrationEffect.createOneShot(
+                                milliSec, VibrationEffect.DEFAULT_AMPLITUDE
+                            )
                         )
-                    )
-            }
-            else -> {
-                (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
-                    .vibrate(milliSec)
+                }
+                else -> {
+                    (context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+                        .vibrate(milliSec)
+                }
             }
         }
     }

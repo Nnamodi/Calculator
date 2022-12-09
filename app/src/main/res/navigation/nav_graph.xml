@@ -17,6 +17,10 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <dialog
+        android:id="@+id/settingsSheet"
+        android:name="com.roland.android.calculator.ui.SettingsSheet"
+        tools:layout="@layout/settings_sheet" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.roland.android.calculator.ui.HistoryFragment"

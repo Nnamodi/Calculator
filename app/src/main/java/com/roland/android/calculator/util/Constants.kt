@@ -3,6 +3,7 @@ package com.roland.android.calculator.util
 object Constants {
     const val THEME = "theme"
     const val DEG_RAD = "rad_deg"
+    const val HAPTIC = "haptic_feedback"
     const val HISTORY = "history_equation"
     const val PATTERN = "MMMM d"
     const val FULL_PATTERN = "MMMM d, YYYY"
