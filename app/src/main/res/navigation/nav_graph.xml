@@ -19,8 +19,12 @@
     </fragment>
     <dialog
         android:id="@+id/settingsSheet"
-        android:name="com.roland.android.calculator.ui.SettingsSheet"
+        android:name="com.roland.android.calculator.ui.dialog.SettingsSheet"
         tools:layout="@layout/settings_sheet" />
+    <dialog
+        android:id="@+id/computeFormatSheet"
+        android:name="com.roland.android.calculator.ui.dialog.ComputeFormatSheet"
+        tools:layout="@layout/format_compute" />
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.roland.android.calculator.ui.HistoryFragment"

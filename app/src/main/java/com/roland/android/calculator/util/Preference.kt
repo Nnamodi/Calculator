@@ -3,10 +3,12 @@ package com.roland.android.calculator.util
 import android.content.Context
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.roland.android.calculator.R
 import com.roland.android.calculator.util.Constants.DEG_RAD
 import com.roland.android.calculator.util.Constants.HAPTIC
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.THEME
+import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
 
 object Preference {
     fun getTheme(context: Context): Int {
@@ -39,6 +41,17 @@ object Preference {
     fun setHaptic(context: Context, vibrate: Boolean) {
         PreferenceManager.getDefaultSharedPreferences(context).edit {
             putBoolean(HAPTIC, vibrate)
+        }
+    }
+
+    fun getComputeFormat(context: Context): Int {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getInt(COMPUTE_FORMAT, R.id.plain)
+    }
+
+    fun setComputeFormat(context: Context, showZeros: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putInt(COMPUTE_FORMAT, showZeros)
         }
     }
 }

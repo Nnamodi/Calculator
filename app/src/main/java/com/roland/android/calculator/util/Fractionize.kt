@@ -1,7 +1,13 @@
 package com.roland.android.calculator.util
 
-class Fractionize(input: String) {
-    private val digit = input.replace(Constants.MINUS, "-").toBigDecimal()
+import android.content.Context
+import android.text.Spanned
+import androidx.core.text.HtmlCompat
+import com.roland.android.calculator.R
+import com.roland.android.calculator.util.Constants.MINUS
+
+class Fractionize(val input: String) {
+    private val digit = input.replace(MINUS, "-").toBigDecimal()
     private val wholeNumber = digit.toString().dropLastWhile { it != '.' }.dropLast(1)
     private var fractionNum = digit.minus(wholeNumber.toBigDecimal()).toString()
         .filter { it.isDigit() }.drop(1)
@@ -28,24 +34,24 @@ class Fractionize(input: String) {
         }
     }
 
-    fun evaluate(): String {
+    private fun Context.fraction(wholeNumber: String, numerator: Int, denominator: Int): Spanned {
+        wholeNumber.trimStart()
+        numerator.toString(); denominator.toString()
+        val text = getString(R.string.fractionized)
+        val styled = String.format(text, wholeNumber, numerator, denominator).replace("-", MINUS)
+        return HtmlCompat.fromHtml(styled, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    }
+
+    fun evaluate(context: Context): Spanned {
         numerate()
         val wholeNumber = when (wholeNumber) {
             "-0" -> { "-" }; "0" -> { "" }
-            else -> "$wholeNumber "
+            else -> wholeNumber
         }
-        var fraction = ""
+        var fraction = HtmlCompat.fromHtml("", HtmlCompat.FROM_HTML_MODE_COMPACT)
         if (divisor == 1) {
-            fraction = "$wholeNumber$numerator/$denominator".trimStart()
+            fraction = context.fraction(wholeNumber, numerator, denominator)
         }
-        return fraction.replace("-", Constants.MINUS)
-    }
-}
-
-fun main() {
-    while (true) {
-        print("> Enter any decimal digit: ")
-        try { println(Fractionize(readln()).evaluate()) }
-        catch (e: Exception) { println("! Input error") }
+        return fraction
     }
 }

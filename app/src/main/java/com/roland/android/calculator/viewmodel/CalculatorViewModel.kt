@@ -5,7 +5,10 @@ import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.roland.android.calculator.data.*
+import com.roland.android.calculator.data.CalculatorActions
+import com.roland.android.calculator.data.CalculatorOperations
+import com.roland.android.calculator.data.Digits
+import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.data.database.Equation
 import com.roland.android.calculator.data.database.EquationDatabase
 import com.roland.android.calculator.repository.EquationRepository
@@ -14,37 +17,32 @@ import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
-import com.roland.android.calculator.util.Constants.DIVIDE_0
 import com.roland.android.calculator.util.Constants.DOT
 import com.roland.android.calculator.util.Constants.EULER
 import com.roland.android.calculator.util.Constants.EULER_INV
 import com.roland.android.calculator.util.Constants.FACT
-import com.roland.android.calculator.util.Constants.INFINITY
 import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.LOG_N
 import com.roland.android.calculator.util.Constants.MINUS
-import com.roland.android.calculator.util.Constants.MISMATCHED_PAR
-import com.roland.android.calculator.util.Constants.MISSING_PARAM
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
-import com.roland.android.calculator.util.Constants.NEGATIVE_SQRT
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
-import com.roland.android.calculator.util.Constants.ROUNDING_NEC
 import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SIN_INV
 import com.roland.android.calculator.util.Constants.SQUARE
 import com.roland.android.calculator.util.Constants.SQUARED
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TAN_INV
-import com.roland.android.calculator.util.Constants.UNKNOWN_OPERATOR
-import com.roland.android.calculator.util.Constants.UNKNOWN_UNARY
 import com.roland.android.calculator.util.Fractionize
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Regex.regex
 import com.roland.android.calculator.util.Regex.regexR
+import com.roland.android.calculator.util.Utility.e
+import com.roland.android.calculator.util.Utility.format
+import com.roland.android.calculator.util.Utility.optimizedInput
 import com.udojava.evalex.Expression
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -299,7 +297,6 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
         _stateFlow.value = if (input.isNotBlank()) {
             Digits(input = "($input)×$equation")
         } else { Digits(input = equation) }
-        calculateInput()
     }
 
     private fun calculateInput(equalled: Boolean = false) {
@@ -328,7 +325,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 } else { calcResult }
                 _stateFlow.value = Digits(
                     input = _stateFlow.value.input,
-                    result = result.replace("-", MINUS)
+                    result = result.replace("-", MINUS).format(app)
                 )
             }
             // if `equal button` is pressed and there's a result (that isn't a fraction) already, show only result
@@ -348,15 +345,15 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                 addCalculation(Equation(
                     date = Calendar.getInstance().time,
                     input = stateFlow.value.input,
-                    result = stateFlow.value.result,
+                    result = stateFlow.value.result.toString(),
                     degRad = radDeg
                 ))
                 // convert answer to fraction if result is decimal and if bits <= 5
-                if (result.contains(DOT) && decimal <= 5) {
-                    val fraction = Fractionize(result).evaluate()
-                    _stateFlow.value = Digits(input = result, result = fraction)
+                if (DOT in result && MULTIPLY !in result) {
+                    val fraction = Fractionize(result.toString()).evaluate(app)
+                    _stateFlow.value = Digits(input = result.toString(), result = fraction)
                 } else {
-                    _stateFlow.value = Digits(input = result)
+                    _stateFlow.value = Digits(input = result.toString())
                 }
             }
             Log.d("FinalInput", "calculateInput: $input")
@@ -378,31 +375,5 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             }; inputIsAnswer = false
             Log.e("SyntaxError", "Input error: ", e)
         }
-    }
-
-    // equate closeBrackets with openBrackets if need be, before calculating.
-    private fun optimizedInput(input: String): String {
-        var optimized = input
-        val openBrackets: Int = input.count { it == '(' }
-        var closeBrackets: Int = input.count { it == ')' }
-        while (openBrackets > closeBrackets) {
-            optimized += ")"; closeBrackets += 1
-        }
-        return optimized
-    }
-
-    private fun e(e: String): String {
-        val error = when {
-            UNKNOWN_UNARY in e -> ErrorMessage.Unknown
-            UNKNOWN_OPERATOR in e -> ErrorMessage.Unknown
-            DIVIDE_0 in e -> ErrorMessage.Division0
-            MISSING_PARAM in e -> ErrorMessage.MissingParam
-            MISMATCHED_PAR in e -> ErrorMessage.Mismatched
-            ROUNDING_NEC in e -> ErrorMessage.RoundNec
-            INFINITY in e -> ErrorMessage.Infinity
-            NEGATIVE_SQRT in e -> ErrorMessage.NegSqrt
-            else -> ErrorMessage.Undefined
-        }
-        return error.message
     }
 }

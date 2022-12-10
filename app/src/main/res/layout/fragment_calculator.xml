@@ -144,7 +144,6 @@
                 app:checkedIconVisible="false"
                 app:chipBackgroundColor="?attr/colorOnPrimary"
                 app:chipIcon="@drawable/expand_button"
-                app:chipIconTint="?attr/colorOnPrimaryContainer"
                 tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 

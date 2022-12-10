@@ -11,6 +11,7 @@
         android:resizeableActivity="false"
         android:roundIcon="@mipmap/launch_icon_round"
         android:supportsRtl="true"
+        android:theme="@style/Theme.Calculator"
         tools:targetApi="n">
         <activity android:name=".ui.MainActivity"
             android:exported="true"

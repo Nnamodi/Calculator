@@ -181,7 +181,7 @@ class CalculatorFragment : Fragment() {
                     input.setSelection(it.input.length)
                     input.isCursorVisible = !calcViewModel.inputIsAnswer
                     result?.text = it.result
-                    landResult?.text = it.input
+                    landResult?.text = it.input.format(requireContext())
                     errorText.text = it.errorMessage
                     // giving binding-layout variable a value
                     equalled = calcViewModel.equalled
