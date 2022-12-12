@@ -9,7 +9,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,11 +36,13 @@ import com.roland.android.calculator.util.Constants.MULTIPLY
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
+import com.roland.android.calculator.util.Constants.SET_THEME
 import com.roland.android.calculator.util.Constants.SIN
 import com.roland.android.calculator.util.Constants.SIN_INV
 import com.roland.android.calculator.util.Constants.SQUARE
 import com.roland.android.calculator.util.Constants.TAN
 import com.roland.android.calculator.util.Constants.TAN_INV
+import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Haptic
 import com.roland.android.calculator.util.Haptic.haptic
 import com.roland.android.calculator.util.Preference
@@ -224,18 +225,23 @@ class CalculatorFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() { super.onDestroy(); _binding = null }
+
     private fun setupObservables() {
         val navBackStackEntry = findNavController().getBackStackEntry(R.id.calculatorFragment)
-        navBackStackEntry.savedStateHandle.getLiveData<String>(HISTORY)
-            .observe(viewLifecycleOwner) {
+        navBackStackEntry.savedStateHandle.apply {
+            getLiveData<Boolean>(THEME).observe(viewLifecycleOwner) {
+                if (it) { themeDialog()
+                    Log.d("LifecycleEventObserver", "lifecycleObserver for Calculator")}
+            }
+            getLiveData<String>(HISTORY).observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) { calcViewModel.onAction(CalculatorActions.EnterEquation(it)) }
             }
         viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
                 findNavController().currentBackStackEntry?.savedStateHandle?.set(HISTORY, "")
             }
-            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
-        })
+        }
     }
 
     private fun delButtonText(input: String): Boolean {
@@ -284,7 +290,6 @@ class CalculatorFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.change_theme -> { themeDialog(); true }
                     R.id.history -> { findNavController().navigate(R.id.move_to_history); true }
                     R.id.settings -> { findNavController().navigate(R.id.settingsSheet); true }
                     else -> false
@@ -297,7 +302,7 @@ class CalculatorFragment : Fragment() {
         val options = resources.getStringArray(R.array.dialog_options)
         val checkedOption = Preference.getTheme(requireContext())
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.dialog_title))
+            .setTitle(getString(R.string.change_theme))
             .setPositiveButton(getString(R.string.dialog_close)) { _, _ -> }
             .setSingleChoiceItems(options, checkedOption) { dialog, option ->
                 if (option != checkedOption) {
@@ -308,6 +313,7 @@ class CalculatorFragment : Fragment() {
                     }
                     AppCompatDelegate.setDefaultNightMode(mode)
                     Preference.setTheme(requireContext(), option)
+                    findNavController().currentBackStackEntry?.savedStateHandle?.set(SET_THEME, true)
                     dialog.dismiss()
                 }
             }.show()

@@ -9,7 +9,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -38,6 +37,8 @@ class HistoryFragment : Fragment() {
         setupMenuItem()
     }
 
+    override fun onDestroy() { super.onDestroy(); _binding = null }
+
     private fun setupObservables() {
         val adapter = HistoryAdapter(this::onClick)
         binding.recyclerView.adapter = adapter
@@ -54,12 +55,6 @@ class HistoryFragment : Fragment() {
                 Log.d("HistoryItem", "item(s) fetched: ${adapter.itemCount}")
             }
         }
-        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(HISTORY, "")
-            }
-            if (event == Lifecycle.Event.ON_DESTROY) { _binding = null }
-        })
     }
 
     private fun setupMenuItem() {

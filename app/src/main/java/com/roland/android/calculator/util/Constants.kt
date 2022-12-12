@@ -5,6 +5,7 @@ object Constants {
     const val DEG_RAD = "rad_deg"
     const val HAPTIC = "haptic_feedback"
     const val COMPUTE_FORMAT = "compute_format"
+    const val SET_THEME = "set_theme"
     const val HISTORY = "history_equation"
     const val PATTERN = "MMMM d"
     const val FULL_PATTERN = "MMMM d, YYYY"
