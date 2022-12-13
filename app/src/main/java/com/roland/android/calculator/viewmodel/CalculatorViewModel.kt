@@ -97,6 +97,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             is CalculatorActions.SquareRoot -> { addSquareRoot() }
             is CalculatorActions.DegRad -> { degRad() }
             is CalculatorActions.EnterEquation -> { enterEquation(action.equation) }
+            is CalculatorActions.ComputeFormat -> {}
         }
         if (action !is CalculatorActions.Calculate) { calculateInput() }
     }
@@ -332,9 +333,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             // if result is decimal, fractionize.
             val result = _stateFlow.value.result
             if (equalled && result.isNotBlank() && "/" !in result) {
-                val decimal = result.takeLastWhile { it.isDigit() }.length
-                this.equalled = true
-                inputIsAnswer = true
+                this.equalled = true; inputIsAnswer = true
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input
                 // save to history

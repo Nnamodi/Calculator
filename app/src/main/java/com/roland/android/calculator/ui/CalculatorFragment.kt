@@ -1,6 +1,9 @@
 package com.roland.android.calculator.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper.getMainLooper
+import android.text.Spanned
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -19,20 +22,20 @@ import com.roland.android.calculator.data.TrigFunctions
 import com.roland.android.calculator.databinding.FragmentCalculatorBinding
 import com.roland.android.calculator.util.Accessibility.accessCalculator
 import com.roland.android.calculator.util.Constants.ADD
+import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
 import com.roland.android.calculator.util.Constants.COS
 import com.roland.android.calculator.util.Constants.COS_INV
 import com.roland.android.calculator.util.Constants.DEG
 import com.roland.android.calculator.util.Constants.DIVIDE
 import com.roland.android.calculator.util.Constants.EULER
-import com.roland.android.calculator.util.Constants.EULER_INV
 import com.roland.android.calculator.util.Constants.FACT
 import com.roland.android.calculator.util.Constants.HISTORY
-import com.roland.android.calculator.util.Constants.INV_LOG
 import com.roland.android.calculator.util.Constants.LOG
 import com.roland.android.calculator.util.Constants.LOG_N
 import com.roland.android.calculator.util.Constants.MINUS
 import com.roland.android.calculator.util.Constants.MOD
 import com.roland.android.calculator.util.Constants.MULTIPLY
+import com.roland.android.calculator.util.Constants.NAVIGATE
 import com.roland.android.calculator.util.Constants.PI
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.ROOT
@@ -46,6 +49,9 @@ import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Haptic
 import com.roland.android.calculator.util.Haptic.haptic
 import com.roland.android.calculator.util.Preference
+import com.roland.android.calculator.util.Utility.format
+import com.roland.android.calculator.util.Utility.lifecycleObserver
+import com.roland.android.calculator.util.Utility.string
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -59,14 +65,16 @@ class CalculatorFragment : Fragment() {
     private val inverse = _inverse.asStateFlow()
     private lateinit var squared: String
 //    private lateinit var cubeRoot: String
-    private lateinit var sinInverse: String
-    private lateinit var cosInverse: String
-    private lateinit var tanInverse: String
-    private lateinit var eulerInverse: String
+    private lateinit var sinInverse: Spanned
+    private lateinit var cosInverse: Spanned
+    private lateinit var tanInverse: Spanned
+    private lateinit var logInverse: Spanned
+    private lateinit var eulerInverse: Spanned
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCalculatorBinding.inflate(layoutInflater)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        lifecycleObserver()
         return binding.root
     }
 
@@ -75,10 +83,11 @@ class CalculatorFragment : Fragment() {
         setupMenuItem(); setupObservables()
         squared = getString(R.string.squared)
 //        cubeRoot = getString(R.string.cube_root)
-        sinInverse = getString(R.string.arc_sine)
-        cosInverse = getString(R.string.arc_cosine)
-        tanInverse = getString(R.string.arc_tangent)
-        eulerInverse = getString(R.string.euler_inv)
+        sinInverse = "sin".string(requireContext())
+        cosInverse = "cos".string(requireContext())
+        tanInverse = "tan".string(requireContext())
+        logInverse = "10".string(requireContext(), R.string.inverse_function)
+        eulerInverse = "e".string(requireContext(), R.string.inverse_function)
         binding.apply {
             // disable keyboard for editText
             input.showSoftInputOnFocus = false
@@ -131,9 +140,9 @@ class CalculatorFragment : Fragment() {
                         "√" -> CalculatorActions.SquareRoot
                         PI -> CalculatorActions.Pi
                         "log" -> CalculatorActions.Log
-                        INV_LOG -> CalculatorActions.LogInv
+                        logInverse -> CalculatorActions.LogInv
                         "ln" -> CalculatorActions.LogN
-                        EULER_INV -> CalculatorActions.EulerInv
+                        eulerInverse -> CalculatorActions.EulerInv
                         "AC" -> CalculatorActions.Clear
                         "=" -> CalculatorActions.Calculate
                         else -> CalculatorActions.Decimal // "·"
@@ -201,7 +210,7 @@ class CalculatorFragment : Fragment() {
             inverse.collectLatest {
                 binding.apply {
                     if (it) {
-                        log.text = INV_LOG
+                        log.text = logInverse
                         sin.text = sinInverse
                         cos.text = cosInverse
                         tan.text = tanInverse
@@ -231,15 +240,23 @@ class CalculatorFragment : Fragment() {
         val navBackStackEntry = findNavController().getBackStackEntry(R.id.calculatorFragment)
         navBackStackEntry.savedStateHandle.apply {
             getLiveData<Boolean>(THEME).observe(viewLifecycleOwner) {
-                if (it) { themeDialog()
-                    Log.d("LifecycleEventObserver", "lifecycleObserver for Calculator")}
+                if (it) { themeDialog() }
             }
             getLiveData<String>(HISTORY).observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) { calcViewModel.onAction(CalculatorActions.EnterEquation(it)) }
             }
-        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_STOP) {
-                findNavController().currentBackStackEntry?.savedStateHandle?.set(HISTORY, "")
+            getLiveData<Int>(COMPUTE_FORMAT).observe(viewLifecycleOwner) {
+                if (it != 0) { calcViewModel.onAction(CalculatorActions.ComputeFormat) }
+            }
+            getLiveData<Int>(NAVIGATE).observe(viewLifecycleOwner) {
+                val job: (Int) -> Unit = {
+                    Handler(getMainLooper()).postDelayed({ findNavController().navigate(it) }, 100)
+                }
+                when (it) {
+                    1 -> { job(R.id.settingsSheet) }
+                    2 -> { job(R.id.computeFormatSheet) }
+                    else -> {}
+                }
             }
         }
     }

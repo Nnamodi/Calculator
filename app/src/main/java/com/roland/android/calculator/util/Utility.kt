@@ -2,9 +2,21 @@ package com.roland.android.calculator.util
 
 import android.content.Context
 import android.text.Spanned
+import android.util.Log
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.fragment.findNavController
 import com.roland.android.calculator.R
 import com.roland.android.calculator.data.ErrorMessage
+import com.roland.android.calculator.ui.CalculatorFragment
+import com.roland.android.calculator.ui.dialog.SettingsSheet
+import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
+import com.roland.android.calculator.util.Constants.HISTORY
+import com.roland.android.calculator.util.Constants.NAVIGATE
+import com.roland.android.calculator.util.Constants.SET_THEME
+import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Preference.getComputeFormat
 
 object Utility {
@@ -58,5 +70,33 @@ object Utility {
         val text = context.getString(resource)
         val styledText = String.format(text, this)
         return HtmlCompat.fromHtml(styledText, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    }
+
+    fun Fragment.lifecycleObserver() {
+        viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+            if (this is CalculatorFragment) {
+                if (event == Lifecycle.Event.ON_STOP) {
+                    findNavController().currentBackStackEntry?.apply {
+                        savedStateHandle[HISTORY] = ""; savedStateHandle[NAVIGATE] = 0
+                        savedStateHandle[THEME] = false; savedStateHandle[SET_THEME] = false
+                        savedStateHandle[COMPUTE_FORMAT] = 0
+                    }
+                }
+            } else {
+                if (event == Lifecycle.Event.ON_START) {
+                    findNavController().previousBackStackEntry?.apply {
+                        savedStateHandle[HISTORY] = ""; savedStateHandle[NAVIGATE] = 0
+                        savedStateHandle[THEME] = false; savedStateHandle[SET_THEME] = false
+                        savedStateHandle[COMPUTE_FORMAT] = 0
+                    }
+                }
+                if (this is SettingsSheet) {
+                    if (event == Lifecycle.Event.ON_STOP) {
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(THEME, false)
+                    }
+                }
+            }
+            Log.d("LifecycleEventObserver", "lifecycleObserver for $this at $event")
+        })
     }
 }

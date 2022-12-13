@@ -1,6 +1,8 @@
 package com.roland.android.calculator.ui.dialog
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FormatComputeBinding
 import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
+import com.roland.android.calculator.util.Constants.NAVIGATE
 import com.roland.android.calculator.util.Preference.getComputeFormat
 import com.roland.android.calculator.util.Preference.setComputeFormat
+import com.roland.android.calculator.util.Utility.lifecycleObserver
 
 class ComputeFormatSheet : BottomSheetDialogFragment() {
     private var _binding: FormatComputeBinding? = null
@@ -18,6 +22,7 @@ class ComputeFormatSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FormatComputeBinding.inflate(layoutInflater)
+        lifecycleObserver()
         return binding.root
     }
 
@@ -36,7 +41,10 @@ class ComputeFormatSheet : BottomSheetDialogFragment() {
                 else -> radioGroup.check(R.id.fraction)
             }
             computeInfo.text = info()
-            dialogTitle.setOnClickListener { findNavController().navigateUp() }
+            dialogTitle.setOnClickListener {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(NAVIGATE, 1)
+                Handler(getMainLooper()).postDelayed({ findNavController().popBackStack() }, 50)
+            }
             radioGroup.setOnCheckedChangeListener { _, checkedId ->
                 setComputeFormat(requireContext(), checkedId)
                 computeInfo.text = info()

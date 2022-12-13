@@ -16,6 +16,7 @@ import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
 import com.roland.android.calculator.ui.adapter.HistoryAdapter
 import com.roland.android.calculator.util.Constants.HISTORY
+import com.roland.android.calculator.util.Utility.lifecycleObserver
 import com.roland.android.calculator.viewmodel.HistoryViewModel
 import kotlinx.coroutines.flow.collectLatest
 
@@ -28,6 +29,7 @@ class HistoryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHistoryBinding.inflate(layoutInflater)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        lifecycleObserver()
         return binding.root
     }
 

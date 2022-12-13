@@ -1,6 +1,8 @@
 package com.roland.android.calculator.ui.dialog
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper.getMainLooper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.SettingsSheetBinding
+import com.roland.android.calculator.util.Constants.NAVIGATE
 import com.roland.android.calculator.util.Constants.SET_THEME
 import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Preference.getComputeFormat
-import com.roland.android.calculator.viewmodel.CalculatorViewModel
+import com.roland.android.calculator.util.Utility.lifecycleObserver
 
 class SettingsSheet : BottomSheetDialogFragment() {
     private var _binding: SettingsSheetBinding? = null
@@ -20,6 +23,7 @@ class SettingsSheet : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = SettingsSheetBinding.inflate(layoutInflater)
+        lifecycleObserver()
         return binding.root
     }
 
@@ -55,7 +59,8 @@ class SettingsSheet : BottomSheetDialogFragment() {
                                 else { getString(R.string.enable_haptic) }
 
             computeFormatField.setOnClickListener {
-                findNavController().navigate(R.id.computeFormatSheet)
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(NAVIGATE, 2)
+                Handler(getMainLooper()).postDelayed({ findNavController().popBackStack() }, 50)
             }
             setFormat.text = format(getComputeFormat(requireContext()))
         }
