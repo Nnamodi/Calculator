@@ -63,6 +63,18 @@ class SettingsSheet : BottomSheetDialogFragment() {
                 Handler(getMainLooper()).postDelayed({ findNavController().popBackStack() }, 50)
             }
             setFormat.text = format(getComputeFormat(requireContext()))
+
+            saveToHistory.setOnClickListener { historySwitch.isChecked = !historySwitch.isChecked }
+            historySwitch.apply {
+                isChecked = Preference.getSaveHistory(context)
+                setOnCheckedChangeListener { _, switched ->
+                    Preference.setSaveHistory(context, switched)
+                    historyInfo.text = if (switched) { getString(R.string.stop_saving_equations) }
+                    else { getString(R.string.resume_saving_equations) }
+                }
+            }
+            historyInfo.text = if (historySwitch.isChecked) { getString(R.string.stop_saving_equations) }
+            else { getString(R.string.resume_saving_equations) }
         }
     }
 

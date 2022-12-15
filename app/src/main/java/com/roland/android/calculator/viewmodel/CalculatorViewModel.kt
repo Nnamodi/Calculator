@@ -2,6 +2,8 @@ package com.roland.android.calculator.viewmodel
 
 import android.app.Application
 import android.util.Log
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -332,24 +334,27 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
             // if `equal button` is pressed and there's a result (that isn't a fraction) already, show only result
             // if result is decimal, fractionize.
             val result = _stateFlow.value.result
-            if (equalled && result.isNotBlank() && "/" !in result) {
+            if (equalled && result.isNotBlank() && "/" !in result && "×" !in result) {
                 this.equalled = true; inputIsAnswer = true
                 // temporarily save previous equation
                 previousEquation = _stateFlow.value.input
-                // save to history
-                val equation = stateFlow.value.input
-                val trigFunctions = setOf(SIN, COS, TAN, SIN_INV, COS_INV, TAN_INV)
-                val radDeg = if (trigFunctions.any { equation.contains(it) }) {
-                    Preference.getDegRad(app)!! } else { "" }
-                addCalculation(Equation(
-                    date = Calendar.getInstance().time,
-                    input = stateFlow.value.input,
-                    result = stateFlow.value.result.toString(),
-                    degRad = radDeg
-                ))
+                // save to history if set in settings
+                if (Preference.getSaveHistory(app)) {
+                    val equation = stateFlow.value.input
+                    val trigFunctions = setOf(SIN, COS, TAN, SIN_INV, COS_INV, TAN_INV)
+                    val radDeg = if (trigFunctions.any { equation.contains(it) }) {
+                        Preference.getDegRad(app)!! } else { "" }
+                    addCalculation(Equation(
+                        date = Calendar.getInstance().time,
+                        input = stateFlow.value.input,
+                        result = stateFlow.value.result.toString(),
+                        degRad = radDeg
+                    ))
+                }
                 // convert answer to fraction if result is decimal and if bits <= 5
                 if (DOT in result && MULTIPLY !in result) {
-                    val fraction = Fractionize(result.toString()).evaluate(app)
+                    val fraction = try { Fractionize(result.toString()).evaluate(app) }
+                    catch (e: Exception) { HtmlCompat.fromHtml("", FROM_HTML_MODE_COMPACT) }
                     _stateFlow.value = Digits(input = result.toString(), result = fraction)
                 } else {
                     _stateFlow.value = Digits(input = result.toString())
@@ -364,13 +369,15 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                     error = true,
                     errorMessage = e(e.message!!)
                 )
-                // save to history
-                addCalculation(Equation(
-                    date = Calendar.getInstance().time,
-                    input = stateFlow.value.input,
-                    error = true,
-                    errorMessage = e(e.message!!)
-                ))
+                // save to history if set in settings
+                if (Preference.getSaveHistory(app)) {
+                    addCalculation(Equation(
+                        date = Calendar.getInstance().time,
+                        input = stateFlow.value.input,
+                        error = true,
+                        errorMessage = e(e.message!!)
+                    ))
+                }
             }; inputIsAnswer = false
             Log.e("SyntaxError", "Input error: ", e)
         }

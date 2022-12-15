@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="0dp"
-        android:layout_height="58dp"
+        android:layout_height="68dp"
         android:background="@android:color/transparent"
         android:gravity="center|start"
         android:text="@string/choose_format"

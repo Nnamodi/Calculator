@@ -9,6 +9,7 @@ import com.roland.android.calculator.util.Constants.HAPTIC
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
+import com.roland.android.calculator.util.Constants.SAVE_HISTORY
 
 object Preference {
     fun getTheme(context: Context): Int {
@@ -52,6 +53,17 @@ object Preference {
     fun setComputeFormat(context: Context, showZeros: Int) {
         PreferenceManager.getDefaultSharedPreferences(context).edit {
             putInt(COMPUTE_FORMAT, showZeros)
+        }
+    }
+
+    fun getSaveHistory(context: Context): Boolean {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(SAVE_HISTORY, true)
+    }
+
+    fun setSaveHistory(context: Context, save: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(SAVE_HISTORY, save)
         }
     }
 }

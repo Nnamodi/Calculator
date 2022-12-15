@@ -70,6 +70,10 @@
     <string name="choose_format">Choose format</string>
     <string name="exponent_result">%1s&lt;small>&lt;small>&lt;small>&lt;sup>&lt;b>%2s&lt;/b>&lt;/sup>&lt;/small>&lt;/small>&lt;/small></string>
     <string name="fractionized">%1s&lt;small>&lt;small>&lt;small>&lt;sup>&lt;b>%2s&lt;/b>&lt;/sup>&lt;/small>&lt;/small>&lt;/small>/&lt;small>&lt;small>&lt;small>&lt;b>%3s&lt;/b>&lt;/small>&lt;/small>&lt;/small></string>
+    <string name="general">General</string>
+    <string name="save_equations">Save equations</string>
+    <string name="resume_saving_equations">Tap to save equations to history</string>
+    <string name="stop_saving_equations">Tap to stop saving equations to history</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>

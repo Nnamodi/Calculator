@@ -28,5 +28,6 @@
     <dimen name="inputPaddingTop">0dp</dimen>
     <dimen name="inputTextSize">55sp</dimen>
     <!-- Bottom sheet -->
-    <dimen name="peekHeight">300dp</dimen>
+    <dimen name="height">100dp</dimen>
+    <dimen name="peekHeight">450dp</dimen>
 </resources>
