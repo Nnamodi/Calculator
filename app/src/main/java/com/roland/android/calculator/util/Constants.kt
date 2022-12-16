@@ -6,6 +6,7 @@ object Constants {
     const val HAPTIC = "haptic_feedback"
     const val COMPUTE_FORMAT = "compute_format"
     const val SAVE_HISTORY = "save_history"
+    const val SAVE_ERROR = "save_error"
     const val NAVIGATE = "navigate"
     const val SET_THEME = "set_theme"
     const val HISTORY = "history_equation"

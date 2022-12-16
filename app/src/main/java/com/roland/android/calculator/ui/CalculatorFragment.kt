@@ -49,7 +49,7 @@ import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Haptic
 import com.roland.android.calculator.util.Haptic.haptic
 import com.roland.android.calculator.util.Preference
-import com.roland.android.calculator.util.Utility.format
+import com.roland.android.calculator.util.Preference.getComputeFormat
 import com.roland.android.calculator.util.Utility.lifecycleObserver
 import com.roland.android.calculator.util.Utility.string
 import com.roland.android.calculator.viewmodel.CalculatorViewModel
@@ -187,11 +187,16 @@ class CalculatorFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             calcViewModel.stateFlow.collectLatest {
                 binding.apply {
+                    val resultLand = when {
+                        it.result.isBlank() -> { it.input }
+                        getComputeFormat(requireContext()) != R.id.fraction && '/' in it.result -> { it.input }
+                        else -> { it.result }
+                    }
                     input.setText(it.input)
                     input.setSelection(it.input.length)
                     input.isCursorVisible = !calcViewModel.inputIsAnswer
                     result?.text = it.result
-                    landResult?.text = it.input.format(requireContext())
+                    landResult?.text = resultLand
                     errorText.text = it.errorMessage
                     // giving binding-layout variable a value
                     equalled = calcViewModel.equalled

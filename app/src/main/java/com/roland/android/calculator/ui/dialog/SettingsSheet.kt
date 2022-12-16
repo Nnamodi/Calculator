@@ -70,11 +70,30 @@ class SettingsSheet : BottomSheetDialogFragment() {
                 setOnCheckedChangeListener { _, switched ->
                     Preference.setSaveHistory(context, switched)
                     historyInfo.text = if (switched) { getString(R.string.stop_saving_equations) }
-                    else { getString(R.string.resume_saving_equations) }
+                                        else { getString(R.string.resume_saving_equations) }
+                    setOf(saveErrors, saveErrorSwitch).forEach {
+                        it.isEnabled = Preference.getSaveHistory(requireContext())
+                    }
                 }
             }
             historyInfo.text = if (historySwitch.isChecked) { getString(R.string.stop_saving_equations) }
-            else { getString(R.string.resume_saving_equations) }
+                                    else { getString(R.string.resume_saving_equations) }
+
+            saveErrors.apply {
+                setOnClickListener { saveErrorSwitch.isChecked = !saveErrorSwitch.isChecked }
+                isEnabled = Preference.getSaveHistory(requireContext())
+            }
+            saveErrorSwitch.apply {
+                isChecked = Preference.getSaveErrors(context)
+                isEnabled = Preference.getSaveHistory(requireContext())
+                setOnCheckedChangeListener { _, switched ->
+                    Preference.setSaveErrors(context, switched)
+                    saveErrorInfo.text = if (switched) { getString(R.string.stop_saving_errors) }
+                                            else { getString(R.string.resume_saving_errors) }
+                }
+            }
+            saveErrorInfo.text = if (saveErrorSwitch.isChecked) { getString(R.string.stop_saving_errors) }
+                                        else { getString(R.string.resume_saving_errors) }
         }
     }
 

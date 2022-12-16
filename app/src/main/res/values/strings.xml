@@ -65,7 +65,7 @@
     <string name="fraction">Fraction</string>
     <string name="compute_format">Compute format</string>
     <string name="plain_info">Plain − display exact compute-results; in plain text.</string>
-    <string name="exponent_info">Exponent − show results in exponential. (2000 -> 2×10³)</string>
+    <string name="exponent_info">Exponent − show results in exponential if it has trailing zeros. (2000 -> 2×10³)</string>
     <string name="fraction_info">Fraction − calculate decimal-results to fractions if the fractional numeral is less than 10 digits.</string>
     <string name="choose_format">Choose format</string>
     <string name="exponent_result">%1s&lt;small>&lt;small>&lt;small>&lt;sup>&lt;b>%2s&lt;/b>&lt;/sup>&lt;/small>&lt;/small>&lt;/small></string>
@@ -74,6 +74,9 @@
     <string name="save_equations">Save equations</string>
     <string name="resume_saving_equations">Tap to save equations to history</string>
     <string name="stop_saving_equations">Tap to stop saving equations to history</string>
+    <string name="save_errors">Save errors</string>
+    <string name="resume_saving_errors">Tap to save error-calculations to history</string>
+    <string name="stop_saving_errors">Tap to stop saving error-calculations to history</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>

@@ -29,5 +29,5 @@
     <dimen name="inputTextSize">75sp</dimen>
     <!-- Bottom sheet -->
     <dimen name="height">40dp</dimen>
-    <dimen name="peekHeight">450dp</dimen>
+    <dimen name="peekHeight">700dp</dimen>
 </resources>
