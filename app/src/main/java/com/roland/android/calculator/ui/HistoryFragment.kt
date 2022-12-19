@@ -1,6 +1,9 @@
 package com.roland.android.calculator.ui
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper.getMainLooper
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +19,8 @@ import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
 import com.roland.android.calculator.ui.adapter.HistoryAdapter
 import com.roland.android.calculator.util.Constants.HISTORY
+import com.roland.android.calculator.util.Constants.NAVIGATE
+import com.roland.android.calculator.util.Preference
 import com.roland.android.calculator.util.Utility.lifecycleObserver
 import com.roland.android.calculator.viewmodel.HistoryViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -37,6 +42,7 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservables()
         setupMenuItem()
+        setupBanner()
     }
 
     override fun onDestroy() { super.onDestroy(); _binding = null }
@@ -93,5 +99,38 @@ class HistoryFragment : Fragment() {
             previousBackStackEntry?.savedStateHandle?.set(HISTORY, text)
             navigateUp()
         }
+    }
+
+    private fun setupBanner() {
+        binding.apply {
+            if (!Preference.getSaveHistory(requireContext()) &&
+                !Preference.getDismissStatus(requireContext())) {
+                historyInfo.visibility = View.VISIBLE
+                if (this@HistoryFragment.noHistory) {
+                    infoText.text = getString(R.string.info_text_1)
+                }
+                historyInfo.setOnClickListener {}
+                actionButton.setOnClickListener {
+                    if (!Preference.getDismissStatus(requireContext())) {
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(NAVIGATE, 3)
+                        Handler(getMainLooper()).postDelayed({ findNavController().popBackStack() }, 10)
+                    }
+                }
+                dismiss.setOnClickListener {
+                    Preference.setDismissStatus(requireContext(), true)
+                    historyInfo.dismiss()
+                }
+            }
+        }
+    }
+
+    private fun View.dismiss() {
+        val start = left.toFloat()
+        val end = binding.root.right.toFloat()
+        val animator = ObjectAnimator
+            .ofFloat(this, "x", start, end)
+            .setDuration(200)
+        animator.start()
+        Handler(getMainLooper()).postDelayed({ visibility = View.GONE }, 200)
     }
 }

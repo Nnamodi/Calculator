@@ -9,6 +9,7 @@ import com.roland.android.calculator.util.Constants.HAPTIC
 import com.roland.android.calculator.util.Constants.RAD
 import com.roland.android.calculator.util.Constants.THEME
 import com.roland.android.calculator.util.Constants.COMPUTE_FORMAT
+import com.roland.android.calculator.util.Constants.DISMISSED
 import com.roland.android.calculator.util.Constants.SAVE_ERROR
 import com.roland.android.calculator.util.Constants.SAVE_HISTORY
 
@@ -76,6 +77,17 @@ object Preference {
     fun setSaveErrors(context: Context, save: Boolean) {
         PreferenceManager.getDefaultSharedPreferences(context).edit {
             putBoolean(SAVE_ERROR, save)
+        }
+    }
+
+    fun getDismissStatus(context: Context): Boolean {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+            .getBoolean(DISMISSED, false)
+    }
+
+    fun setDismissStatus(context: Context, dismissed: Boolean) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit {
+            putBoolean(DISMISSED, dismissed)
         }
     }
 }

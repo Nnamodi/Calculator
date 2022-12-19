@@ -68,7 +68,8 @@ class SettingsSheet : BottomSheetDialogFragment() {
             historySwitch.apply {
                 isChecked = Preference.getSaveHistory(context)
                 setOnCheckedChangeListener { _, switched ->
-                    Preference.setSaveHistory(context, switched)
+                    Preference.apply { setSaveHistory(context, switched)
+                                    setDismissStatus(context, false) }
                     historyInfo.text = if (switched) { getString(R.string.stop_saving_equations) }
                                         else { getString(R.string.resume_saving_equations) }
                     setOf(saveErrors, saveErrorSwitch).forEach {

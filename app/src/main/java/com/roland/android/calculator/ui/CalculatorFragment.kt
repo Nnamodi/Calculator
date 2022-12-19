@@ -253,13 +253,14 @@ class CalculatorFragment : Fragment() {
             getLiveData<Int>(COMPUTE_FORMAT).observe(viewLifecycleOwner) {
                 if (it != 0) { calcViewModel.onAction(CalculatorActions.ComputeFormat) }
             }
-            getLiveData<Int>(NAVIGATE).observe(viewLifecycleOwner) {
-                val job: (Int) -> Unit = {
-                    Handler(getMainLooper()).postDelayed({ findNavController().navigate(it) }, 100)
+            getLiveData<Int>(NAVIGATE).observe(viewLifecycleOwner) { code ->
+                val job: (Int, Long) -> Unit = { id, sec ->
+                    Handler(getMainLooper()).postDelayed({ findNavController().navigate(id) }, sec)
                 }
-                when (it) {
-                    1 -> { job(R.id.settingsSheet) }
-                    2 -> { job(R.id.computeFormatSheet) }
+                when (code) {
+                    1 -> { job(R.id.settingsSheet, 100) }
+                    2 -> { job(R.id.computeFormatSheet, 100) }
+                    3 -> { job(R.id.settingsSheet, 705) }
                     else -> {}
                 }
             }

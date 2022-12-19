@@ -77,6 +77,9 @@
     <string name="save_errors">Save errors</string>
     <string name="resume_saving_errors">Tap to save error-calculations to history</string>
     <string name="stop_saving_errors">Tap to stop saving error-calculations to history</string>
+    <string name="go_to_settings">Go to Settings</string>
+    <string name="info_text_1">Calculations are not being saved to history. Change this in settings.</string>
+    <string name="info_text_2">Calculations are no longer being saved to history. Change this in settings.</string>
     <string-array name="dialog_options">
         <item>Dark</item>
         <item>Light</item>

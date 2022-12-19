@@ -9,6 +9,7 @@ object Constants {
     const val SAVE_ERROR = "save_error"
     const val NAVIGATE = "navigate"
     const val SET_THEME = "set_theme"
+    const val DISMISSED = "banner_dismissed"
     const val HISTORY = "history_equation"
     const val PATTERN = "MMMM d"
     const val FULL_PATTERN = "MMMM d, YYYY"
