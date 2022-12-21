@@ -93,6 +93,8 @@
             android:id="@+id/recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbarThumbHorizontal="@drawable/scrollbar"
+            android:scrollbarThumbVertical="@drawable/scrollbar"
             android:scrollbars="vertical"
             android:visibility="@{noHistory ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -360,7 +360,7 @@ class CalculatorViewModel(private val app: Application) : AndroidViewModel(app) 
                         ))
                     }
                     // convert answer to fraction if result is decimal and if bits <= 9
-                    if (DOT in result && MULTIPLY !in result) {
+                    if (DOT in result) {
                         val fraction = try { Fractionize(result.toString()).evaluate(app) }
                         catch (e: Exception) { HtmlCompat.fromHtml("", FROM_HTML_MODE_COMPACT) }
                         _stateFlow.value = Digits(input = result.toString(), result = fraction)

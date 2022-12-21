@@ -56,6 +56,9 @@
     <string name="dialog_dismiss">Dismiss</string>
     <string name="dialog_clear">Clear</string>
     <string name="cleared_toast">Cleared!</string>
+    <string name="copy_text">Copy</string>
+    <string name="cut_text">Cut</string>
+    <string name="paste_text">Paste</string>
     <string name="settings">Settings</string>
     <string name="haptic_feedback">Haptic feedback</string>
     <string name="disable_haptic">Tap to disable vibration when button is clicked.</string>

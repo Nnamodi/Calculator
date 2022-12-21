@@ -177,8 +177,7 @@ class CalculatorFragment : Fragment() {
                 input?.setOnClickListener {
                     if (input.text.isNotBlank()) { input.isCursorVisible = false }
                 }
-                input?.let { registerForContextMenu(it) }
-            }; result?.let { registerForContextMenu(it) }
+            }
         }
     }
 
