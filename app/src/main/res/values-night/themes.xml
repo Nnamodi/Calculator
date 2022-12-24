@@ -12,6 +12,7 @@
         <item name="colorOnSecondary">@color/lighter_error_color</item>
         <item name="colorOnSecondaryContainer">@color/bluer_grey</item>
         <item name="colorOnSurface">@color/white</item>
+        <item name="colorSurfaceInverse">@color/black</item>
         <item name="colorTertiary">@color/light_grey</item>
         <!-- Customize your theme here. -->
         <item name="colorOnBackground">@color/black</item>

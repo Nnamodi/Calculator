@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:background="@drawable/bottom_sheet"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:ignore="UnusedAttribute">
 
@@ -32,60 +33,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="80dp"
-        android:checkedButton="@id/plain"
-        android:layoutDirection="rtl"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view">
 
-        <RadioButton
-            android:id="@+id/plain"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/plain"
-            android:textSize="20sp"
-            app:buttonTint="@color/orange" />
+            android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/exponent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/exponent"
-            android:textSize="20sp"
-            app:buttonTint="@color/orange" />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="90dp"
+                android:checkedButton="@id/plain"
+                android:layoutDirection="rtl"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:id="@+id/fraction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="@string/fraction"
-            android:textSize="20sp"
-            app:buttonTint="@color/orange" />
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/plain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="0dp"
+                    android:text="@string/plain"
+                    android:textSize="20sp"
+                    app:buttonTint="@color/orange" />
 
-    <TextView
-        android:id="@+id/compute_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/plain_info" />
+                <RadioButton
+                    android:id="@+id/exponent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="0dp"
+                    android:text="@string/exponent"
+                    android:textSize="20sp"
+                    app:buttonTint="@color/orange" />
 
+                <RadioButton
+                    android:id="@+id/fraction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="0dp"
+                    android:text="@string/fraction"
+                    android:textSize="20sp"
+                    app:buttonTint="@color/orange" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/compute_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/plain_info" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

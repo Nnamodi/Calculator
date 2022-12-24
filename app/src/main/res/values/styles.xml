@@ -120,7 +120,8 @@
         <item name="bottomSheetStyle">@style/SheetStyle</item>
     </style>
 
-    <style name="SheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+    <style name="SheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
         <item name="behavior_peekHeight">@dimen/peekHeight</item>
     </style>
 </resources>
