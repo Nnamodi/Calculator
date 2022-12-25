@@ -1,5 +1,6 @@
 # Calculator
 A scientific calculator that solves advanced arithmetic problems seamlessly, while giving a unique yet nifty user experience.
+
 Calculator is a full fledged Android app.
 
  ## Features
@@ -8,10 +9,10 @@ Calculator is a full fledged Android app.
    * calculate equations, also, to fraction or exponents (43×10³) alternatively.
 
    In settings, users can:
-      * choose between three calculation/computation format (plain, exponent or fraction).
-      * disable/enable haptic feedback for calculator buttons.
-      * choose to save history and error-calculations to history or not.
-      * and of course, switch between dark and light themes or follow system.
+   * choose between three calculation/computation format (plain, exponent or fraction).
+   * disable/enable haptic feedback for calculator buttons.
+   * choose to save history and error-calculations to history or not.
+   * and of course, switch between dark and light themes or follow system.
 
  ## Developed with
    * [Jetpack Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset like; from local storage or over network.
