@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.roland.android.calculator.R
 import com.roland.android.calculator.databinding.FragmentHistoryBinding
@@ -58,7 +59,7 @@ class HistoryFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             adapter.loadStateFlow.collectLatest {
                 // give binding-variable a value
-                binding.noHistory = adapter.itemCount == 0
+                binding.noHistory = adapter.itemCount == 0 && it.refresh is LoadState.NotLoading
                 noHistory = adapter.itemCount == 0
                 Log.d("HistoryItem", "item(s) fetched: ${adapter.itemCount}")
             }

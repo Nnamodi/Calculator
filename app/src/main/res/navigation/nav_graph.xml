@@ -13,8 +13,8 @@
             android:id="@+id/move_to_history"
             app:destination="@id/historyFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <dialog

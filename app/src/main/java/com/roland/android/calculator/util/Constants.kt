@@ -12,7 +12,7 @@ object Constants {
     const val DISMISSED = "banner_dismissed"
     const val HISTORY = "history_equation"
     const val PATTERN = "MMMM d"
-    const val FULL_PATTERN = "MMMM d, YYYY"
+    const val FULL_PATTERN = "MMMM d, yyyy"
     const val YEAR = "YYYY"
     const val STARTING_PAGE = 0
     const val LOAD_PAGE_SIZE = 30

@@ -259,7 +259,7 @@ class CalculatorFragment : Fragment() {
                 when (code) {
                     1 -> { job(R.id.settingsSheet, 100) }
                     2 -> { job(R.id.computeFormatSheet, 100) }
-                    3 -> { job(R.id.settingsSheet, 705) }
+                    3 -> { job(R.id.settingsSheet, 500) }
                     else -> {}
                 }
             }

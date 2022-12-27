@@ -22,16 +22,16 @@ class SeparatorViewHolder(private val binding: SeparatorItemBinding) : RecyclerV
             format(date) == format(pastDate(-5)) -> { string(R.string.days_ago, 5) }
             format(date) == format(pastDate(-6)) -> { string(R.string.days_ago, 6) }
             format(date) == format(pastDate(-7)) -> { string(R.string.a_week_ago, 7) }
-            format(date, YEAR) != format(Calendar.getInstance().time, YEAR) -> { format(date, FULL_PATTERN) }
-            else -> { format(date) }
+            format(date, YEAR) != format(Calendar.getInstance().time, YEAR) -> { format(date) }
+            else -> { format(date, PATTERN) }
         }.also { day ->
             binding.apply {
                 historyDate.text = day
                 root.apply {
                     setOnClickListener { historyDate.text =
                         when (day) {
-                            format(date, FULL_PATTERN) -> historyDate.text
-                            historyDate.text -> format(date)
+                            format(date) -> historyDate.text
+                            historyDate.text -> format(date, PATTERN)
                             else -> day
                         }
                     }
@@ -52,7 +52,7 @@ class SeparatorViewHolder(private val binding: SeparatorItemBinding) : RecyclerV
         calendar.time
     }
 
-    private fun format(date: Date, pattern: String = PATTERN): String =
+    private fun format(date: Date, pattern: String = FULL_PATTERN): String =
         SimpleDateFormat(pattern, Locale.getDefault()).format(date)
 
     companion object {
