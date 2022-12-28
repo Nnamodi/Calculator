@@ -3,10 +3,16 @@ A scientific calculator that solves advanced arithmetic problems seamlessly, whi
 
 Calculator is a full fledged Android app.
 
+ ## Screenshots
+   |Calculates and displays instant results as you type|Solve advanced equations seamlessly|Never lose your past calculations|Personalize your calculator how you like it|Unique calculating-experience in stylish dark theme|Computation of results in fractions|Quickly access more advanced mathematical functions|
+   |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+   |![Instant results](screenshots/instant_results.png)|![Advanced functions](screenshots/advanced_functions.png)|![History](screenshots/history.png)|![Settings](screenshots/settings.png)|![Dark mode](screenshots/dark_mode.png)|![Compute in fractions](screenshots/fractions.png)|![More advanced functions](screenshots/more_advanced_functions.png)|
+
  ## Features
    * calculate with trigonometric functions like; sine, cosine, tangent and their respective inverse functions (among other scientific functions).
    * compute equations in radian or degree.
    * calculate equations, also, to fraction or exponents (43×10³) alternatively.
+   * clean and simple Material UI. (UI Design is inspired from Google's Calculator)
 
    In settings, users can:
    * choose between three calculation/computation format (plain, exponent or fraction).
